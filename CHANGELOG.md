@@ -14,6 +14,16 @@
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-02
+
+### Changed
+- Incomplete status, typed-in number formats, built-in website icons and test commands that work with the .NET 8 SDK
+- Fresh screenshots, website screenshot and tester feedback form
+
+### Fixed
+- Profile limits accept thousands separators and reject invalid input instead of dropping the limit
+- Blocks from missing mods are counted and the result is marked incomplete instead of within limits
+
 ## [1.1.0] - 2026-10-02
 
 ### Added
@@ -57,6 +67,7 @@
 - Fast restarts through a game-data cache that rebuilds itself when the game or mods change.
 - Fully offline: no network access, telemetry, updater or native code (enforced by a test).
 
-[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rathio12/SE_BlueprintEditor/releases/tag/v1.0.0
