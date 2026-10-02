@@ -5,8 +5,9 @@ namespace SEBlueprint.Core.Tests;
 public class OfflineGuardTests
 {
     const string Allowed = "https://github.com/Rathio12/SE_BlueprintEditor";
+    const string Site = "https://rathio12.github.io/SE_BlueprintEditor/";
     static readonly string[] Banned = { "HttpClient", "WebClient", "WebRequest", "DllImport", "LibraryImport", "TcpClient", "UdpClient", "new Socket(", "WebSocket", "fetch(", "XMLHttpRequest" };
-    static readonly string[] Extensions = { ".cs", ".xaml", ".razor", ".html", ".css", ".js", ".json" };
+    static readonly string[] Extensions = { ".cs", ".xaml", ".razor", ".html", ".css", ".js", ".json", ".webmanifest" };
 
     static string RepoRoot()
     {
@@ -33,7 +34,7 @@ public class OfflineGuardTests
             foreach (Match m in Regex.Matches(t, "https?://[^\\s\"'<>)]+"))
             {
                 var u = m.Value;
-                if (u.StartsWith(Allowed) || u.StartsWith("http://schemas.") || u.StartsWith("http://www.w3.org/")) continue;
+                if (u.StartsWith(Allowed) || u.StartsWith(Site) || u == "https://schema.org" || u.StartsWith("http://schemas.") || u.StartsWith("http://www.w3.org/")) continue;
                 bad.Add($"{f}: {u}");
             }
             foreach (var w in Banned)
