@@ -391,3 +391,13 @@ select.field option { background: var(--panel); color: var(--text); }
 .cost-row .ic img { width: 28px; height: 28px; image-rendering: auto; }
 
 .tab { text-decoration: none; display: inline-block; }
+
+.boot-about { max-width: 640px; margin-top: 18px; text-align: center; color: var(--text-dim); font-size: 13.5px; }
+.boot-about h1 { font-family: var(--header); font-size: 18px; font-weight: 600; color: var(--text); margin: 0 0 8px; }
+.boot-about a { color: var(--accent); }
+.welcome { max-width: 760px; margin: 0 auto; padding: 24px 8px; }
+.welcome h1 { font-family: var(--header); font-size: 28px; font-weight: 700; margin: 10px 0 6px; }
+.welcome h2 { font-family: var(--header); font-size: 15px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin: 18px 0 6px; }
+.welcome p, .welcome li { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+.welcome ul { padding-left: 18px; margin: 6px 0; }
+.welcome a { color: var(--accent); }

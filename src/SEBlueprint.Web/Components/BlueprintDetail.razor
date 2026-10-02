@@ -4,12 +4,22 @@
 <div class="detail">
     @if (Entry == null)
     {
-        <div class="empty">
-            <div>
-                <Icon Name="cube" Class="t-accent" />
-                <div class="big">SELECT A BLUEPRINT</div>
-            </div>
-        </div>
+        <section class="welcome">
+            <Icon Name="cube" Class="t-accent" />
+            <h1>Space Engineers blueprint viewer &amp; cost calculator</h1>
+            <p>Open a blueprint with <b>Open folder</b> or <b>Open bp.sbc</b> on the left. The inspector reads it right here in
+                your browser — nothing is uploaded — and shows what the ship is made of and what it costs to build.</p>
+            <h2>What you get</h2>
+            <ul>
+                <li>Blocks, PCU, fixed guns, turrets, cargo volume, mass, thrust, power and jump range.</li>
+                <li>Build cost as components, ingots and ore, with assembler speed and refinery yield modules. Copy it or export CSV.</li>
+                <li>Limit checks against vanilla world presets, the Sigma Draconis Expanse limit or your own server profile.</li>
+                <li>Modded blocks and WeaponCore weapons once you add the mod folders in the <b>MODS</b> tab.</li>
+            </ul>
+            <h2>Where are my blueprints?</h2>
+            <p>On Windows: <b>%AppData%\SpaceEngineers\Blueprints\local</b>. Each blueprint is a folder with a <b>bp.sbc</b> file.</p>
+            <p><a href="wiki/Home.html">How it works (wiki)</a> · <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Free Windows app</a> that scans your whole library automatically.</p>
+        </section>
     }
     else
     {
