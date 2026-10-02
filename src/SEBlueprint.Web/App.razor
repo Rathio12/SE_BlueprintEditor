@@ -1,0 +1,120 @@
+@inject WebState State
+@inject IJSRuntime Js
+@implements IDisposable
+
+<div class="shell">
+    <header class="topbar">
+        <div class="slant logo">
+            <div class="slant-in">
+                <img src="app-icon.svg" alt="" />
+                <div>
+                    <div class="l1">SE BLUEPRINT</div>
+                    <div class="l2">INSPECTOR</div>
+                </div>
+            </div>
+        </div>
+        <nav class="tabs">
+            @foreach (var (key, label, icon) in Tabs)
+            {
+                <button class="slant tab @(tab == key ? "on" : null)" @onclick="() => tab = key">
+                    <span class="slant-in"><Icon Name="@icon" />@label</span>
+                </button>
+            }
+        </nav>
+    </header>
+
+    <main class="content">
+        @switch (tab)
+        {
+            case "profiles": <ProfilesTab /> break;
+            case "mods": <ModsTab /> break;
+            case "info": <InfoTab /> break;
+            default: <BlueprintsTab /> break;
+        }
+
+        @if (showRate)
+        {
+            <div class="frame hi brackets toast" style="--c:14px">
+                <div class="frame-in">
+                    <div class="t">
+                        <span class="t-warn"><Icon Name="star" /></span>
+                        ENJOYING THE INSPECTOR, ENGINEER?
+                        <button class="x" title="Close" @onclick="() => showRate = false">✕</button>
+                    </div>
+                    <p>If it saved you a few trips to the assembler, leave a star on GitHub. It helps other builders and server admins find the tool.</p>
+                    <div class="b">
+                        <button class="btn primary" @onclick="StarAsync"><span><Icon Name="star" />Star on GitHub</span></button>
+                        <button class="btn" @onclick="() => showRate = false"><span>Later</span></button>
+                        <button class="btn" @onclick="NeverAsync"><span>Don't ask again</span></button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(State.Error))
+        {
+            <div class="frame errorbar">
+                <div class="frame-in">
+                    <span><span class="t-over"><Icon Name="warn" /></span> @State.Error</span>
+                    <button class="btn small" @onclick="() => { State.Error = null; }"><span>Dismiss</span></button>
+                </div>
+            </div>
+        }
+    </main>
+
+    <footer class="statusbar">
+        <span>@State.Status</span>
+        <span class="right">
+            <span class="faint">PROFILE</span>
+            <span class="t-accent">@State.Active.Name</span>
+            <span class="faint">·</span>
+            <span>v@(Version)</span>
+        </span>
+    </footer>
+</div>
+
+@code {
+    static readonly (string Key, string Label, string Icon)[] Tabs =
+    {
+        ("blueprints", "BLUEPRINTS", "library"),
+        ("profiles", "LIMIT PROFILES", "chart"),
+        ("mods", "MODS", "puzzle"),
+        ("info", "INFO", "info"),
+    };
+
+    static readonly string Version = typeof(App).Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
+
+    string tab = "blueprints";
+    bool showRate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        State.Changed += OnChanged;
+        await State.LoadAsync();
+        _ = MaybeAskForRatingAsync();
+    }
+
+    async Task MaybeAskForRatingAsync()
+    {
+        if (State.RatePromptDone || Random.Shared.NextDouble() >= 0.2) return;
+        await Task.Delay(TimeSpan.FromSeconds(40 + Random.Shared.NextDouble() * 320));
+        showRate = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    async Task StarAsync()
+    {
+        await Js.InvokeVoidAsync("se.open", WebState.Repo);
+        await NeverAsync();
+    }
+
+    async Task NeverAsync()
+    {
+        showRate = false;
+        await State.FinishRatePromptAsync();
+    }
+
+    void OnChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => State.Changed -= OnChanged;
+}

@@ -1,0 +1,58 @@
+@inject WebState State
+@inject IJSRuntime Js
+
+<div class="page">
+    <h1>Mods</h1>
+    <div class="lead">The site ships with vanilla Space Engineers data. Add the mods a blueprint uses so their blocks, weapons and cargo are counted. Files are read in your browser and never uploaded.</div>
+
+    <div class="frame accent brackets" style="max-width:900px">
+        <div class="frame-in">
+            <div class="section">Add mods</div>
+            <p class="dim" style="font-size:13.5px;margin-top:0">
+                Pick a single mod folder (for example <b>…\steamapps\workshop\content\244850\1919062467</b>) or the whole
+                <b>244850</b> folder to load every mod you have. Only definition files (.sbc) and weapon definitions are read.
+            </p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <label class="btn primary file-btn">
+                    <span><Icon Name="folder" />Pick mod folder</span>
+                    <InputFile @ref="input" OnChange="OnPicked" multiple webkitdirectory directory />
+                </label>
+                <button class="btn" @onclick="State.ResetMods" disabled="@(State.LoadedMods.Count == 0)"><span><Icon Name="trash" />Remove all mods</span></button>
+            </div>
+            @if (State.Busy) { <div class="mt12"><Segments Value="0.6" Count="16" /></div> }
+        </div>
+    </div>
+
+    <h2>Loaded mods (@State.LoadedMods.Count)</h2>
+    @if (State.LoadedMods.Count == 0)
+    {
+        <div class="dim">None — vanilla data only.</div>
+    }
+    else
+    {
+        <div class="frame" style="max-width:900px">
+            <div class="frame-in">
+                @foreach (var m in State.LoadedMods)
+                {
+                    var blocks = State.Db.ModBlocks.TryGetValue(m, out var map) ? map.Count : 0;
+                    <div class="checks"><div class="line"><span>@m</span><span class="dim">@blocks blocks</span><span></span></div></div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    InputFile? input;
+
+    async Task OnPicked(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var files = e.GetMultipleFiles(200000);
+            var paths = input?.Element is { } el ? await Js.InvokeAsync<string[]>("se.relativePaths", el) : Array.Empty<string>();
+            await State.AddModFilesAsync(files, paths);
+        }
+        catch (Exception ex) { State.Error = $"Could not read the mods: {ex.Message}"; State.Notify(); }
+    }
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgb(11, 30, 58)"/><stop offset="1" stop-color="rgb(18, 61, 107)"/>
+    </linearGradient>
+    <clipPath id="r"><rect width="1024" height="1024" rx="220"/></clipPath>
+  </defs>
+  <g clip-path="url(#r)">
+    <rect width="1024" height="1024" fill="url(#bg)"/>
+    <g stroke="rgb(120,180,255)" stroke-opacity="0.1" stroke-width="4"><path d="M64 0V1024M0 64H1024"/><path d="M128 0V1024M0 128H1024"/><path d="M192 0V1024M0 192H1024"/><path d="M256 0V1024M0 256H1024"/><path d="M320 0V1024M0 320H1024"/><path d="M384 0V1024M0 384H1024"/><path d="M448 0V1024M0 448H1024"/><path d="M512 0V1024M0 512H1024"/><path d="M576 0V1024M0 576H1024"/><path d="M640 0V1024M0 640H1024"/><path d="M704 0V1024M0 704H1024"/><path d="M768 0V1024M0 768H1024"/><path d="M832 0V1024M0 832H1024"/><path d="M896 0V1024M0 896H1024"/><path d="M960 0V1024M0 960H1024"/></g>
+  </g>
+  <polygon points="512,240 711,355 512,470 313,355" fill="#5EC8FF"/><polygon points="313,355 512,470 512,700 313,585" fill="#2C8FD6"/><polygon points="512,470 711,355 711,585 512,700" fill="#1B6AA8"/>
+  <g stroke="#E6F4FF" stroke-width="12" stroke-linecap="round"><line x1="512" y1="240" x2="711" y2="355"/><line x1="711" y1="355" x2="711" y2="585"/><line x1="711" y1="585" x2="512" y2="700"/><line x1="512" y1="700" x2="313" y2="585"/><line x1="313" y1="585" x2="313" y2="355"/><line x1="313" y1="355" x2="512" y2="240"/><line x1="512" y1="470" x2="313" y2="355"/><line x1="512" y1="470" x2="711" y2="355"/><line x1="512" y1="470" x2="512" y2="700"/></g>
+  <circle cx="735" cy="735" r="120" fill="#FFA726" fill-opacity="0.15" stroke="#FFA726" stroke-width="44"/>
+  <line x1="822" y1="822" x2="930" y2="930" stroke="#FFA726" stroke-width="64" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SEBlueprint.Web</RootNamespace>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.16" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SEBlueprint.Core\SEBlueprint.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootAssembly Include="SEBlueprint.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\data\**" />
+    <EmbeddedResource Include="wwwroot\data\vanilla-db.json" LogicalName="vanilla-db.json" />
+    <EmbeddedResource Include="wwwroot\data\vanilla-profiles.json" LogicalName="vanilla-profiles.json" />
+  </ItemGroup>
+
+</Project>

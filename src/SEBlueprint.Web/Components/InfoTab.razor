@@ -1,0 +1,70 @@
+@inject IJSRuntime Js
+
+<div class="page info">
+    <div style="display:flex;align-items:center;gap:18px">
+        <img src="app-icon.svg" width="80" height="80" alt="" />
+        <div>
+            <h1>SE Blueprint Inspector</h1>
+            <div class="dim" style="font-size:13.5px">Web version · v@(typeof(App).Assembly.GetName().Version?.ToString(3))</div>
+        </div>
+    </div>
+
+    <p class="dim" style="font-size:14px;margin-top:18px">
+        Build cost, blocks, PCU, guns, turrets and cargo for Space Engineers blueprints, checked against vanilla or server limits.
+        Same engine as the Windows app. Want your whole library scanned automatically and the real game icons? Get the portable exe.
+    </p>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn primary" @onclick='() => Open(WebState.Releases)'><span><Icon Name="download" />Download the Windows app</span></button>
+        <button class="btn" @onclick='() => Open(WebState.Repo)'><span><Icon Name="code" />GitHub</span></button>
+    </div>
+
+    <h2>Feedback &amp; support</h2>
+    <div class="frame brackets">
+        <div class="frame-in links">
+            <div>
+                <div class="hdr t-warn" style="font-weight:700">REPORT A BUG</div>
+                <p class="dim">Wrong numbers or a mod that isn't recognised? Open an issue.</p>
+                <button class="btn" @onclick='() => Open(WebState.ReportBug)'><span><Icon Name="bug" />Report a bug</span></button>
+            </div>
+            <div>
+                <div class="hdr t-accent" style="font-weight:700">SUPPORT THIS APP</div>
+                <p class="dim">A star on GitHub helps other engineers find the tool.</p>
+                <button class="btn primary" @onclick='() => Open(WebState.Repo)'><span><Icon Name="star" />Star on GitHub</span></button>
+            </div>
+            <div>
+                <div class="hdr t-ok" style="font-weight:700">RELEASES</div>
+                <p class="dim">New versions and changelogs.</p>
+                <button class="btn" @onclick='() => Open(WebState.Releases)'><span><Icon Name="download" />Releases</span></button>
+            </div>
+        </div>
+    </div>
+
+    <h2>Space Engineers 2</h2>
+    <div class="frame note">
+        <div class="frame-in">
+            <span class="t-accent"><Icon Name="info" /></span>
+            <span>Full SE2 support is coming soon. SE2 blueprint files can't be read yet — the grid data uses an undocumented binary format.</span>
+        </div>
+    </div>
+
+    <h2>Privacy</h2>
+    <div class="frame accent">
+        <div class="frame-in">
+            <div class="hdr t-ok" style="font-weight:700">NOTHING IS UPLOADED</div>
+            <p class="dim" style="margin-bottom:0">Blueprints and mods you open are read inside your browser. The site has no analytics, no cookies and no tracking.
+                Your own limit profiles and options are kept in this browser's local storage.</p>
+        </div>
+    </div>
+
+    <h2>Credits</h2>
+    <p class="dim">
+        Vanilla block data is read from Space Engineers. Space Engineers and its data © Keen Software House.
+        Not affiliated with or endorsed by Keen Software House. Sigma Draconis Expanse limits from sigmadraconis.games.
+        Inspired by SE-BlueprintEditor by ScriptedEngineer (independent rewrite). Dual-licensed MIT OR GPL-3.0-or-later.
+    </p>
+</div>
+
+@code {
+    Task Open(string url) => Js.InvokeVoidAsync("se.open", url).AsTask();
+}

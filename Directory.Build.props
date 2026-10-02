@@ -4,5 +4,7 @@
     <Authors>Rathio12</Authors>
     <Copyright>Copyright (c) 2026 Rathio12</Copyright>
     <PackageLicenseExpression>MIT OR GPL-3.0-or-later</PackageLicenseExpression>
+    <Deterministic>true</Deterministic>
+    <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=/</PathMap>
   </PropertyGroup>
 </Project>

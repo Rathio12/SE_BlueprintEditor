@@ -2,8 +2,12 @@
   <Folder Name="/src/">
     <Project Path="src/SEBlueprint.App/SEBlueprint.App.csproj" />
     <Project Path="src/SEBlueprint.Core/SEBlueprint.Core.csproj" />
+    <Project Path="src/SEBlueprint.Web/SEBlueprint.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/SEBlueprint.Core.Tests/SEBlueprint.Core.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/SEBlueprint.Export/SEBlueprint.Export.csproj" />
   </Folder>
 </Solution>

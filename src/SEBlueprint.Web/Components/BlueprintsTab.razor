@@ -1,0 +1,127 @@
+@inject WebState State
+@inject IJSRuntime Js
+
+<div class="split">
+    <div class="frame accent brackets list-panel">
+        <div class="frame-in">
+            <div class="list-head">
+                <div class="title">
+                    <h2>BLUEPRINTS</h2>
+                    <span class="dim">@Visible.Count / @State.Entries.Count</span>
+                </div>
+                <div class="imports">
+                    <label class="btn primary file-btn">
+                        <span><Icon Name="folder" />Open folder</span>
+                        <InputFile @ref="folderInput" OnChange="OnFolderPicked" multiple webkitdirectory directory title="Pick a blueprint folder, or your whole Blueprints folder" />
+                    </label>
+                    <label class="btn file-btn">
+                        <span><Icon Name="file" />Open bp.sbc</span>
+                        <InputFile @ref="fileInput" OnChange="OnFilesPicked" multiple accept=".sbc" title="Pick one or more bp.sbc files" />
+                    </label>
+                </div>
+                <div class="search">
+                    <Icon Name="search" />
+                    <input class="field" placeholder="Search…" @bind="search" @bind:event="oninput" />
+                </div>
+                <div class="row3">
+                    <select class="field" @bind="sort">
+                        <option value="new">Newest first</option>
+                        <option value="name">Name</option>
+                        <option value="pcu">Most PCU</option>
+                        <option value="blocks">Most blocks</option>
+                        <option value="guns">Most guns</option>
+                        <option value="status">Status</option>
+                    </select>
+                    <select class="field" value="@State.Active.Name" @onchange="OnProfile">
+                        @foreach (var p in State.Profiles)
+                        {
+                            <option value="@p.Name">@p.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="rows">
+                @if (State.Entries.Count == 0)
+                {
+                    <div class="drop">
+                        <Icon Name="cube" Class="t-accent" />
+                        <div class="big">OPEN A BLUEPRINT</div>
+                        <div>Pick a blueprint folder (with <b>bp.sbc</b> and <b>thumb.png</b>) or your whole
+                            <b>%AppData%\SpaceEngineers\Blueprints\local</b> folder. Files are read in your browser and never uploaded.</div>
+                    </div>
+                }
+                @foreach (var e in Visible)
+                {
+                    var status = StatusOf(e);
+                    <div class="row @(State.Selected == e ? "sel" : null)" @onclick="() => State.Selected = e">
+                        <div class="edge" style="background:@(e.Error != null ? "var(--red)" : Ui.Color(Ui.Of(status)))"></div>
+                        <div class="thumb" style="@(e.Thumb != null ? $"background-image:url('{e.Thumb}')" : null)">
+                            @if (e.Thumb == null) { <Icon Name="cube" /> }
+                        </div>
+                        <div style="min-width:0">
+                            <div class="name">@e.Name</div>
+                            <div class="meta"><b>SE1</b> · @e.Source@if (e.Report?.UsesMods == true) {<span class="mod"> · MODDED</span>}</div>
+                        </div>
+                        <div class="val">
+                            <div class="pcu num">@(e.Report == null ? "—" : Units.Format(e.Report.Pcu, "int"))</div>
+                            <div class="st" style="color:@(e.Error != null ? "var(--red)" : Ui.Color(Ui.Of(status)))">@(e.Error != null ? "Error" : Ui.StatusText(status))</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <BlueprintDetail Entry="State.Selected" />
+</div>
+
+@code {
+    InputFile? folderInput;
+    InputFile? fileInput;
+    string search = "";
+    string sort = "new";
+
+    List<WebEntry> Visible
+    {
+        get
+        {
+            var q = State.Entries.Where(e => string.IsNullOrWhiteSpace(search) || e.Name.Contains(search.Trim(), StringComparison.OrdinalIgnoreCase));
+            q = sort switch
+            {
+                "name" => q.OrderBy(e => e.Name, StringComparer.OrdinalIgnoreCase),
+                "pcu" => q.OrderByDescending(e => e.Report?.Pcu ?? -1),
+                "blocks" => q.OrderByDescending(e => e.Report?.Blocks ?? -1),
+                "guns" => q.OrderByDescending(e => e.Report?.Guns ?? -1),
+                "status" => q.OrderByDescending(e => (int)StatusOf(e)),
+                _ => q.OrderByDescending(e => e.Added),
+            };
+            return q.ToList();
+        }
+    }
+
+    LimitStatus StatusOf(WebEntry e) =>
+        e.Report == null ? LimitStatus.Unlimited : LimitEvaluator.Worst(LimitEvaluator.Evaluate(e.Report, State.Active));
+
+    async Task OnFolderPicked(InputFileChangeEventArgs args) => await ImportAsync(args, folderInput);
+    async Task OnFilesPicked(InputFileChangeEventArgs args) => await ImportAsync(args, fileInput);
+
+    async Task ImportAsync(InputFileChangeEventArgs args, InputFile? input)
+    {
+        try
+        {
+            var files = args.GetMultipleFiles(20000);
+            var paths = input?.Element is { } el
+                ? await Js.InvokeAsync<string[]>("se.relativePaths", el)
+                : Array.Empty<string>();
+            await State.AddBlueprintFilesAsync(files, paths);
+        }
+        catch (Exception ex) { State.Error = $"Could not read the selection: {ex.Message}"; State.Notify(); }
+    }
+
+    async Task OnProfile(ChangeEventArgs e)
+    {
+        var p = State.Profiles.FirstOrDefault(x => x.Name == e.Value?.ToString());
+        if (p != null) await State.SetActiveAsync(p);
+    }
+}

@@ -1,0 +1,14 @@
+<div class="segs">
+    @for (var i = 0; i < Count; i++)
+    {
+        <i style="@(i < Lit ? $"background:{Color}" : null)"></i>
+    }
+</div>
+
+@code {
+    [Parameter] public double Value { get; set; }
+    [Parameter] public int Count { get; set; } = 18;
+    [Parameter] public string Color { get; set; } = "var(--accent)";
+
+    int Lit => Value <= 0 ? 0 : Math.Max(1, (int)Math.Ceiling(Math.Min(1, Value) * Count));
+}

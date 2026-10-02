@@ -1,0 +1,200 @@
+@inject WebState State
+@inject IJSRuntime Js
+@using System.Globalization
+
+<div class="page">
+    <h1>Limit profiles</h1>
+    <div class="lead">Vanilla profiles come from the game's world presets. Your own profiles are stored in this browser and can be exported as JSON.</div>
+
+    <div class="profiles">
+        <div class="frame plist">
+            <div class="frame-in">
+                @foreach (var p in State.Profiles)
+                {
+                    <div class="pitem @(selected == p ? "sel" : null)" @onclick="() => Select(p)">
+                        @p.Name
+                        <small>@(p.BuiltIn ? "built-in" : "your profile")@(p == State.Active ? " · active" : "")</small>
+                    </div>
+                }
+                <div class="pbtns">
+                    <button class="btn small" @onclick="New"><span><Icon Name="plus" />New</span></button>
+                    <button class="btn small" @onclick="Duplicate" disabled="@(selected == null)"><span>Duplicate</span></button>
+                    <button class="btn small" @onclick="DeleteAsync" disabled="@(selected is null or { BuiltIn: true })"><span><Icon Name="trash" />Delete</span></button>
+                    <label class="btn small file-btn"><span>Import</span><InputFile OnChange="ImportAsync" accept=".json" /></label>
+                    <button class="btn small" @onclick="ExportAsync" disabled="@(selected == null)"><span>Export</span></button>
+                </div>
+            </div>
+        </div>
+
+        @if (draft != null)
+        {
+            <div class="frame">
+                <div class="frame-in">
+                    @if (!string.IsNullOrWhiteSpace(selected?.Description))
+                    {
+                        <p class="dim" style="margin-top:0;font-size:13.5px">@selected!.Description</p>
+                    }
+                    @if (readOnly)
+                    {
+                        <p class="t-warn" style="margin-top:0;font-weight:600">Built-in profile (read-only). Duplicate it to edit.</p>
+                    }
+                    <fieldset disabled="@readOnly" style="border:0;padding:0;margin:0">
+                        <div class="form">
+                            <span class="label">Name</span><input class="field" @bind="draft.Name" />
+                            <span class="label">Max PCU</span><input class="field" placeholder="unlimited" @bind="draft.TotalPcu" />
+                            <span class="label">Max PCU per grid</span><input class="field" placeholder="unlimited" @bind="draft.MaxPcuPerGrid" />
+                            <span class="label">Max blocks per grid</span><input class="field" placeholder="unlimited" @bind="draft.MaxBlocksPerGrid" />
+                            <span class="label">Max blocks total</span><input class="field" placeholder="unlimited" @bind="draft.MaxBlocksTotal" />
+                            <span class="label">Max guns (fixed + turrets)</span><input class="field" placeholder="unlimited" @bind="draft.MaxGuns" />
+                            <span class="label">Max turrets</span><input class="field" placeholder="unlimited" @bind="draft.MaxTurrets" />
+                            <span class="label">Max cargo (liters)</span><input class="field" placeholder="unlimited" @bind="draft.MaxCargoLiters" />
+                        </div>
+                        <h2>Block type limits</h2>
+                        <div class="dim">Block pair name (as in the world's BlockTypeLimits) and the maximum count.</div>
+                        <table class="limits-table">
+                            <thead><tr><th>BLOCK PAIR NAME</th><th style="width:120px">MAX</th><th style="width:44px"></th></tr></thead>
+                            <tbody>
+                                @foreach (var row in draft.Types)
+                                {
+                                    <tr>
+                                        <td><input class="field" @bind="row.Key" /></td>
+                                        <td><input class="field" @bind="row.Value" /></td>
+                                        <td>@if (!readOnly) { <button class="btn small" @onclick="() => draft.Types.Remove(row)"><span>✕</span></button> }</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @if (!readOnly)
+                        {
+                            <div class="mt10" style="display:flex;gap:8px">
+                                <button class="btn small" @onclick="() => draft.Types.Add(new TypeRow())"><span><Icon Name="plus" />Add block type</span></button>
+                                <button class="btn primary" @onclick="SaveAsync"><span>Save profile</span></button>
+                            </div>
+                        }
+                    </fieldset>
+                    <div class="mt12">
+                        <button class="btn" @onclick="() => State.SetActiveAsync(selected!)" disabled="@(selected == State.Active)"><span>Use this profile</span></button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    LimitProfile? selected;
+    Draft? draft;
+    bool readOnly;
+
+    protected override void OnInitialized() => Select(State.Active);
+
+    void Select(LimitProfile p)
+    {
+        selected = p;
+        readOnly = p.BuiltIn;
+        draft = Draft.From(p);
+    }
+
+    void New()
+    {
+        selected = null;
+        readOnly = false;
+        draft = new Draft { Name = "My server" };
+    }
+
+    void Duplicate()
+    {
+        if (selected == null) return;
+        draft = Draft.From(selected);
+        draft.Name = selected.Name.Replace("Vanilla – ", "") + " (copy)";
+        selected = null;
+        readOnly = false;
+    }
+
+    async Task SaveAsync()
+    {
+        if (draft == null) return;
+        var saved = draft.ToProfile();
+        await State.SaveUserProfileAsync(saved, selected is { BuiltIn: false } ? selected : null);
+        Select(saved);
+    }
+
+    async Task DeleteAsync()
+    {
+        if (selected is null or { BuiltIn: true }) return;
+        await State.DeleteUserProfileAsync(selected);
+        Select(State.Active);
+    }
+
+    async Task ExportAsync()
+    {
+        if (selected == null) return;
+        await Js.InvokeVoidAsync("se.download", selected.Name + ".json", ProfileStore.ToJson(selected));
+    }
+
+    async Task ImportAsync(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            using var reader = new StreamReader(e.File.OpenReadStream(1_000_000));
+            var p = ProfileStore.FromJson(await reader.ReadToEndAsync());
+            await State.SaveUserProfileAsync(p, null);
+            Select(p);
+        }
+        catch (Exception ex) { State.Error = $"That file is not a valid limit profile: {ex.Message}"; State.Notify(); }
+    }
+
+    sealed class TypeRow
+    {
+        public string Key { get; set; } = "";
+        public string Value { get; set; } = "";
+    }
+
+    sealed class Draft
+    {
+        public string Name { get; set; } = "";
+        public string TotalPcu { get; set; } = "";
+        public string MaxPcuPerGrid { get; set; } = "";
+        public string MaxBlocksPerGrid { get; set; } = "";
+        public string MaxBlocksTotal { get; set; } = "";
+        public string MaxGuns { get; set; } = "";
+        public string MaxTurrets { get; set; } = "";
+        public string MaxCargoLiters { get; set; } = "";
+        public List<TypeRow> Types { get; } = new();
+
+        static string S(double? v) => v is > 0 ? v.Value.ToString("0", CultureInfo.InvariantCulture) : "";
+
+        public static Draft From(LimitProfile p)
+        {
+            var d = new Draft
+            {
+                Name = p.Name,
+                TotalPcu = S(p.TotalPcu),
+                MaxPcuPerGrid = S(p.MaxPcuPerGrid),
+                MaxBlocksPerGrid = S(p.MaxBlocksPerGrid),
+                MaxBlocksTotal = S(p.MaxBlocksTotal),
+                MaxGuns = S(p.MaxGuns),
+                MaxTurrets = S(p.MaxTurrets),
+                MaxCargoLiters = S(p.MaxCargoLiters),
+            };
+            foreach (var (k, v) in p.BlockTypeLimits.OrderBy(x => x.Key)) d.Types.Add(new TypeRow { Key = k, Value = v.ToString(CultureInfo.InvariantCulture) });
+            return d;
+        }
+
+        static int? I(string s) => int.TryParse(s.Replace(" ", "").Replace(",", "").Replace(".", ""), NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) && v > 0 ? v : null;
+
+        public LimitProfile ToProfile() => new()
+        {
+            Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim(),
+            TotalPcu = I(TotalPcu),
+            MaxPcuPerGrid = I(MaxPcuPerGrid),
+            MaxBlocksPerGrid = I(MaxBlocksPerGrid),
+            MaxBlocksTotal = I(MaxBlocksTotal),
+            MaxGuns = I(MaxGuns),
+            MaxTurrets = I(MaxTurrets),
+            MaxCargoLiters = I(MaxCargoLiters),
+            BlockTypeLimits = Types.Where(t => !string.IsNullOrWhiteSpace(t.Key) && I(t.Value) != null)
+                .GroupBy(t => t.Key.Trim()).ToDictionary(g => g.Key, g => I(g.Last().Value)!.Value),
+        };
+    }
+}

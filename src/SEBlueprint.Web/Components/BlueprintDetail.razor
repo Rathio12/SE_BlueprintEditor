@@ -1,0 +1,197 @@
+@inject WebState State
+@inject IJSRuntime Js
+
+<div class="detail">
+    @if (Entry == null)
+    {
+        <div class="empty">
+            <div>
+                <Icon Name="cube" Class="t-accent" />
+                <div class="big">SELECT A BLUEPRINT</div>
+            </div>
+        </div>
+    }
+    else
+    {
+        var r = Entry.Report;
+        var v = r == null ? null : ReportView.Build(r, State.Active, State.Db, State.AssemblerEfficiency, State.YieldMultiplier);
+
+        <div class="frame hero">
+            <div class="frame-in">
+                @if (Entry.Thumb != null) { <div class="bg" style="background-image:url('@Entry.Thumb')"></div> }
+                <div class="shade"></div>
+                <div class="grid"></div>
+                <div class="body">
+                    <div class="left">
+                        @if (v != null)
+                        {
+                            <div class="chips">
+                                <div class="slant chip badge"><div class="slant-in">@v.Badge</div></div>
+                                <div class="slant chip @Ui.Css(Ui.Of(v.Overall))"><div class="slant-in">@v.OverallText</div></div>
+                            </div>
+                        }
+                        <h1 title="@Entry.Name">@Entry.Name</h1>
+                        <div class="sub">@(v?.Subtitle ?? "")</div>
+                        @if (Entry.Error != null) { <div class="t-over mt10">@Entry.Error</div> }
+                    </div>
+                    <div class="right">
+                        <div class="label" style="font-size:11.5px;margin-bottom:5px">LIMIT PROFILE</div>
+                        <select class="field" value="@State.Active.Name" @onchange="OnProfile">
+                            @foreach (var p in State.Profiles)
+                            {
+                                <option value="@p.Name">@p.Name</option>
+                            }
+                        </select>
+                        <button class="btn small mt10" @onclick="() => State.Remove(Entry)"><span><Icon Name="trash" />Remove</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (v != null)
+        {
+            <div class="readouts">
+                @foreach (var p in v.Primary)
+                {
+                    <div class="frame brackets readout" style="--bc:@Ui.Color(p.Tone)">
+                        <div class="frame-in">
+                            <div class="label">@p.Title</div>
+                            <div class="v"><b class="num">@p.Value</b><span>@p.LimitText</span></div>
+                            <Segments Value="@p.Ratio" Color="@Ui.Color(p.Tone)" />
+                            <div class="dim sub">@p.Subtitle</div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (v.Secondary.Count > 0)
+            {
+                <div class="frame strip mt10">
+                    <div class="frame-in">
+                        @foreach (var s in v.Secondary)
+                        {
+                            <div>
+                                <div class="label" style="font-size:12px">@s.Title</div>
+                                <b class="num">@s.Value</b>
+                                <div class="dim" style="font-size:11.5px">@s.Subtitle</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (v.Checks.Count > 0)
+            {
+                <div class="frame checks mt10">
+                    <div class="frame-in">
+                        <div class="section">Limit check</div>
+                        @foreach (var c in v.Checks)
+                        {
+                            <div class="line">
+                                <span class="dim" style="font-size:14px">@c.Stat</span>
+                                <span class="num"><b class="hdr">@c.Value</b> <span class="faint">/</span> <span class="dim">@c.Limit</span></span>
+                                <span class="st" style="color:@Ui.Color(c.Tone)">@c.StatusText</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (v.Unknown.Count > 0 || v.MissingMods.Count > 0)
+            {
+                <div class="frame brackets warnbox mt10">
+                    <div class="frame-in">
+                        <div>
+                            <div class="section t-warn">Unknown blocks — not counted</div>
+                            @foreach (var u in v.Unknown)
+                            {
+                                <div><b class="t-warn">@u.Count</b> <span class="faint">×</span> @u.Id</div>
+                            }
+                        </div>
+                        <div>
+                            <div class="section t-warn">Mods not loaded</div>
+                            @foreach (var m in v.MissingMods) { <div>@m</div> }
+                            <div class="dim mt10">Add them in the MODS tab, then they are counted.</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (r is { IsPartial: false })
+            {
+                <div class="cost-head">
+                    <h3>BUILD COST</h3>
+                    <div class="opts">
+                        <span class="label" style="font-size:11.5px">ASSEMBLER</span>
+                        <select class="field" value="@State.AssemblerEfficiency" @onchange="OnAssembler">
+                            <option value="1">Realistic</option>
+                            <option value="3">x3</option>
+                            <option value="10">x10</option>
+                        </select>
+                        <span class="label" style="font-size:11.5px">YIELD MODULES</span>
+                        <select class="field" value="@State.YieldModules" @onchange="OnYield">
+                            @for (var i = 0; i <= 4; i++) { <option value="@i">@i</option> }
+                        </select>
+                        <button class="btn" @onclick="() => CopyAsync(v)"><span><Icon Name="copy" />@(copied ? "Copied" : "Copy")</span></button>
+                        <button class="btn primary" @onclick="() => CsvAsync(v)"><span><Icon Name="download" />CSV</span></button>
+                    </div>
+                </div>
+                <div class="cost">
+                    @foreach (var (title, rows) in new[] { ("Components", v.Components), ("Ingots", v.Ingots), ("Ore", v.Ore) })
+                    {
+                        <div class="frame">
+                            <div class="frame-in">
+                                <div class="section">@title</div>
+                                @foreach (var c in rows)
+                                {
+                                    <div class="cost-row">
+                                        <div class="ic">@Ui.Initials(c.Name)</div>
+                                        <div class="n" title="@c.Name">@c.Name</div>
+                                        <div class="a num">@c.AmountText</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public WebEntry? Entry { get; set; }
+    bool copied;
+
+    async Task OnProfile(ChangeEventArgs e)
+    {
+        var p = State.Profiles.FirstOrDefault(x => x.Name == e.Value?.ToString());
+        if (p != null) await State.SetActiveAsync(p);
+    }
+
+    async Task OnAssembler(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var a))
+            await State.SetCostOptionsAsync(a, State.YieldModules);
+    }
+
+    async Task OnYield(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var y)) await State.SetCostOptionsAsync(State.AssemblerEfficiency, y);
+    }
+
+    async Task CopyAsync(ReportView v)
+    {
+        copied = await Js.InvokeAsync<bool>("se.copy", v.CostAsText('\t'));
+        StateHasChanged();
+        await Task.Delay(1500);
+        copied = false;
+        StateHasChanged();
+    }
+
+    async Task CsvAsync(ReportView v)
+    {
+        var safe = new string((Entry?.Name ?? "blueprint").Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c).ToArray());
+        await Js.InvokeVoidAsync("se.download", $"{safe} - cost.csv", v.CostAsText(','));
+    }
+}

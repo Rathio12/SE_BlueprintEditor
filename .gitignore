@@ -496,3 +496,6 @@ docs/superpowers/
 
 !assets/icon/
 !assets/icon/**
+
+# browser test artifacts
+.playwright-mcp/
