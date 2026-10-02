@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using SEBlueprint.Core.Limits;
+using SEBlueprint.Core.Parsing;
 
 namespace SEBlueprint.App.ViewModels;
 
@@ -27,7 +28,7 @@ public sealed class ProfileEditorViewModel : ObservableObject
         _total = Str(p.MaxBlocksTotal);
         _guns = Str(p.MaxGuns);
         _turrets = Str(p.MaxTurrets);
-        _cargo = p.MaxCargoLiters is > 0 ? p.MaxCargoLiters.Value.ToString("0", CultureInfo.InvariantCulture) : "";
+        _cargo = UserNumbers.Format(p.MaxCargoLiters);
         foreach (var (k, v) in p.BlockTypeLimits.OrderBy(k => k.Key)) BlockLimits.Add(new BlockLimitRow { Key = k, Value = v });
     }
 
@@ -47,23 +48,35 @@ public sealed class ProfileEditorViewModel : ObservableObject
     public string MaxTurrets { get => _turrets; set => Set(ref _turrets, value); }
     public string MaxCargoLiters { get => _cargo; set => Set(ref _cargo, value); }
 
-    public LimitProfile ToProfile() => new()
+    public bool TryToProfile(out LimitProfile profile, out string? error)
     {
-        Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim(),
-        TotalPcu = Int(TotalPcu),
-        MaxPcuPerGrid = Int(MaxPcuPerGrid),
-        Description = Original.BuiltIn ? null : Description,
-        MaxBlocksPerGrid = Int(MaxBlocksPerGrid),
-        MaxBlocksTotal = Int(MaxBlocksTotal),
-        MaxGuns = Int(MaxGuns),
-        MaxTurrets = Int(MaxTurrets),
-        MaxCargoLiters = double.TryParse(MaxCargoLiters?.Replace(" ", ""), NumberStyles.Float, CultureInfo.CurrentCulture, out var c) && c > 0 ? c : null,
-        BlockTypeLimits = BlockLimits.Where(b => !string.IsNullOrWhiteSpace(b.Key) && b.Value > 0)
-            .GroupBy(b => b.Key.Trim()).ToDictionary(g => g.Key, g => g.Last().Value),
-    };
+        profile = new LimitProfile();
+        error = null;
+        var culture = CultureInfo.CurrentCulture;
+        var bad = new List<string>();
+        int? Whole(string label, string text)
+        {
+            if (UserNumbers.TryParseLimit(text, culture, integer: true, out var v)) return v is null ? null : (int)v.Value;
+            bad.Add(label);
+            return null;
+        }
+        profile.Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim();
+        profile.Description = Original.BuiltIn ? null : Description;
+        profile.TotalPcu = Whole("Max PCU", TotalPcu);
+        profile.MaxPcuPerGrid = Whole("Max PCU per grid", MaxPcuPerGrid);
+        profile.MaxBlocksPerGrid = Whole("Max blocks per grid", MaxBlocksPerGrid);
+        profile.MaxBlocksTotal = Whole("Max blocks total", MaxBlocksTotal);
+        profile.MaxGuns = Whole("Max guns", MaxGuns);
+        profile.MaxTurrets = Whole("Max turrets", MaxTurrets);
+        if (UserNumbers.TryParseLimit(MaxCargoLiters, culture, integer: false, out var cargo)) profile.MaxCargoLiters = cargo;
+        else bad.Add("Max cargo");
+        profile.BlockTypeLimits = BlockLimits.Where(b => !string.IsNullOrWhiteSpace(b.Key) && b.Value > 0)
+            .GroupBy(b => b.Key.Trim()).ToDictionary(g => g.Key, g => g.Last().Value);
+        if (bad.Count == 0) return true;
+        error = $"Not saved — please enter a whole positive number (or leave empty for no limit) in: {string.Join(", ", bad)}.";
+        return false;
+    }
 
-    static string Str(int? v) => v is > 0 ? v.Value.ToString(CultureInfo.InvariantCulture) : "";
+    static string Str(int? v) => UserNumbers.Format(v);
 
-    static int? Int(string? s) =>
-        int.TryParse(s?.Replace(" ", "").Replace(",", "").Replace(".", ""), NumberStyles.Integer, CultureInfo.InvariantCulture, out var v) && v > 0 ? v : null;
 }

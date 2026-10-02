@@ -47,7 +47,11 @@ public partial class ProfilesPage : Page
     void OnSave(object sender, RoutedEventArgs e)
     {
         if (_editor == null || _editor.IsReadOnly) return;
-        var updated = _editor.ToProfile();
+        if (!_editor.TryToProfile(out var updated, out var error))
+        {
+            App.ErrorMessage = error;
+            return;
+        }
         var old = _editor.Original;
         if (updated.Name != old.Name && App.Profiles.Any(p => p != old && p.Name == updated.Name))
             updated.Name = UniqueName(updated.Name);
