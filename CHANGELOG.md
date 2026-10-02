@@ -14,6 +14,11 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-02
+
+### Fixed
+- Old version exits immediately after an update instead of touching the replaced exe
+
 ## [1.2.0] - 2026-10-02
 
 ### Added
@@ -77,7 +82,8 @@
 - Fast restarts through a game-data cache that rebuilds itself when the game or mods change.
 - Fully offline: no network access, telemetry, updater or native code (enforced by a test).
 
-[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.0.0...v1.1.0
