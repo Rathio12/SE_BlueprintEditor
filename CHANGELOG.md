@@ -14,6 +14,9 @@
 
 ## [Unreleased]
 
+### Changed
+- Discussions guide with forms for questions, ideas, profile presets and Ko-fi sponsorship
+
 ## [1.2.1] - 2026-10-02
 
 ### Fixed
