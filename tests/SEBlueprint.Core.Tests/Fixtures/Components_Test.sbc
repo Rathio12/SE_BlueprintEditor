@@ -4,6 +4,7 @@
     <Component>
       <Id><TypeId>Component</TypeId><SubtypeId>SteelPlate</SubtypeId></Id>
       <DisplayName>DisplayName_Item_SteelPlate</DisplayName>
+      <Icon>Textures\GUI\Icons\component\steel_plate_component.dds</Icon>
       <Mass>20</Mass>
       <Volume>3</Volume>
     </Component>

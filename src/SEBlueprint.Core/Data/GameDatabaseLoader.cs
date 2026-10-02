@@ -6,7 +6,7 @@ namespace SEBlueprint.Core.Data;
 /// <summary>Loads the game database from a local Space Engineers install and Workshop folder, with a JSON cache.</summary>
 public static class GameDatabaseLoader
 {
-    const string FormatVersion = "1";
+    const string FormatVersion = "2";
 
     public static GameDatabase Load(string? dataDir, string? workshopDir, IProgress<string>? progress = null)
     {

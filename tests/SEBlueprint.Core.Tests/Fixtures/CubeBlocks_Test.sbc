@@ -4,6 +4,7 @@
     <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
       <Id><TypeId>LargeGatlingTurret</TypeId><SubtypeId></SubtypeId></Id>
       <DisplayName>Gatling Turret</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\gatling_turret.dds</Icon>
       <CubeSize>Large</CubeSize>
       <Size x="1" y="1" z="1" />
       <PCU>225</PCU>

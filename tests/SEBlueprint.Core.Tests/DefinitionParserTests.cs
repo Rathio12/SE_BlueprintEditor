@@ -16,6 +16,8 @@ public class DefinitionParserTests
         Assert.Equal(BlockCategory.Turret, b["LargeGatlingTurret/"].Category);
         Assert.Equal(15, b["LargeGatlingTurret/"].Components["Component/SteelPlate"]);
         Assert.Equal("Gatling Turret", b["LargeGatlingTurret/"].DisplayName);
+        Assert.Equal("Textures/GUI/Icons/Cubes/gatling_turret.dds", b["LargeGatlingTurret/"].Icon);
+        Assert.Null(b["SmallGatlingGun/SmallGatling"].Icon);
         Assert.Equal(BlockCategory.FixedWeapon, b["SmallGatlingGun/SmallGatling"].Category);
         Assert.Equal("Small", b["SmallGatlingGun/SmallGatling"].GridSize);
         Assert.Equal(2, b["SmallGatlingGun/SmallGatling"].SizeZ);
@@ -51,6 +53,7 @@ public class DefinitionParserTests
     {
         var items = DefinitionParser.ParseItems(Fx("Components_Test.sbc")).ToDictionary(c => c.Id);
         Assert.Equal(20, items["Component/SteelPlate"].Mass);
+        Assert.Equal("Textures/GUI/Icons/component/steel_plate_component.dds", items["Component/SteelPlate"].Icon);
         Assert.Equal(1, items["Ingot/Iron"].Mass);
         Assert.Equal(35, items["AmmoMagazine/NATO_25x184mm"].Mass);
     }

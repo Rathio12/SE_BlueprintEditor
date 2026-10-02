@@ -32,6 +32,7 @@ public static class DefinitionParser
                 b.Components[key] = b.Components.GetValueOrDefault(key) + Num.I((string?)c.Attribute("Count"));
             }
             b.DisplayName = Text(def, "DisplayName") ?? "";
+            b.Icon = IconPath(def);
             b.PairName = Text(def, "BlockPairName");
             b.GridSize = Text(def, "CubeSize") == "Small" ? "Small" : "Large";
             b.Pcu = Num.I(Text(def, "PCU"));
@@ -52,6 +53,7 @@ public static class DefinitionParser
             {
                 Id = id,
                 DisplayName = Text(e, "DisplayName") ?? "",
+                Icon = IconPath(e),
                 Mass = Num.D(Text(e, "Mass")),
                 Volume = Num.D(Text(e, "Volume")),
             };
@@ -156,6 +158,12 @@ public static class DefinitionParser
         if (string.IsNullOrWhiteSpace(type)) return null;
         var sub = Text(id, "SubtypeId") ?? (string?)id.Attribute("Subtype") ?? "";
         return StripPrefix(type.Trim()) + "/" + sub.Trim();
+    }
+
+    static string? IconPath(XElement e)
+    {
+        var icon = Text(e, "Icon")?.Trim();
+        return string.IsNullOrEmpty(icon) ? null : icon.Replace(@"\", "/");
     }
 
     static XElement? Child(XElement e, string name) => e.Elements().FirstOrDefault(c => c.Name.LocalName == name);
