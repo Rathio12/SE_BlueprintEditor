@@ -89,7 +89,7 @@
                     <DockPanel>
                         <TextBlock Text="&#xE946;" Style="{StaticResource Glyph}" Margin="0,0,12,0" />
                         <TextBlock TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
-                                   Text="SE2 blueprint: blocks and PCU are read from the blueprint info. Cost, weapons and cargo need the grid file, which uses an undocumented binary format." />
+                                   Text="SE2 support coming soon. SE2 blueprint files can not be read yet, so only blocks and PCU (from the blueprint info) are shown. Cost, weapons and cargo will follow." />
                     </DockPanel>
                 </c:SeFrame>
 

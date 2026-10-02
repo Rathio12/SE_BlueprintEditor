@@ -9,7 +9,6 @@
     <AssemblyName>SEBlueprintInspector</AssemblyName>
     <RootNamespace>SEBlueprint.App</RootNamespace>
     <Product>SE Blueprint Inspector</Product>
-    <Version>1.0.0</Version>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
 

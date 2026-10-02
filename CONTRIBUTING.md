@@ -35,7 +35,7 @@ dotnet run --project src/SEBlueprint.App
 
 1. Fork, create a branch (`fix/…`, `feat/…`).
 2. Make the change with tests; run `dotnet test`.
-3. Add a line under `## [Unreleased]` in `CHANGELOG.md`.
+3. Write commit messages as [Conventional Commits](https://www.conventionalcommits.org/) (`feat: …`, `fix: …`, `docs: …`). The changelog is generated from them automatically — no manual edits needed.
 4. Open the PR using the template and describe how you verified it.
 
 By contributing you agree that your contribution is licensed under the project's dual license (MIT OR GPL-3.0-or-later).

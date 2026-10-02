@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Read version
+        id: v
+        run: |
+          $version = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Invalid version '$version' in Directory.Build.props" }
+          $isNew = -not (git tag --list "v$version")
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "release=$($isNew.ToString().ToLower())" >> $env:GITHUB_OUTPUT
+          Write-Host "Version $version, new release: $isNew"
+
+      - name: Test
+        run: dotnet test tests/SEBlueprint.Core.Tests -c Release
+
+      - name: Update changelog
+        run: |
+          if ('${{ steps.v.outputs.release }}' -eq 'true') { ./tools/changelog.ps1 -Release ${{ steps.v.outputs.version }} }
+          else { ./tools/changelog.ps1 }
+
+      - name: Commit changelog
+        run: |
+          git config user.name "Rathio12"
+          git config user.email "146424297+Rathio12@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) {
+            $message = if ('${{ steps.v.outputs.release }}' -eq 'true') { "chore(release): v${{ steps.v.outputs.version }} [skip ci]" } else { "chore(changelog): update [skip ci]" }
+            git commit -m $message
+            git pull --rebase origin main
+            git push origin HEAD:main
+          }
+
+      - name: Build portable exe
+        if: steps.v.outputs.release == 'true'
+        run: dotnet publish src/SEBlueprint.App -c Release -o out/app -p:Version=${{ steps.v.outputs.version }}
+
+      - name: Package
+        if: steps.v.outputs.release == 'true'
+        run: |
+          $version = '${{ steps.v.outputs.version }}'
+          $name = "SEBlueprintInspector-v$version-win-x64.zip"
+          New-Item -ItemType Directory -Force out/stage | Out-Null
+          Copy-Item out/app/SEBlueprintInspector.exe out/stage
+          foreach ($f in 'README.md', 'CHANGELOG.md', 'LICENSE', 'LICENSE-MIT', 'LICENSE-GPL', 'PRIVACY.md') { Copy-Item $f out/stage }
+          Compress-Archive -Path out/stage/* -DestinationPath "out/$name"
+          $hash = (Get-FileHash "out/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
+          Set-Content "out/$name.sha256" "$hash  $name" -NoNewline
+          $text = (Get-Content CHANGELOG.md -Raw) -replace "`r`n", "`n"
+          $m = [regex]::Match($text, "(?ms)^## \[$([regex]::Escape($version))\][^\n]*\n(.*?)(?=^## \[|^\[[^\]]+\]:|\z)")
+          $notes = if ($m.Success) { $m.Groups[1].Value.Trim() } else { "Release $version" }
+          $body = "$notes`n`n### Download`n``$name`` — unzip anywhere and run ``SEBlueprintInspector.exe``. No installer and no .NET install needed.`n`nSHA-256: ``$hash``"
+          Set-Content out/notes.md $body
+
+      - name: Publish release
+        if: steps.v.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = '${{ steps.v.outputs.version }}'
+          git tag -a "v$version" -m "SE Blueprint Inspector v$version"
+          git push origin "v$version"
+          gh release create "v$version" "out/SEBlueprintInspector-v$version-win-x64.zip" "out/SEBlueprintInspector-v$version-win-x64.zip.sha256" --title "SE Blueprint Inspector v$version" --notes-file out/notes.md --verify-tag

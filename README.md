@@ -15,7 +15,8 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0B151B?style=flat-square">
   <img alt=".NET 8" src="https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square">
   <img alt="Portable" src="https://img.shields.io/badge/portable-single%20exe-5BC07A?style=flat-square">
-  <img alt="Space Engineers" src="https://img.shields.io/badge/Space%20Engineers-1%20%2B%202-F0A030?style=flat-square">
+  <img alt="Space Engineers" src="https://img.shields.io/badge/Space%20Engineers-1-F0A030?style=flat-square">
+  <img alt="Space Engineers 2" src="https://img.shields.io/badge/Space%20Engineers%202-coming%20soon-5D7682?style=flat-square">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT%20OR%20GPL--3.0-blue?style=flat-square"></a>
 </p>
 
@@ -35,7 +36,7 @@ No installer, no .NET install, no admin rights. Everything the app saves lives i
 
 | | |
 |---|---|
-| **Finds everything** | Steam, every Steam library, Space Engineers, Workshop mods and all blueprint folders (local, cloud, Workshop) are detected automatically. Space Engineers 2 blueprints are listed too. |
+| **Finds everything** | Steam, every Steam library, Space Engineers, Workshop mods and all blueprint folders (local, cloud, Workshop) are detected automatically. Space Engineers 2 blueprints are listed too (full SE2 support coming soon). |
 | **Counts what matters** | Blocks, PCU, mass, fixed guns, turrets, cargo containers and liters, thrust, power and jump range — per blueprint, at a glance. |
 | **Build cost** | Components → ingots → ore with the real in-game icons, assembler speed (realistic / x3 / x10) and refinery yield modules. Copy to a spreadsheet or export CSV. |
 | **Limit checks** | Pick a profile and every blueprint gets an OK / near / over status. Vanilla profiles come from the game's own world presets; make your own for a server and share it as a JSON file. |
@@ -61,9 +62,14 @@ Status rules: **OK** below 90 % of a limit, **NEAR** from 90 % up to the limit, 
 * **WeaponCore / CoreSystems** weapons are found by reading the mod's `Data/Scripts` weapon definitions as text (never executed): a mount point with an azimuth part is a turret, otherwise a fixed gun.
 * **Cargo** uses the block's `InventorySize`; containers without one get the in-game default (block volume × 1000 L).
 
-## Space Engineers 2
+## Space Engineers 2 — support coming soon
 
-SE2 is detected and its blueprints are listed with **blocks and PCU** (read from each blueprint's info file), so PCU and block limits already work. Cost, weapons and cargo need the grid file, which uses an undocumented binary format — they will follow once that format can be read.
+> **SE2 support is coming soon.** Right now SE2 blueprint files can't be read: the grid data
+> (`grid.json.vrb`) is stored in an undocumented binary format.
+
+What already works: SE2 is detected, its blueprints are listed, and **blocks and PCU** are shown
+(taken from each blueprint's info file), so PCU and block limits can be checked. Build cost, weapons
+and cargo for SE2 will be added as soon as the grid format can be read.
 
 ## Privacy
 
@@ -85,12 +91,21 @@ Command line: `SEBlueprintInspector.exe <blueprint folder | bp.sbc>` opens that 
 
 ## Releasing
 
+Releases are automatic. The version lives in [`Directory.Build.props`](Directory.Build.props).
+
 ```powershell
-./tools/release.ps1 -Version 1.0.1            # test, build, zip, tag, push, GitHub release
-./tools/release.ps1 -Version 1.0.1 -DryRun    # everything except tag/push/release
+./tools/release.ps1 -Version 1.1.0      # runs tests, bumps the version, commits and pushes
 ```
 
-Needs the [GitHub CLI](https://cli.github.com/) (`gh auth login`). Release notes are taken from [CHANGELOG.md](CHANGELOG.md).
+On every push to `main`, GitHub Actions ([release.yml](.github/workflows/release.yml)):
+
+1. runs the tests,
+2. rewrites the `## [Unreleased]` part of [CHANGELOG.md](CHANGELOG.md) from the commit messages since the last release,
+3. if the version has no `vX.Y.Z` tag yet: turns *Unreleased* into the new version section, builds the portable exe,
+   zips it with a SHA-256 checksum, tags the commit and publishes the GitHub release with those notes.
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) so the changelog sorts itself:
+`feat: …` → **Added**, `fix: …` → **Fixed**, `perf/refactor/docs: …` → **Changed**, `chore/ci/test/build: …` are left out.
 
 ## Project layout
 

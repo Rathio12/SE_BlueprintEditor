@@ -122,7 +122,7 @@ public sealed class OverviewViewModel : ObservableObject
         };
 
         var grids = r.Grids.Count == 0 ? "" : string.Join(", ", r.Grids.GroupBy(g => g.GridSize).Select(g => $"{g.Count()} {g.Key.ToLowerInvariant()} grid{(g.Count() == 1 ? "" : "s")}"));
-        Subtitle = r.IsPartial ? "Space Engineers 2" : $"{grids}  ·  profile: {profile.Name}";
+        Subtitle = r.IsPartial ? "Space Engineers 2  ·  full support coming soon" : $"{grids}  ·  profile: {profile.Name}";
 
         var cards = new List<StatCard>
         {
