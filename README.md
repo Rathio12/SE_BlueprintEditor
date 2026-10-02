@@ -38,6 +38,16 @@ checked against vanilla or server limits, with modded weapons and containers cou
 
 <br>
 
+## Made for engineers
+
+| You are… | It helps you… |
+|:--|:--|
+| 🚀 **A player** | Know what a ship costs before you print it: every component, ingot and kilogram of ore, for realistic, x3 or x10 assemblers. |
+| 🛰️ **On a server** | Check a blueprint against the server's PCU, block, gun, turret and cargo limits *before* you paste it and get it deleted. |
+| 🛠️ **A server admin** | Write your limits once as a profile and share the JSON with your players, so everyone checks against the same rules. |
+| 🔫 **Into weapon mods** | See WeaponCore / CoreSystems weapons counted as real guns and turrets, not as conveyor sorters. |
+| 💻 **A scripter or modder** | Read how `.sbc` definitions, blueprints, recipes and WeaponCore scripts are parsed in the [wiki](https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html), and reuse the UI-free engine (`SEBlueprint.Core`, MIT or GPL). |
+
 ## Get it
 
 | | Windows app | Website |
