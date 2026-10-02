@@ -1,0 +1,23 @@
+@inject WebState State
+
+<div class="ic">
+    @if (src != null)
+    {
+        <img src="@src" alt="" />
+    }
+    else
+    {
+        @Ui.Initials(Row.Name)
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public CostRow Row { get; set; } = default!;
+    [Parameter] public int IconVersion { get; set; }
+    string? src;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        src = await State.Icons.GetAsync(Row.Icon, Row.ModId);
+    }
+}

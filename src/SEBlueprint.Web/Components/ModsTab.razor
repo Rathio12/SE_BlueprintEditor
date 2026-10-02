@@ -23,6 +23,22 @@
         </div>
     </div>
 
+    <h2>Game icons</h2>
+    <div class="frame" style="max-width:900px">
+        <div class="frame-in">
+            <p class="dim" style="font-size:13.5px;margin-top:0">
+                Icons are Keen's artwork, so the site does not host them. Pick the icons folder of your own install —
+                <b>…\steamapps\common\SpaceEngineers\Content\Textures\GUI\Icons</b> — and they are decoded in your browser.
+                Icons inside mod folders you add above are used automatically.
+            </p>
+            <label class="btn file-btn">
+                <span><Icon Name="folder" />Load game icons</span>
+                <InputFile @ref="iconInput" OnChange="OnIconsPicked" multiple webkitdirectory directory />
+            </label>
+            <span class="dim" style="margin-left:10px">@(State.Icons.Count == 0 ? "No icons loaded" : $"{State.Icons.Count:N0} icons available")</span>
+        </div>
+    </div>
+
     <h2>Loaded mods (@State.LoadedMods.Count)</h2>
     @if (State.LoadedMods.Count == 0)
     {
@@ -44,6 +60,14 @@
 
 @code {
     InputFile? input;
+    InputFile? iconInput;
+
+    async Task OnIconsPicked(InputFileChangeEventArgs e)
+    {
+        var files = e.GetMultipleFiles(50000);
+        var paths = iconInput?.Element is { } el ? await Js.InvokeAsync<string[]>("se.relativePaths", el) : Array.Empty<string>();
+        State.AddIconFiles(files, paths);
+    }
 
     async Task OnPicked(InputFileChangeEventArgs e)
     {

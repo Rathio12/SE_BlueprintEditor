@@ -46,6 +46,7 @@ public sealed class WebState
     public int YieldModules { get; private set; }
     public bool RatePromptDone { get; private set; }
     public List<string> LoadedMods { get; } = new();
+    public IconStore Icons { get; } = new();
     public string Status { get; private set; } = "Loading game data…";
     public bool Busy { get; private set; }
     public string? Error { get; set; }
@@ -180,8 +181,13 @@ public sealed class WebState
             var dataIndex = Array.FindIndex(parts, p => p.Equals("Data", StringComparison.OrdinalIgnoreCase));
             if (dataIndex < 1) continue;
             var lower = path.ToLowerInvariant();
-            if (!lower.EndsWith(".sbc") && !(lower.EndsWith(".cs") && lower.Contains("/scripts/")) && !lower.EndsWith("mytexts.resx")) continue;
             var modId = parts[dataIndex - 1];
+            if (IconStore.KeyFromPath(path, modId) is { } iconKey)
+            {
+                Icons.Add(iconKey, files[i]);
+                continue;
+            }
+            if (!lower.EndsWith(".sbc") && !(lower.EndsWith(".cs") && lower.Contains("/scripts/")) && !lower.EndsWith("mytexts.resx")) continue;
             var rel = string.Join('/', parts.Skip(dataIndex));
             try
             {
@@ -204,6 +210,24 @@ public sealed class WebState
         foreach (var e in Entries) Analyze(e);
         Busy = false;
         Status = mods.Count == 0 ? "No mod Data folders found in the selection" : $"{LoadedMods.Count} mods loaded · {Db.ModBlocks.Sum(m => m.Value.Count):N0} modded blocks";
+        Notify();
+    }
+
+    public void AddIconFiles(IReadOnlyList<IBrowserFile> files, IReadOnlyList<string> paths)
+    {
+        var before = Icons.Count;
+        for (var i = 0; i < files.Count; i++)
+        {
+            var path = i < paths.Count && !string.IsNullOrEmpty(paths[i]) ? paths[i] : files[i].Name;
+            var rel = path.Replace('\\', '/');
+            if (!rel.Contains("Textures/", StringComparison.OrdinalIgnoreCase))
+            {
+                var iconsAt = rel.IndexOf("Icons/", StringComparison.OrdinalIgnoreCase);
+                if (iconsAt >= 0) rel = "Textures/GUI/" + rel[iconsAt..];
+            }
+            if (IconStore.KeyFromPath(rel, null) is { } key) Icons.Add(key, files[i]);
+        }
+        Status = Icons.Count == before ? "No game icons (.dds) found in the selection" : $"{Icons.Count:N0} game icons available";
         Notify();
     }
 
