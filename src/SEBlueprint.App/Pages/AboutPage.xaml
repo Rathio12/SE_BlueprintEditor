@@ -22,7 +22,7 @@
                 <StackPanel>
                     <TextBlock Text="OFFLINE" FontFamily="{StaticResource HeaderFont}" FontWeight="SemiBold" Foreground="{StaticResource Green}" />
                     <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
-                               Text="No internet access, telemetry or auto-updates. Game, mod and blueprint files are only read, never changed. Settings, profiles, cache and log are stored in the data folder next to the program." />
+                               Text="No telemetry or tracking. The only network access is the update check, off unless you turn it on in Settings. Game, mod and blueprint files are only read, never changed. Settings, profiles, cache and log are stored in the data folder next to the program." />
                 </StackPanel>
             </c:SeFrame>
 

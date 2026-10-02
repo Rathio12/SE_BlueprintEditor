@@ -84,6 +84,35 @@
                     </StackPanel>
                 </c:SeFrame>
 
+                <c:SeFrame x:Name="UpdatePanel" Visibility="Collapsed" Opacity="0" Width="440"
+                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,26,22"
+                           Fill="#F20E2230" Stroke="{StaticResource BorderHi}" Brackets="{StaticResource Green}" Chamfer="14" Padding="20,16,20,18">
+                    <c:SeFrame.RenderTransform>
+                        <TranslateTransform x:Name="UpdateSlide" Y="24" />
+                    </c:SeFrame.RenderTransform>
+                    <StackPanel>
+                        <DockPanel>
+                            <Button x:Name="UpdateClose" DockPanel.Dock="Right" Style="{StaticResource CaptionButton}" Width="28" Height="24" Content="&#xE8BB;"
+                                    VerticalAlignment="Top" Margin="0,-6,-10,0" Click="OnUpdateLater" ToolTip="Close" />
+                            <TextBlock Text="&#xE896;" Style="{StaticResource Glyph}" FontSize="20" Foreground="{StaticResource Green}" Margin="0,0,10,0" />
+                            <TextBlock x:Name="UpdateTitle" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <TextBlock x:Name="UpdateNotes" Margin="0,10,0,12" TextWrapping="Wrap" Foreground="{StaticResource TextDim}" MaxHeight="170" TextTrimming="CharacterEllipsis" />
+                        <TextBlock x:Name="UpdateHint" Margin="0,0,0,12" TextWrapping="Wrap" Style="{StaticResource Dim}" FontSize="12" />
+                        <c:SegmentBar x:Name="UpdateProgress" Height="6" Segments="24" Fill="{StaticResource Green}" Visibility="Collapsed" Margin="0,0,0,12" />
+                        <WrapPanel x:Name="UpdateButtons">
+                            <Button x:Name="UpdateInstall" Style="{StaticResource AccentButton}" Click="OnUpdateInstall" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE896;" Style="{StaticResource Glyph}" FontSize="13" Foreground="White" Margin="0,0,8,0" />
+                                    <TextBlock Text="Install and restart" />
+                                </StackPanel>
+                            </Button>
+                            <Button Content="Release page" Margin="0,0,8,0" Click="OnUpdatePage" />
+                            <Button Content="Skip this version" Click="OnUpdateSkip" />
+                        </WrapPanel>
+                    </StackPanel>
+                </c:SeFrame>
+
                 <c:SeFrame VerticalAlignment="Bottom" Margin="24,0,24,16" Fill="#F2341414" Stroke="{StaticResource Red}" Padding="14,10"
                            Visibility="{Binding HasError, Converter={StaticResource Visible}}">
                     <DockPanel>

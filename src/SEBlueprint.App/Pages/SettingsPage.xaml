@@ -69,13 +69,23 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="UPDATES" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" Foreground="{StaticResource Green}" />
-                        <TextBlock Text="The app never updates itself. New versions and changelogs are on the releases page." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,4,0,10" />
-                        <Button HorizontalAlignment="Left" Click="OnReleases">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE896;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{StaticResource Green}" Margin="0,0,8,0" />
-                                <TextBlock Text="Releases" />
-                            </StackPanel>
-                        </Button>
+                        <TextBlock Text="Off unless you ask. A check only asks GitHub for the latest release of this app; nothing about you or your files is sent." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,4,0,10" />
+                        <CheckBox x:Name="CheckOnStart" Content="Check for updates on start" Margin="0,0,0,10" Click="OnCheckOnStart" />
+                        <WrapPanel>
+                            <Button x:Name="CheckNowButton" Click="OnCheckNow" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72C;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{StaticResource Green}" Margin="0,0,8,0" />
+                                    <TextBlock Text="Check now" />
+                                </StackPanel>
+                            </Button>
+                            <Button Click="OnReleases">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE896;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{StaticResource Green}" Margin="0,0,8,0" />
+                                    <TextBlock Text="Releases" />
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <TextBlock x:Name="UpdateStatus" Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,8,0,0" />
                     </StackPanel>
                 </Grid>
             </c:SeFrame>

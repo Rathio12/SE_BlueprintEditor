@@ -14,6 +14,8 @@ public sealed class AppSettings
     public double AssemblerEfficiency { get; set; } = 1;
     public int YieldModules { get; set; }
     public bool RatePromptDone { get; set; }
+    public bool CheckUpdatesOnStart { get; set; }
+    public string? SkippedUpdateVersion { get; set; }
 
     static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
 

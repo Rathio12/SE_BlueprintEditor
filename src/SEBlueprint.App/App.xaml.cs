@@ -19,6 +19,7 @@ public partial class App : Application
             args.SetObserved();
         };
         Log.Write($"Started SE Blueprint Inspector {typeof(App).Assembly.GetName().Version}");
+        Updater.CleanUpAfterUpdate();
         base.OnStartup(e);
     }
 

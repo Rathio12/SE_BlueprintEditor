@@ -6,6 +6,7 @@ using SEBlueprint.App.Services;
 using SEBlueprint.App.ViewModels;
 using SEBlueprint.Core;
 using SEBlueprint.Core.Limits;
+using SEBlueprint.Core.Updates;
 
 namespace SEBlueprint.App.Pages;
 
@@ -22,6 +23,8 @@ public partial class SettingsPage : Page
     void Refresh()
     {
         NotFoundBar.Visibility = !App.GameFound && !App.IsBusy ? Visibility.Visible : Visibility.Collapsed;
+        CheckOnStart.IsChecked = App.Settings.CheckUpdatesOnStart;
+        if (string.IsNullOrEmpty(UpdateStatus.Text)) UpdateStatus.Text = $"You have version {Updater.CurrentVersion.ToString(3)}.";
         BuildPaths();
     }
 
@@ -117,6 +120,36 @@ public partial class SettingsPage : Page
     void OnReportBug(object sender, RoutedEventArgs e) => Links.Open(Links.ReportBug);
     void OnStar(object sender, RoutedEventArgs e) => Links.Open(Links.Repo);
     void OnReleases(object sender, RoutedEventArgs e) => Links.Open(Links.Releases);
+
+    void OnCheckOnStart(object sender, RoutedEventArgs e)
+    {
+        App.Settings.CheckUpdatesOnStart = CheckOnStart.IsChecked == true;
+        App.Settings.Save();
+    }
+
+    async void OnCheckNow(object sender, RoutedEventArgs e)
+    {
+        CheckNowButton.IsEnabled = false;
+        UpdateStatus.Text = "Checking GitHub…";
+        try
+        {
+            var release = await Updater.CheckAsync();
+            var current = Updater.CurrentVersion.ToString(3);
+            if (release == null) UpdateStatus.Text = "Couldn't read the latest release. Try the releases page.";
+            else if (!ReleaseFeed.IsNewer(release, Updater.CurrentVersion)) UpdateStatus.Text = $"You're up to date (version {current}).";
+            else
+            {
+                UpdateStatus.Text = $"Version {release.Version.ToString(3)} is available (you have {current}).";
+                MainWindow.Instance?.ShowUpdate(release);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Write($"Update check failed: {ex.Message}");
+            UpdateStatus.Text = "Couldn't reach GitHub. Check your connection or open the releases page.";
+        }
+        finally { CheckNowButton.IsEnabled = true; }
+    }
 
     static void Try(Action a)
     {
