@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using SEBlueprint.App.ViewModels;
 using SEBlueprint.Core.Limits;
+using SEBlueprint.Core.Presentation;
 
 namespace SEBlueprint.App.Converters;
 
@@ -24,9 +25,10 @@ public static class StatusColors
 
     public static SolidColorBrush For(object? value) => value switch
     {
-        RowStatus.Ok or LimitStatus.Ok => Ok,
-        RowStatus.Warn or LimitStatus.Warn => Warn,
-        RowStatus.Over or LimitStatus.Over or RowStatus.Error => Over,
+        RowStatus.Ok or LimitStatus.Ok or Tone.Ok => Ok,
+        RowStatus.Warn or LimitStatus.Warn or Tone.Warn or RowStatus.Incomplete => Warn,
+        RowStatus.Over or LimitStatus.Over or RowStatus.Error or Tone.Over => Over,
+        Tone.Accent => Accent,
         _ => Neutral,
     };
 }
@@ -43,7 +45,7 @@ public sealed class UnitConverter : IValueConverter
     {
         if (value == null) return "—";
         var v = System.Convert.ToDouble(value, CultureInfo.InvariantCulture);
-        return Format.Unit(v, parameter as string ?? "int");
+        return Units.Format(v, parameter as string ?? "int");
     }
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
@@ -57,21 +59,4 @@ public sealed class BoolToVisibilityConverter : IValueConverter
         return b ^ Invert ? Visibility.Visible : Visibility.Collapsed;
     }
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
-}
-
-public static class Format
-{
-    static readonly CultureInfo C = CultureInfo.CurrentCulture;
-
-    public static string Unit(double v, string kind) => kind switch
-    {
-        "liters" => v >= 1_000_000 ? $"{(v / 1_000_000).ToString("0.##", C)} ML" : v >= 10_000 ? $"{(v / 1000).ToString("#,0.#", C)} kL" : $"{v.ToString("#,0", C)} L",
-        "mass" => v >= 1_000_000 ? $"{(v / 1_000_000).ToString("0.##", C)} kt" : v >= 10_000 ? $"{(v / 1000).ToString("#,0.#", C)} t" : $"{v.ToString("#,0", C)} kg",
-        "newtons" => v >= 1_000_000 ? $"{(v / 1_000_000).ToString("0.##", C)} MN" : $"{(v / 1000).ToString("#,0", C)} kN",
-        "mw" => $"{v.ToString("#,0.##", C)} MW",
-        "mwh" => $"{v.ToString("#,0.##", C)} MWh",
-        "km" => $"{v.ToString("#,0.#", C)} km",
-        "amount" => v >= 100 ? v.ToString("#,0", C) : v.ToString("#,0.##", C),
-        _ => v.ToString("#,0", C),
-    };
 }

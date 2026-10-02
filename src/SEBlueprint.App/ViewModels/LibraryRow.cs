@@ -7,7 +7,7 @@ using SEBlueprint.Core.Limits;
 
 namespace SEBlueprint.App.ViewModels;
 
-public enum RowStatus { Pending, Ok, Warn, Over, Unlimited, Error }
+public enum RowStatus { Pending, Ok, Warn, Over, Unlimited, Error, Incomplete }
 
 public sealed class LibraryRow : ObservableObject
 {
@@ -98,6 +98,7 @@ public sealed class LibraryRow : ObservableObject
             var worst = profile == null ? LimitStatus.Unlimited : LimitEvaluator.Worst(LimitEvaluator.Evaluate(Entry.Report, profile));
             (Status, StatusText) = worst switch
             {
+                not LimitStatus.Over when Entry.Report.IsIncomplete => (RowStatus.Incomplete, "Incomplete"),
                 LimitStatus.Over => (RowStatus.Over, "Over limit"),
                 LimitStatus.Warn => (RowStatus.Warn, "Near limit"),
                 LimitStatus.Ok => (RowStatus.Ok, "OK"),

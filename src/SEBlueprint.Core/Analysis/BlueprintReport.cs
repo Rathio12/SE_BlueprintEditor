@@ -44,6 +44,8 @@ public sealed class BlueprintReport
     public Dictionary<string, int> BlockPairCounts { get; } = new();
 
     public Dictionary<string, int> UnknownBlocks { get; } = new();
+    public int UnknownBlockCount => UnknownBlocks.Values.Sum();
+    public bool IsIncomplete => UnknownBlocks.Count > 0;
 
     public List<BlueprintMod> Mods { get; } = new();
 

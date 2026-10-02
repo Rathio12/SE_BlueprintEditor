@@ -32,6 +32,7 @@ public class ReportViewTests
             Assert.Equal("Steel Plate", view.Components.Single().Name);
             Assert.Contains("Ingot (kg)", view.CostAsText(','));
             Assert.Single(view.Unknown);
+            Assert.Equal("1 UNKNOWN BLOCK — COUNTS INCOMPLETE", view.IncompleteText);
             Assert.Contains(view.MissingMods, m => m.Contains("42"));
         }
         finally { CultureInfo.CurrentCulture = old; }
@@ -45,5 +46,32 @@ public class ReportViewTests
         Assert.Empty(view.Secondary);
         Assert.Empty(view.Checks);
         Assert.Equal("SE2", view.Badge);
+        Assert.Null(view.IncompleteText);
+    }
+
+    [Fact]
+    public void Incomplete_blueprint_is_never_reported_as_within_limits()
+    {
+        var r = new BlueprintReport { Blocks = 30000, Pcu = 10 };
+        r.Grids.Add(new GridSummary { Blocks = 30000, Pcu = 10 });
+        r.UnknownBlocks["Mod/Block"] = 29990;
+        var view = ReportView.Build(r, new LimitProfile { TotalPcu = 100000 }, new GameDatabase());
+        Assert.NotEqual("WITHIN LIMITS", view.OverallText);
+        Assert.Equal(Tone.Warn, view.OverallTone);
+        Assert.StartsWith("29.990", view.IncompleteText!.Replace(",", "."));
+    }
+
+    [Fact]
+    public void Per_grid_limits_drive_the_pcu_and_blocks_gauges_when_no_total_limit()
+    {
+        var r = new BlueprintReport { Blocks = 300, Pcu = 60000 };
+        r.Grids.Add(new GridSummary { Blocks = 200, Pcu = 45000 });
+        r.Grids.Add(new GridSummary { Blocks = 100, Pcu = 15000 });
+        var view = ReportView.Build(r, new LimitProfile { MaxPcuPerGrid = 50000, MaxBlocksPerGrid = 1000 }, new GameDatabase());
+        var pcu = view.Primary.Single(p => p.Title == "PCU");
+        Assert.True(pcu.HasLimit);
+        Assert.Equal(0.9, pcu.Ratio, 6);
+        Assert.Equal(Tone.Warn, pcu.Tone);
+        Assert.True(view.Primary.Single(p => p.Title == "BLOCKS").HasLimit);
     }
 }

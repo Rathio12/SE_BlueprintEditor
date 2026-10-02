@@ -54,8 +54,11 @@
                 @foreach (var e in Visible)
                 {
                     var status = StatusOf(e);
+                    var incomplete = e.Report?.IsIncomplete == true && status != LimitStatus.Over;
+                    var color = e.Error != null ? "var(--red)" : incomplete ? "var(--orange)" : Ui.Color(Ui.Of(status));
+                    var text = e.Error != null ? "Error" : incomplete ? "Incomplete" : Ui.StatusText(status);
                     <div class="row @(State.Selected == e ? "sel" : null)" @onclick="() => State.Selected = e">
-                        <div class="edge" style="background:@(e.Error != null ? "var(--red)" : Ui.Color(Ui.Of(status)))"></div>
+                        <div class="edge" style="background:@color"></div>
                         <div class="thumb" style="@(e.Thumb != null ? $"background-image:url('{e.Thumb}')" : null)">
                             @if (e.Thumb == null) { <Icon Name="cube" /> }
                         </div>
@@ -65,7 +68,7 @@
                         </div>
                         <div class="val">
                             <div class="pcu num">@(e.Report == null ? "—" : Units.Format(e.Report.Pcu, "int"))</div>
-                            <div class="st" style="color:@(e.Error != null ? "var(--red)" : Ui.Color(Ui.Of(status)))">@(e.Error != null ? "Error" : Ui.StatusText(status))</div>
+                            <div class="st" style="color:@color">@text</div>
                         </div>
                     </div>
                 }

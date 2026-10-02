@@ -37,6 +37,8 @@ public sealed class ReportView
     public IReadOnlyList<string> MissingMods { get; private init; } = Array.Empty<string>();
     public LimitStatus Overall { get; private init; }
     public string OverallText { get; private init; } = "";
+    public Tone OverallTone { get; private init; } = Tone.Neutral;
+    public string? IncompleteText { get; private init; }
     public string Badge { get; private init; } = "";
     public string Subtitle { get; private init; } = "";
 
@@ -52,12 +54,14 @@ public sealed class ReportView
     {
         var checks = LimitEvaluator.Evaluate(r, profile);
         LimitCheck? C(string stat) => checks.FirstOrDefault(c => c.Stat == stat);
+        LimitCheck? Either(string total, string perGrid) =>
+            C(total) is { Limit: > 0 } t ? t : C(perGrid) is { Limit: > 0 } g ? g : C(total);
         var worst = LimitEvaluator.Worst(checks);
 
         var primary = new List<Readout>
         {
-            new("BLOCKS", Units.Format(r.Blocks, "int"), r.Grids.Count > 1 ? $"largest grid {Units.Format(r.Grids.Max(g => g.Blocks), "int")}" : null, C("Blocks")),
-            new("PCU", Units.Format(r.Pcu, "int"), r.Grids.Count > 1 ? $"largest grid {Units.Format(r.Grids.Max(g => g.Pcu), "int")}" : null, C("PCU")),
+            new("BLOCKS", Units.Format(r.Blocks, "int"), r.Grids.Count > 1 ? $"largest grid {Units.Format(r.Grids.Max(g => g.Blocks), "int")}" : null, Either("Blocks", "Largest grid")),
+            new("PCU", Units.Format(r.Pcu, "int"), r.Grids.Count > 1 ? $"largest grid {Units.Format(r.Grids.Max(g => g.Pcu), "int")}" : null, Either("PCU", "Largest grid PCU")),
         };
         var secondary = new List<Readout>();
         if (!r.IsPartial)
@@ -111,13 +115,18 @@ public sealed class ReportView
             Unknown = r.UnknownBlocks.OrderByDescending(k => k.Value).Select(k => new UnknownRow(k.Key, k.Value)).ToList(),
             MissingMods = r.Mods.Where(m => r.MissingMods.Contains(m.Id)).Select(m => m.Name == m.Id ? m.Id : $"{m.Name} ({m.Id})").ToList(),
             Overall = worst,
-            OverallText = worst switch
-            {
-                LimitStatus.Over => "OVER LIMIT",
-                LimitStatus.Warn => "NEAR LIMIT",
-                LimitStatus.Ok => "WITHIN LIMITS",
-                _ => "NO LIMITS",
-            },
+            OverallText = worst == LimitStatus.Over ? "OVER LIMIT"
+                : r.IsIncomplete ? "INCOMPLETE — CHECK MODS"
+                : worst switch
+                {
+                    LimitStatus.Warn => "NEAR LIMIT",
+                    LimitStatus.Ok => "WITHIN LIMITS",
+                    _ => "NO LIMITS",
+                },
+            OverallTone = worst == LimitStatus.Over ? Tone.Over : r.IsIncomplete ? Tone.Warn : ToneOf(worst),
+            IncompleteText = r.IsIncomplete
+                ? $"{Units.Format(r.UnknownBlockCount, "int")} UNKNOWN BLOCK{(r.UnknownBlockCount == 1 ? "" : "S")} — COUNTS INCOMPLETE"
+                : null,
             Badge = r.IsPartial ? "SE2" : r.UsesMods ? "MODDED" : "VANILLA",
             Subtitle = r.IsPartial ? "Space Engineers 2  ·  full support coming soon" : $"{grids}  ·  profile: {profile.Name}",
         };

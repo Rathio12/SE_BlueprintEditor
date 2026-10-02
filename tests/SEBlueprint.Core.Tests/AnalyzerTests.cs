@@ -30,7 +30,8 @@ public class AnalyzerTests
         var (data, ws) = TestData.Fake();
         var db = GameDatabaseLoader.Load(data, ws);
         var r = BlueprintAnalyzer.Analyze(TestBp(), db);
-        Assert.Equal(7, r.Blocks);
+        Assert.Equal(8, r.Blocks);
+        Assert.True(r.IsIncomplete);
         Assert.Equal(225 * 2 + 80 + 10 + 15 * 2 + 100, r.Pcu);
         Assert.Equal(2, r.Turrets);
         Assert.Equal(2, r.FixedWeapons);
@@ -45,7 +46,8 @@ public class AnalyzerTests
         Assert.DoesNotContain("1919062467", r.MissingMods);
         Assert.Equal(15 * 2 + 4 + 360 + 25 * 2 + 50, r.Components["Component/SteelPlate"]);
         Assert.Equal(r.Components["Component/SteelPlate"] * 20.0, r.MassKg, 3);
-        Assert.Equal(7, r.Grids.Single().Blocks);
+        Assert.Equal(8, r.Grids.Single().Blocks);
+        Assert.Equal(1, r.BlockPairCounts["Unknown"]);
         Assert.Equal(2, r.BlockPairCounts["LargeGatlingTurret"]);
         Assert.Equal(1, r.BlockPairCounts["LargeContainer"]);
         Assert.True(r.Ingots["Ingot/Iron"] > 0);
@@ -56,8 +58,9 @@ public class AnalyzerTests
     public void Analyzes_with_empty_database_without_crashing()
     {
         var r = BlueprintAnalyzer.Analyze(TestBp(), new GameDatabase());
-        Assert.Equal(0, r.Blocks);
+        Assert.Equal(8, r.Blocks);
         Assert.Equal(8, r.UnknownBlocks.Values.Sum());
+        Assert.True(r.IsIncomplete);
         Assert.Empty(r.Ingots);
     }
 

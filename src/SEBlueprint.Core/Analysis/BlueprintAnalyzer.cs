@@ -24,6 +24,9 @@ public static class BlueprintAnalyzer
                 if (def == null)
                 {
                     r.UnknownBlocks[block.Id] = r.UnknownBlocks.GetValueOrDefault(block.Id) + 1;
+                    gridBlocks++;
+                    var unknownType = block.Id.Split('/')[0];
+                    r.BlockPairCounts[unknownType] = r.BlockPairCounts.GetValueOrDefault(unknownType) + 1;
                     continue;
                 }
                 if (def.ModId != null) r.UsesMods = true;
