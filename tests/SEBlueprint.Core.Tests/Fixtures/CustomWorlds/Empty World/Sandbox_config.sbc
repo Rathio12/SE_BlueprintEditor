@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<MyObjectBuilder_WorldConfiguration>
+  <Settings>
+    <BlockLimitsEnabled>NONE</BlockLimitsEnabled>
+    <TotalPCU>0</TotalPCU>
+    <MaxGridSize>0</MaxGridSize>
+    <MaxBlocksPerPlayer>0</MaxBlocksPerPlayer>
+  </Settings>
+</MyObjectBuilder_WorldConfiguration>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<MyObjectBuilder_WorldConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Settings>
+    <BlockLimitsEnabled>GLOBALLY</BlockLimitsEnabled>
+    <TotalPCU>100000</TotalPCU>
+    <MaxGridSize>50000</MaxGridSize>
+    <MaxBlocksPerPlayer>100000</MaxBlocksPerPlayer>
+    <BlockTypeLimits>
+      <dictionary>
+        <item>
+          <Key>Assembler</Key>
+          <Value>24</Value>
+        </item>
+      </dictionary>
+    </BlockTypeLimits>
+  </Settings>
+</MyObjectBuilder_WorldConfiguration>
