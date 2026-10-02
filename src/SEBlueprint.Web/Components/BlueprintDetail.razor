@@ -142,13 +142,6 @@
                         <select class="field" value="@State.YieldModules" @onchange="OnYield">
                             @for (var i = 0; i <= 4; i++) { <option value="@i">@i</option> }
                         </select>
-                        @if (State.Icons.Count == 0)
-                        {
-                            <label class="btn file-btn" title="Pick ...\SpaceEngineers\Content\Textures\GUI\Icons — read locally, never uploaded">
-                                <span><Icon Name="folder" />Load game icons</span>
-                                <InputFile @ref="iconInput" OnChange="OnIconsPicked" multiple webkitdirectory directory />
-                            </label>
-                        }
                         <button class="btn" @onclick="() => CopyAsync(v)"><span><Icon Name="copy" />@(copied ? "Copied" : "Copy")</span></button>
                         <button class="btn primary" @onclick="() => CsvAsync(v)"><span><Icon Name="download" />CSV</span></button>
                     </div>
@@ -179,14 +172,7 @@
 @code {
     [Parameter] public WebEntry? Entry { get; set; }
     bool copied;
-    InputFile? iconInput;
 
-    async Task OnIconsPicked(InputFileChangeEventArgs e)
-    {
-        var files = e.GetMultipleFiles(50000);
-        var paths = iconInput?.Element is { } el ? await Js.InvokeAsync<string[]>("se.relativePaths", el) : Array.Empty<string>();
-        State.AddIconFiles(files, paths);
-    }
 
     async Task OnProfile(ChangeEventArgs e)
     {

@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
 
 $docs = Join-Path $root 'docs'
 New-Item -ItemType Directory -Force $docs | Out-Null
-$siteOwned = @('index.html', '404.html', '.nojekyll', 'favicon.png', 'app-icon.svg', '_framework', 'css', 'js', 'data', 'robots.txt', 'sitemap.xml')
+$siteOwned = @('index.html', '404.html', '.nojekyll', 'favicon.png', 'app-icon.svg', '_framework', 'css', 'js', 'data', 'robots.txt', 'sitemap.xml', 'icons', 'site.webmanifest')
 foreach ($name in $siteOwned) {
     $target = Join-Path $docs $name
     if (Test-Path $target) { Remove-Item $target -Recurse -Force }

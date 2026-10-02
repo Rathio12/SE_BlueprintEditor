@@ -1,4 +1,5 @@
 @inject WebState State
+@using SEBlueprint.Core.Imaging
 
 <div class="ic" title="@Row.Name">
     @if (src != null)
@@ -8,6 +9,10 @@
     else
     {
         <ItemIcon Id="@Row.Id" />
+        @if (Bundled != null)
+        {
+            <img class="over" src="@Bundled" alt="" loading="lazy" onerror="this.remove()" />
+        }
     }
 </div>
 
@@ -15,6 +20,8 @@
     [Parameter, EditorRequired] public CostRow Row { get; set; } = default!;
     [Parameter] public int IconVersion { get; set; }
     string? src;
+
+    string? Bundled => Row.ModId == null && !string.IsNullOrWhiteSpace(Row.Icon) ? "icons/" + IconFiles.FileName(Row.Icon) : null;
 
     protected override async Task OnParametersSetAsync()
     {
