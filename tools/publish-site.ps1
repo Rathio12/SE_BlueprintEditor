@@ -28,8 +28,9 @@ Copy-Item (Join-Path $out 'wwwroot/*') $docs -Recurse -Force
 Remove-Item (Join-Path $docs 'data') -Recurse -Force -ErrorAction SilentlyContinue
 
 $index = Join-Path $docs 'index.html'
-$html = (Get-Content $index -Raw) -replace '<base href="/" />', "<base href=`"$BasePath`" />"
-[System.IO.File]::WriteAllText($index, $html, (New-Object System.Text.UTF8Encoding($false)))
+$utf8 = New-Object System.Text.UTF8Encoding($false)
+$html = [System.IO.File]::ReadAllText($index, $utf8) -replace '<base href="/" />', "<base href=`"$BasePath`" />"
+[System.IO.File]::WriteAllText($index, $html, $utf8)
 Copy-Item $index (Join-Path $docs '404.html')
 New-Item -ItemType File -Force (Join-Path $docs '.nojekyll') | Out-Null
 

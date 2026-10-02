@@ -57,7 +57,7 @@ function Format-Entries($entries) {
 }
 
 if (-not (Test-Path $Path)) { throw "$Path not found" }
-$text = (Get-Content $Path -Raw) -replace "`r`n", "`n"
+$text = [System.IO.File]::ReadAllText((Resolve-Path $Path), (New-Object System.Text.UTF8Encoding($false))) -replace "`r`n", "`n"
 
 $headerPattern = '(?ms)^## \[Unreleased\][^\n]*\n(?<body>.*?)(?=^## \[|^\[[^\]]+\]:|\z)'
 $m = [regex]::Match($text, $headerPattern)
