@@ -75,4 +75,12 @@ GitHub Pages serves the `docs/` folder of `main` (Settings → Pages → *Deploy
 `tools/publish-site.ps1` builds `src/SEBlueprint.Web` into `docs/` and only replaces the files it owns;
 `docs/wiki` and `docs/images` are never touched. A `.nojekyll` file makes GitHub serve the files unchanged.
 
+## The GitHub wiki
+
+`docs/wiki` is the single source. On every push that changes it, the *Wiki* workflow
+([wiki.yml](https://github.com/Rathio12/SE_BlueprintEditor/blob/main/.github/workflows/wiki.yml)) runs
+`tools/sync-wiki.ps1`, which rewrites links for the wiki (`Page.md` → `Page`, repository files → full links), adds a
+sidebar and footer, and pushes the result to the [GitHub wiki](https://github.com/Rathio12/SE_BlueprintEditor/wiki).
+Edit the files in `docs/wiki`, not the wiki itself — manual wiki edits are overwritten.
+
 Next: [FAQ](FAQ.md)

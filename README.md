@@ -117,7 +117,7 @@ checked against vanilla or server limits, with modded weapons and containers cou
 ## Wiki
 
 How game files, blueprints and mods are read and how every number is calculated —
-**[on the website](https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html)** or [here on GitHub](docs/wiki/Home.md).
+**[on the website](https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html)** or in the **[GitHub wiki](https://github.com/Rathio12/SE_BlueprintEditor/wiki)** (source: [docs/wiki](docs/wiki/Home.md)).
 
 <details>
 <summary><b>Build from source</b></summary>
