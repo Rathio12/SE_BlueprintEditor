@@ -6,7 +6,9 @@ public sealed class BlockDefinition
 {
     /// <summary>"TypeId/SubtypeId" without the MyObjectBuilder_ prefix.</summary>
     public string Id { get; set; } = "";
+    [System.Text.Json.Serialization.JsonIgnore]
     public string TypeId => Id.Split('/')[0];
+    [System.Text.Json.Serialization.JsonIgnore]
     public string SubtypeId => Id.Contains('/') ? Id[(Id.IndexOf('/') + 1)..] : "";
     public string DisplayName { get; set; } = "";
     public string? PairName { get; set; }

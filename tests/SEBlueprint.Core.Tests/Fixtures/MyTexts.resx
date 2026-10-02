@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="DisplayName_Item_SteelPlate" xml:space="preserve">
+    <value>Steel Plate</value>
+  </data>
+  <data name="DisplayName_Block_Unused" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+</root>

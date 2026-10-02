@@ -22,7 +22,7 @@ public class DefinitionParserTests
         Assert.Equal(BlockCategory.Cargo, b["CargoContainer/LargeBlockLargeContainer"].Category);
         Assert.Equal(8000, b["CargoContainer/LargeBlockLargeContainer"].CargoLiters, 3);
         Assert.Equal("LargeContainer", b["CargoContainer/LargeBlockLargeContainer"].PairName);
-        Assert.Equal(0.5 * 0.5 * 0.5 * 1000 * 0.4, b["CargoContainer/SmallNoInv"].CargoLiters, 3);
+        Assert.Equal(0.5 * 0.5 * 0.5 * 1000, b["CargoContainer/SmallNoInv"].CargoLiters, 3); // same rule as in-game: 3x3x3 large = 421,875 L
         Assert.Equal(BlockCategory.Thruster, b["Thrust/LargeBlockLargeThrust"].Category);
         Assert.Equal(4320000, b["Thrust/LargeBlockLargeThrust"].ThrustForce);
         Assert.Equal(0.3, b["Thrust/LargeBlockLargeThrust"].ThrustPlanetEff, 3);

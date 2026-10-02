@@ -116,7 +116,7 @@ public static class DefinitionParser
         else if (b.TypeId == "CargoContainer")
         {
             var cube = b.GridSize == "Small" ? SmallCube : LargeCube;
-            b.CargoLiters = b.SizeX * b.SizeY * b.SizeZ * cube * cube * cube * 1000.0 * 0.4;
+            b.CargoLiters = b.SizeX * b.SizeY * b.SizeZ * cube * cube * cube * 1000.0;
         }
     }
 
