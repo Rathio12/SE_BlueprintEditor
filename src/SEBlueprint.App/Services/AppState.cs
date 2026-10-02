@@ -154,6 +154,7 @@ public sealed class AppState : ObservableObject
         {
             Profiles.Clear();
             foreach (var p in VanillaProfiles.Load(Paths.CustomWorldsDir)) Profiles.Add(p);
+            foreach (var p in PresetProfiles.All) Profiles.Add(p);
             foreach (var p in ProfileStore.LoadUser()) Profiles.Add(p);
         }
         finally { _reloadingProfiles = false; }

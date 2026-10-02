@@ -14,13 +14,15 @@ public sealed class BlockLimitRow : ObservableObject
 
 public sealed class ProfileEditorViewModel : ObservableObject
 {
-    string _name = "", _pcu = "", _perGrid = "", _total = "", _guns = "", _turrets = "", _cargo = "";
+    string _name = "", _pcu = "", _pcuPerGrid = "", _perGrid = "", _total = "", _guns = "", _turrets = "", _cargo = "";
 
     public ProfileEditorViewModel(LimitProfile p)
     {
         Original = p;
         _name = p.Name;
         _pcu = Str(p.TotalPcu);
+        _pcuPerGrid = Str(p.MaxPcuPerGrid);
+        Description = p.Description;
         _perGrid = Str(p.MaxBlocksPerGrid);
         _total = Str(p.MaxBlocksTotal);
         _guns = Str(p.MaxGuns);
@@ -36,6 +38,9 @@ public sealed class ProfileEditorViewModel : ObservableObject
 
     public string Name { get => _name; set => Set(ref _name, value); }
     public string TotalPcu { get => _pcu; set => Set(ref _pcu, value); }
+    public string MaxPcuPerGrid { get => _pcuPerGrid; set => Set(ref _pcuPerGrid, value); }
+    public string? Description { get; }
+    public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
     public string MaxBlocksPerGrid { get => _perGrid; set => Set(ref _perGrid, value); }
     public string MaxBlocksTotal { get => _total; set => Set(ref _total, value); }
     public string MaxGuns { get => _guns; set => Set(ref _guns, value); }
@@ -46,6 +51,8 @@ public sealed class ProfileEditorViewModel : ObservableObject
     {
         Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim(),
         TotalPcu = Int(TotalPcu),
+        MaxPcuPerGrid = Int(MaxPcuPerGrid),
+        Description = Original.BuiltIn ? null : Description,
         MaxBlocksPerGrid = Int(MaxBlocksPerGrid),
         MaxBlocksTotal = Int(MaxBlocksTotal),
         MaxGuns = Int(MaxGuns),

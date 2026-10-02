@@ -29,6 +29,8 @@
 
                 <c:SeFrame Grid.Column="1" x:Name="EditorCard" Style="{StaticResource Frame}" Margin="12,0,0,0" VerticalAlignment="Top">
                     <StackPanel>
+                        <TextBlock Text="{Binding Description}" Foreground="{StaticResource TextDim}" TextWrapping="Wrap" Margin="0,0,0,10"
+                                   Visibility="{Binding HasDescription, Converter={StaticResource Visible}}" />
                         <TextBlock Text="Built-in profile (read-only). Duplicate it to edit." Foreground="{StaticResource Orange}" Margin="0,0,0,10"
                                    Visibility="{Binding IsReadOnly, Converter={StaticResource Visible}}" />
                         <Grid IsEnabled="{Binding IsEditable}">
@@ -39,6 +41,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="NAME" Style="{StaticResource Label}" />
@@ -55,6 +58,8 @@
                             <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxTurrets, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Grid.Row="6" Text="MAX CARGO (LITERS)" Style="{StaticResource Label}" />
                             <TextBox Grid.Row="6" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxCargoLiters, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="7" Text="MAX PCU PER GRID" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="7" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxPcuPerGrid, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                         <TextBlock Text="BLOCK TYPE LIMITS" Style="{StaticResource Label}" Foreground="{StaticResource Accent}" Margin="0,16,0,6" />
                         <TextBlock Text="Block pair name (as in the world's BlockTypeLimits) and the maximum count." Style="{StaticResource Dim}" Margin="0,0,0,6" />
