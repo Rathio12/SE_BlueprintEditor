@@ -401,3 +401,5 @@ select.field option { background: var(--panel); color: var(--text); }
 .welcome p, .welcome li { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
 .welcome ul { padding-left: 18px; margin: 6px 0; }
 .welcome a { color: var(--accent); }
+.cost-row .ic .item-icon { width: 26px; height: 26px; }
+.cost-row .ic .item-icon * { stroke-width: 1.2; stroke-linejoin: round; }

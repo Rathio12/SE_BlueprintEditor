@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "SEBlueprint.Web",
   "resources": {
-    "hash": "sha256-BBPi97mK438CTr3pXXBCPjfR212aRUVh2jQ4rZMsQnw=",
+    "hash": "sha256-ODuW8O1UA726fJUab14+Fm1HSkA7EtG0jOR/ditar9Y=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-YDHEHpc+/PUWFYa9BMCN3EcVlpemjKD024swcpPfMIQ="
     },
@@ -35,8 +35,8 @@
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-ohwfdd8sZzTEHObZdmOGR9D4n2K6kspCJmHpSHevlCQ=",
       "Microsoft.JSInterop.wasm": "sha256-pcPR87+PaRLTmQ38tc1D5FxlpC9j4KjGFO5uLRCRpn0=",
       "Microsoft.Win32.Registry.wasm": "sha256-TCxX3CjgEaxXTXSicbRsHIfue2PAikSlV9k9QeUyDFk=",
-      "SEBlueprint.Core.wasm": "sha256-TrDeX9kVxh952IEs/6S//UqyCDZDQXTeYz+0uCoQtbM=",
-      "SEBlueprint.Web.wasm": "sha256-Eg0zqg/VJ4wtutzKMQzwtbBaW6B5ROAXemImeQ63/Zk=",
+      "SEBlueprint.Core.wasm": "sha256-AEHAN4Y0qh4X1zlM941D0+1d/nkdBnreFEZL9EENtdo=",
+      "SEBlueprint.Web.wasm": "sha256-Y7gaMEkYTt193y5VPv8HDkpoZyVwsmn0F6I4BAdAjKI=",
       "System.Collections.Concurrent.wasm": "sha256-RFPW8Y9IJRaVAaoXgIRO0LC+Hcqaees7pLJ2m/FDgcA=",
       "System.Collections.NonGeneric.wasm": "sha256-WtZgKVKueh7KH4BOd2vqJeP5VLcpw3/wN9Ho+sGzhlE=",
       "System.Collections.wasm": "sha256-TlzsswUxMYkyNrm4d2gycegR46w2mUkASB2xar6ymIA=",
