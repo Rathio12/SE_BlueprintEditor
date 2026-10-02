@@ -20,6 +20,7 @@ Set-Location $root
 Step "Checking repository"
 if (git status --porcelain) { Fail "Working tree has uncommitted changes. Commit or stash them first." }
 Run 'git' @('pull', '--rebase', 'origin', 'main')
+Run 'git' @('fetch', '--tags', '--force', 'origin')
 
 $props = Join-Path $root 'Directory.Build.props'
 $current = ([xml](Get-Content $props)).Project.PropertyGroup.Version
