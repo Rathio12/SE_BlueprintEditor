@@ -113,7 +113,9 @@ Versions follow **`1.x.y`** — `1` is the product line, **`x` the build**, **`y
 ./tools/release.ps1 -Fix     # next fix:    1.1.0 -> 1.1.1
 ```
 
-The script runs the tests, bumps the version in [`Directory.Build.props`](Directory.Build.props) and pushes.
+The script first runs the **release checklist** — README updated for new features, changelog has the changes,
+tests pass, the solution builds with zero warnings and all document links work — then bumps the version in
+[`Directory.Build.props`](Directory.Build.props) and pushes.
 GitHub Actions ([release.yml](.github/workflows/release.yml)) then does the rest on every push to `main`:
 
 1. runs the tests,
