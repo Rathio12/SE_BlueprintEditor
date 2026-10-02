@@ -14,6 +14,8 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-02
+
 ### Added
 - Grouped limit rules per grid or per player, with every Stone Industries rule checked
 - Stone Industries limit profile
@@ -90,7 +92,8 @@
 - Fast restarts through a game-data cache that rebuilds itself when the game or mods change.
 - Fully offline: no network access, telemetry, updater or native code (enforced by a test).
 
-[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...v1.1.1
