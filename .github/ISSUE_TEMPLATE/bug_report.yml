@@ -1,0 +1,29 @@
+name: Bug report
+description: Something is wrong or a number looks off
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Shown at the bottom right of the window (e.g. v1.0.0)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, what did you see instead?
+    validations:
+      required: true
+  - type: textarea
+    id: blueprint
+    attributes:
+      label: Blueprint and mods
+      description: Blueprint name or Workshop link, and the Workshop IDs of the mods it uses (if any).
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Paste the end of log.txt from the SEBlueprintInspector-data folder next to the exe.
+      render: text

@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Test
+        run: dotnet test tests/SEBlueprint.Core.Tests -c Release
+      - name: Publish portable exe
+        run: dotnet publish src/SEBlueprint.App -c Release -o out/portable
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SEBlueprintInspector-portable
+          path: out/portable/SEBlueprintInspector.exe
