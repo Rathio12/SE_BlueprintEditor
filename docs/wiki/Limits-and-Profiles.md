@@ -20,9 +20,11 @@
 | **OK** | below 90 % of the limit |
 | **NEAR** | from 90 % up to the limit |
 | **OVER** | above the limit |
+| **INCOMPLETE** | nothing is over, but blocks from missing mods could not be read |
 | — | no limit set |
 
-A blueprint's overall status is its worst check.
+A blueprint's overall status is its worst check. When a profile has only a per-grid limit, the PCU and block gauges
+use that per-grid check.
 
 ## Built-in profiles
 
@@ -54,7 +56,9 @@ export/import as files). Share them with your server's players:
 }
 ```
 
-`null`, `0` or a missing field means "no limit". Block type keys are **block pair names** as used in a world's
+`null`, `0` or a missing field means "no limit". In the profile editor numbers can be typed with or without
+thousands separators in your system's format (`50,000`, `50.000`, `50 000`); invalid input is rejected and the
+profile is not saved. Block type keys are **block pair names** as used in a world's
 `BlockTypeLimits` setting.
 
 Next: [Building and releasing](Building-and-Releasing.md)

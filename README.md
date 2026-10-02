@@ -46,7 +46,7 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Install** | None — one portable exe, no .NET needed | None — runs in the browser |
 | **Blueprints** | Finds your whole library automatically | Open a blueprint folder or `bp.sbc` |
 | **Mods** | Read from your Workshop folder | Add mod folders in the MODS tab |
-| **Icons** | Real game icons | The same game icons |
+| **Icons** | Real game icons from your install | The same game icons, built in |
 | **Privacy** | Never connects to the internet | Files are read locally, nothing is uploaded |
 
 <details>
@@ -68,9 +68,9 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Counts what matters** | Blocks, PCU, mass, fixed guns, turrets, cargo containers and liters, thrust, power and jump range. |
 | **Build cost** | Components → ingots → ore, assembler speed (realistic / x3 / x10) and refinery yield modules. Copy or export CSV. |
 | **Limit checks** | **OK / NEAR / OVER** for the selected profile, with segmented gauges for PCU, blocks, guns and cargo. |
+| **Honest about gaps** | Blocks from mods you don't have still count towards block limits; the blueprint is marked **INCOMPLETE** and the missing mods are listed with their Workshop IDs. |
 | **Profiles** | Vanilla world presets, Sigma Draconis Expanse, a typical modded server, or your own — shareable as JSON. |
 | **Mods done right** | Per-mod blocks and recipes; WeaponCore / CoreSystems weapons recognised as guns or turrets. |
-| **Honest about gaps** | Blocks from mods you don't have are listed with their Workshop IDs instead of being guessed. |
 
 ## Limit profiles
 
@@ -81,9 +81,9 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Vanilla – …** | Read from the world presets of your installed game. |
 | **Sigma Draconis – Expanse** | The server's published limit: **50,000 PCU per grid**. |
 | **Modded server (typical)** | A starting point for modded survival servers — duplicate and adjust. |
-| **Your own** | PCU, PCU per grid, blocks, guns, turrets, cargo and per-block-type limits. |
+| **Your own** | PCU, PCU per grid, blocks, guns, turrets, cargo and per-block-type limits — type numbers as you like (`50,000`, `50.000`, `50 000`). |
 
-**OK** below 90 % of a limit · **NEAR** from 90 % to the limit · **OVER** above it.
+**OK** below 90 % of a limit · **NEAR** from 90 % to the limit · **OVER** above it · **INCOMPLETE** when blocks from missing mods could not be read.
 
 ## Space Engineers 2
 
@@ -113,7 +113,7 @@ Requires Windows and the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotn
 ```powershell
 git clone https://github.com/Rathio12/SE_BlueprintEditor.git
 cd SE_BlueprintEditor
-dotnet test                                                     # tests
+dotnet test tests/SEBlueprint.Core.Tests                        # tests
 dotnet run --project src/SEBlueprint.App                        # Windows app
 dotnet publish src/SEBlueprint.App -c Release -o out/portable   # portable exe
 ./tools/publish-site.ps1                                        # website into docs/

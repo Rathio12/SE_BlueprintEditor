@@ -29,7 +29,7 @@ Open an issue with the **[Bug report](https://github.com/Rathio12/SE_BlueprintEd
 | Space Engineers | Only to run the app — tests use small fixture files |
 
 ```powershell
-dotnet test
+dotnet test tests/SEBlueprint.Core.Tests
 dotnet run --project src/SEBlueprint.App
 dotnet run --project src/SEBlueprint.Web
 ```
@@ -43,13 +43,13 @@ dotnet run --project src/SEBlueprint.Web
 | **Never crash** | Every file and parse step is guarded; one bad blueprint or mod must never stop a scan. |
 | **Read-only** | Never write to game, mod or blueprint folders. |
 | **No code comments** | Keep code self-explanatory; explanations go in the PR or the [wiki](docs/wiki/Home.md). |
-| **Invariant parsing** | Numbers in game files are parsed with `CultureInfo.InvariantCulture` (`Num.D/F/I`). |
+| **Invariant parsing** | Numbers in game files are parsed with `CultureInfo.InvariantCulture` (`Num.D/F/I`); numbers typed by users go through `UserNumbers`. |
 | **Core stays UI-free** | `SEBlueprint.Core` is shared by the Windows app and the website. |
 
 ## Pull requests
 
 1. Fork and create a branch (`fix/…`, `feat/…`).
-2. Make the change with tests and run `dotnet test`.
+2. Make the change with tests and run `dotnet test tests/SEBlueprint.Core.Tests`.
 3. Write commit messages as [Conventional Commits](https://www.conventionalcommits.org/) — `feat:`, `fix:`, `docs:` …
    The [changelog](CHANGELOG.md) is generated from them automatically.
 4. Open the PR with the template and describe how you verified it.

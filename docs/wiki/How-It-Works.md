@@ -50,7 +50,8 @@ same calculations as the Windows app.
 The same Core is compiled to WebAssembly. Because a website cannot look into your folders on its own:
 
 - Vanilla block data comes from a snapshot embedded in the site (exported from the game with `tools/SEBlueprint.Export`).
-- You pick blueprint folders, mod folders and the game's icon folder yourself; the browser reads them locally.
+- Vanilla game icons are bundled with the site (`docs/icons`).
+- You pick blueprint folders and mod folders yourself; the browser reads them locally.
 - Profiles and options are kept in your browser's local storage.
 
 Next: [Reading game data](Reading-Game-Data.md)

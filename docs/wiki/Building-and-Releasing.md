@@ -3,7 +3,7 @@
 ## Build and run
 
 ```powershell
-dotnet test                                                     # all tests
+dotnet test tests/SEBlueprint.Core.Tests                        # all tests
 dotnet run --project src/SEBlueprint.App                        # Windows app
 dotnet run --project src/SEBlueprint.Web                        # website on localhost
 dotnet publish src/SEBlueprint.App -c Release -o out/portable   # single portable exe
@@ -14,7 +14,7 @@ dotnet run --project tools/SEBlueprint.Export                   # refresh the we
 ## Tests
 
 `tests/SEBlueprint.Core.Tests` covers the engine with small fixture files — no game install needed:
-number parsing, path detection, definition parsing, mods and WeaponCore, cache, blueprint analysis, cost math,
+number parsing (game files and typed-in limits), path detection, definition parsing, mods and WeaponCore, cache, blueprint analysis, cost math,
 limits, profiles, SE2 metadata and gzip files.
 
 ### The offline guard

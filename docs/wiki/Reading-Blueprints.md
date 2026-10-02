@@ -30,7 +30,10 @@ cost and limits and are ignored.
 
 If no definition is found — usually because a mod is not on your PC — the block is listed under
 **Unknown blocks** and the mods the blueprint lists but you don't have are shown with their Workshop IDs.
-Known blocks are still counted; unknown ones are not guessed.
+
+Unknown blocks still count towards the **block** totals and block-type limits (the blueprint does contain them),
+but their PCU, cost, guns and cargo are not guessed. The blueprint is marked **INCOMPLETE** so it is never shown
+as "within limits" while numbers are missing; it is still shown as **OVER** if a known value already exceeds a limit.
 
 ## Compressed blueprints
 

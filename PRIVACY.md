@@ -42,7 +42,7 @@ Deleting that folder removes all of it.
 
 | | |
 |:--|:--|
-| **Your files** | Blueprints, mods and icon folders you pick are read **inside your browser** with WebAssembly. They are never uploaded. |
+| **Your files** | Blueprints, mods and (optionally) icon folders you pick are read **inside your browser** with WebAssembly. They are never uploaded. |
 | **Storage** | Your limit profiles and cost options are kept in your browser's local storage. Clear the site data to remove them. |
 | **Tracking** | No analytics, no cookies, no third-party scripts, fonts or embeds. |
 | **Hosting** | The site is hosted on GitHub Pages; GitHub may keep standard server logs as described in [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). |
