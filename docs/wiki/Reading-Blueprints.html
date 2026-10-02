@@ -66,8 +66,10 @@ the game database. Properties stored in the blueprint (colours, names, inventory
 cost and limits and are ignored.</p>
 <h2 id="what-happens-when-a-block-is-unknown">What happens when a block is unknown</h2>
 <p>If no definition is found — usually because a mod is not on your PC — the block is listed under
-<strong>Unknown blocks</strong> and the mods the blueprint lists but you don't have are shown with their Workshop IDs.
-Known blocks are still counted; unknown ones are not guessed.</p>
+<strong>Unknown blocks</strong> and the mods the blueprint lists but you don't have are shown with their Workshop IDs.</p>
+<p>Unknown blocks still count towards the <strong>block</strong> totals and block-type limits (the blueprint does contain them),
+but their PCU, cost, guns and cargo are not guessed. The blueprint is marked <strong>INCOMPLETE</strong> so it is never shown
+as &quot;within limits&quot; while numbers are missing; it is still shown as <strong>OVER</strong> if a known value already exceeds a limit.</p>
 <h2 id="compressed-blueprints">Compressed blueprints</h2>
 <p>Newer game versions sometimes write <code>bp.sbc</code> gzip-compressed. Those files start with the bytes <code>1F 8B</code> and are
 unpacked before reading. <code>bp.sbcB5</code> (the game's binary format) is not read; open the blueprint in the game once

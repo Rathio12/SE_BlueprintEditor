@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Limits and profiles — SE Blueprint Inspector Wiki</title>
-  <meta name="description" content="A blueprint&#39;s overall status is its worst check." />
+  <meta name="description" content="A blueprint&#39;s overall status is its worst check. When a profile has only a per-grid limit, the PCU and block gauges use that per-grid check." />
   <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Limits-and-Profiles.html" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="SE Blueprint Inspector" />
   <meta property="og:title" content="Limits and profiles — SE Blueprint Inspector Wiki" />
-  <meta property="og:description" content="A blueprint&#39;s overall status is its worst check." />
+  <meta property="og:description" content="A blueprint&#39;s overall status is its worst check. When a profile has only a per-grid limit, the PCU and block gauges use that per-grid check." />
   <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Limits-and-Profiles.html" />
   <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -108,12 +108,17 @@
 <td style="text-align: left;">above the limit</td>
 </tr>
 <tr>
+<td style="text-align: left;"><strong>INCOMPLETE</strong></td>
+<td style="text-align: left;">nothing is over, but blocks from missing mods could not be read</td>
+</tr>
+<tr>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;">no limit set</td>
 </tr>
 </tbody>
 </table>
-<p>A blueprint's overall status is its worst check.</p>
+<p>A blueprint's overall status is its worst check. When a profile has only a per-grid limit, the PCU and block gauges
+use that per-grid check.</p>
 <h2 id="built-in-profiles">Built-in profiles</h2>
 <table>
 <thead>
@@ -157,7 +162,9 @@ export/import as files). Share them with your server's players:</p>
   &quot;BlockTypeLimits&quot;: { &quot;Assembler&quot;: 6, &quot;Refinery&quot;: 6, &quot;JumpDrive&quot;: 8 }
 }
 </code></pre>
-<p><code>null</code>, <code>0</code> or a missing field means &quot;no limit&quot;. Block type keys are <strong>block pair names</strong> as used in a world's
+<p><code>null</code>, <code>0</code> or a missing field means &quot;no limit&quot;. In the profile editor numbers can be typed with or without
+thousands separators in your system's format (<code>50,000</code>, <code>50.000</code>, <code>50 000</code>); invalid input is rejected and the
+profile is not saved. Block type keys are <strong>block pair names</strong> as used in a world's
 <code>BlockTypeLimits</code> setting.</p>
 <p>Next: <a href="Building-and-Releasing.html">Building and releasing</a></p>
 

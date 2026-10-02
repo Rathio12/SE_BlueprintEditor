@@ -50,15 +50,22 @@ See <a href="https://github.com/Rathio12/SE_BlueprintEditor/blob/main/PRIVACY.md
 Every Windows program does. They come from the .NET runtime and WPF bundled into the portable exe — windows,
 files, registry, clipboard, file dialogs. The project's own source contains no native calls.</p>
 <p><strong>Some blocks are &quot;unknown&quot; — why?</strong>
-The blueprint uses a mod that isn't on your PC (or, on the website, that you haven't added). The missing mods are
-listed with their Workshop IDs; subscribe in Steam (app) or add the mod folder in the MODS tab (website).</p>
+The blueprint uses a mod that isn't on your PC (or, on the website, that you haven't added). The blueprint is
+marked <strong>INCOMPLETE</strong> and the missing mods are listed with their Workshop IDs; subscribe in Steam (app) or add the mod folder in the MODS tab (website).</p>
 <p><strong>Numbers differ from what the game shows.</strong>
 Check the assembler efficiency and yield modules in the build cost header, and whether the blueprint relies on
 mods. If it still looks wrong, <a href="https://github.com/Rathio12/SE_BlueprintEditor/issues/new/choose">report a bug</a>
 with the blueprint and the mod IDs.</p>
-<p><strong>Why don't game icons show on the website straight away?</strong>
-They are Keen Software House's artwork and are not hosted. Use <em>Load game icons</em> and pick
-<code>…\SpaceEngineers\Content\Textures\GUI\Icons</code> from your own install.</p>
+<p><strong>Why does a modded item show a plain icon on the website?</strong>
+Vanilla game icons are built into the site. Icons of modded items come from the mod folders you add in the MODS tab;
+you can also use <em>Load game icons</em> there and pick <code>…\SpaceEngineers\Content\Textures\GUI\Icons</code> from your install.</p>
+<p><strong>A blueprint says INCOMPLETE — what does that mean?</strong>
+Some of its blocks come from mods that aren't on your PC (or not added on the website). Those blocks still count
+towards block limits, but their PCU, cost, guns and cargo are unknown, so the totals are too low. Install or add the
+listed mods to get the full numbers.</p>
+<p><strong>Can I type <code>50,000</code> or <code>50.000</code> in a profile?</strong>
+Yes. Limits accept the number format of your system, with or without thousands separators. An empty field or <code>0</code>
+means no limit; anything that isn't a whole positive number is rejected with a message instead of being dropped.</p>
 <p><strong>Does it work with Space Engineers 2?</strong>
 SE2 blueprints are listed with blocks and PCU. Full support is coming soon — see
 <a href="Reading-Blueprints.html#space-engineers-2-blueprints">Reading blueprints</a>.</p>

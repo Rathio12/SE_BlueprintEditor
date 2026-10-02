@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Building and releasing — SE Blueprint Inspector Wiki</title>
-  <meta name="description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing, path detection, definition parsing, mods…" />
+  <meta name="description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing (game files and typed-in limits), path det…" />
   <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Building-and-Releasing.html" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="SE Blueprint Inspector" />
   <meta property="og:title" content="Building and releasing — SE Blueprint Inspector Wiki" />
-  <meta property="og:description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing, path detection, definition parsing, mods…" />
+  <meta property="og:description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing (game files and typed-in limits), path det…" />
   <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Building-and-Releasing.html" />
   <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -44,7 +44,7 @@
         <article>
 <h1 id="building-and-releasing">Building and releasing</h1>
 <h2 id="build-and-run">Build and run</h2>
-<pre><code class="language-powershell">dotnet test                                                     # all tests
+<pre><code class="language-powershell">dotnet test tests/SEBlueprint.Core.Tests                        # all tests
 dotnet run --project src/SEBlueprint.App                        # Windows app
 dotnet run --project src/SEBlueprint.Web                        # website on localhost
 dotnet publish src/SEBlueprint.App -c Release -o out/portable   # single portable exe
@@ -53,7 +53,7 @@ dotnet run --project tools/SEBlueprint.Export                   # refresh the we
 </code></pre>
 <h2 id="tests">Tests</h2>
 <p><code>tests/SEBlueprint.Core.Tests</code> covers the engine with small fixture files — no game install needed:
-number parsing, path detection, definition parsing, mods and WeaponCore, cache, blueprint analysis, cost math,
+number parsing (game files and typed-in limits), path detection, definition parsing, mods and WeaponCore, cache, blueprint analysis, cost math,
 limits, profiles, SE2 metadata and gzip files.</p>
 <h3 id="the-offline-guard">The offline guard</h3>
 <p><code>OfflineGuardTests</code> scans all source in <code>src/</code> and <strong>fails the build</strong> if it finds network code
