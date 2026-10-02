@@ -14,7 +14,11 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-02
+
 ### Added
+- Website shows the same game icons as the app, no loading step needed
+- Built-in item icons on the website (components, ingots and ores by material)
 - Search-friendly website (title, description, canonical, social cards, structured data, welcome section)
 - WIKI tab on the website
 - Website shows real game icons decoded locally from your own Space Engineers install
@@ -24,6 +28,8 @@
 - Per-grid PCU limit and built-in Sigma Draconis Expanse and modded server profiles
 
 ### Changed
+- Redesigned README, changelog, privacy, security, contributing and code of conduct
+- PNG encoder and icon file names shared in Core
 - Sitemap, robots.txt, 404 page and README wiki links
 - Wiki (how game files, blueprints, mods, cost and limits work) as markdown and static pages
 - Publish website to docs/, link it from README, rebuild it on each release
@@ -31,6 +37,7 @@
 - Cleaner README with grouped badges, SE2 coming soon, release guide
 
 ### Fixed
+- Release script fetches tags so an already released version is detected
 - Keep UTF-8 characters intact when publishing the site and updating the changelog
 - Keep website files byte-exact so browser integrity checks pass
 
@@ -50,5 +57,6 @@
 - Fast restarts through a game-data cache that rebuilds itself when the game or mods change.
 - Fully offline: no network access, telemetry, updater or native code (enforced by a test).
 
-[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rathio12/SE_BlueprintEditor/releases/tag/v1.0.0
