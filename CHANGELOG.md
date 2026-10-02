@@ -6,6 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ## [Unreleased]
 
 ### Added
+- Search-friendly website (title, description, canonical, social cards, structured data, welcome section)
 - WIKI tab on the website
 - Website shows real game icons decoded locally from your own Space Engineers install
 - Website version (same engine, same look) built into docs/ for GitHub Pages
@@ -21,6 +22,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Cleaner README with grouped badges, SE2 coming soon, release guide
 
 ### Fixed
+- Keep UTF-8 characters intact when publishing the site and updating the changelog
 - Keep website files byte-exact so browser integrity checks pass
 
 ## [1.0.0] - 2026-10-02
