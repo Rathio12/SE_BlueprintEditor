@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mods, weapons and cargo — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="Every Workshop item that has a Data folder is treated as a mod. From each mod the app reads:" />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Mods-Weapons-and-Cargo.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Mods, weapons and cargo — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="Every Workshop item that has a Data folder is treated as a mod. From each mod the app reads:" />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Mods-Weapons-and-Cargo.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html" class="sel" aria-current="page">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="mods-weapons-and-cargo">Mods, weapons and cargo</h1>
+<h2 id="how-mods-are-read">How mods are read</h2>
+<p>Every Workshop item that has a <code>Data</code> folder is treated as a mod. From each mod the app reads:</p>
+<ul>
+<li>every <code>Data\**\*.sbc</code> file (blocks, items, recipes),</li>
+<li><code>Data\Localization\MyTexts.resx</code> (names),</li>
+<li><code>Data\Scripts\**\*.cs</code> files — <strong>as plain text only</strong>, to find weapon definitions. Scripts are never compiled or run.</li>
+</ul>
+<p>Mods are read in parallel and merged in a fixed order, so the result is the same every time.</p>
+<h2 id="mods-only-affect-blueprints-that-use-them">Mods only affect blueprints that use them</h2>
+<p>Each mod's blocks, items and recipes are stored <strong>separately</strong>. When a blueprint is analysed, a definition is
+looked up in this order:</p>
+<ol>
+<li>the mods the blueprint lists in <code>&lt;Mods&gt;</code> (in that order),</li>
+<li>vanilla,</li>
+<li>any other mod on your PC (counted, but marked as coming from a mod the blueprint didn't list).</li>
+</ol>
+<p>This matters: one mod on the test PC redefined the vanilla steel plate recipe (21 → 14 iron). Without per-mod
+data, every blueprint would have shown wrong costs just because that mod was installed.</p>
+<h2 id="weapons">Weapons</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Kind</th>
+<th style="text-align: left;">How it is recognised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Turret</td>
+<td style="text-align: left;">Block type <code>LargeGatlingTurret</code>, <code>LargeMissileTurret</code>, <code>InteriorTurret</code> or any type ending in <code>Turret</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Fixed gun</td>
+<td style="text-align: left;">Block type <code>SmallGatlingGun</code>, <code>SmallMissileLauncher</code>, <code>SmallMissileLauncherReload</code>, or any block with a <code>WeaponDefinitionId</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">WeaponCore / CoreSystems</td>
+<td style="text-align: left;">See below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>WeaponCore</strong> weapons usually appear in the <code>.sbc</code> as <code>ConveyorSorter</code> blocks, so their type says nothing. Their
+real definitions are C# files in the mod's <code>Data\Scripts</code> folder:</p>
+<pre><code class="language-csharp">new MountPointDef {
+    SubtypeId = &quot;M12Swarm&quot;,          ← the block this weapon belongs to
+    AzimuthPartId = &quot;None&quot;,          ← &quot;None&quot; = fixed gun, a part name = rotating turret
+    ElevationPartId = &quot;None&quot;,
+}
+</code></pre>
+<p>The text is scanned for every <code>MountPointDef</code>; matching blocks of that mod become fixed guns or turrets.</p>
+<h2 id="cargo">Cargo</h2>
+<ul>
+<li>If a container defines <code>&lt;InventorySize&gt;</code> (in m³), cargo = X × Y × Z × 1000 liters.</li>
+<li>Otherwise the game's default applies: block volume × 1000 liters, with a cube edge of 2.5 m (large grid) or
+0.5 m (small grid). Example: a 3×3×3 large container = 27 × 2.5³ × 1000 = <strong>421,875 L</strong>, matching the game.</li>
+</ul>
+<p>Next: <a href="Cost-Calculation.html">Cost calculation</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

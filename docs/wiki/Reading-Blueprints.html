@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading blueprints — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="A blueprint is a folder with bp.sbc (the ship) and usually thumb.png (the picture). bp.sbc is XML:" />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Reading-Blueprints.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Reading blueprints — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="A blueprint is a folder with bp.sbc (the ship) and usually thumb.png (the picture). bp.sbc is XML:" />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Reading-Blueprints.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html" class="sel" aria-current="page">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="reading-blueprints">Reading blueprints</h1>
+<h2 id="space-engineers-blueprints-bp.sbc">Space Engineers blueprints (<code>bp.sbc</code>)</h2>
+<p>A blueprint is a folder with <code>bp.sbc</code> (the ship) and usually <code>thumb.png</code> (the picture). <code>bp.sbc</code> is XML:</p>
+<pre><code class="language-xml">&lt;ShipBlueprint xsi:type=&quot;MyObjectBuilder_ShipBlueprintDefinition&quot;&gt;
+  &lt;Id Type=&quot;MyObjectBuilder_ShipBlueprintDefinition&quot; Subtype=&quot;My Ship&quot; /&gt;   ← name
+  &lt;DisplayName&gt;PlayerName&lt;/DisplayName&gt;
+  &lt;CubeGrids&gt;
+    &lt;CubeGrid&gt;                                                              ← one per grid (subgrids too)
+      &lt;GridSizeEnum&gt;Large&lt;/GridSizeEnum&gt;
+      &lt;CubeBlocks&gt;
+        &lt;MyObjectBuilder_CubeBlock xsi:type=&quot;MyObjectBuilder_Thrust&quot;&gt;        ← TypeId
+          &lt;SubtypeName&gt;LargeBlockLargeThrust&lt;/SubtypeName&gt;                  ← SubtypeId
+          &lt;BlockOrientation Forward=&quot;Backward&quot; Up=&quot;Up&quot; /&gt;                   ← used for thrust direction
+        &lt;/MyObjectBuilder_CubeBlock&gt;
+        …
+  &lt;Mods&gt;
+    &lt;ModItem FriendlyName=&quot;Some Weapons Pack&quot;&gt;
+      &lt;PublishedFileId&gt;1919062467&lt;/PublishedFileId&gt;                         ← mods the blueprint needs
+</code></pre>
+<p>For every block the type and subtype give the block id (<code>Thrust/LargeBlockLargeThrust</code>), which is looked up in
+the game database. Properties stored in the blueprint (colours, names, inventory contents) are not needed for
+cost and limits and are ignored.</p>
+<h2 id="what-happens-when-a-block-is-unknown">What happens when a block is unknown</h2>
+<p>If no definition is found — usually because a mod is not on your PC — the block is listed under
+<strong>Unknown blocks</strong> and the mods the blueprint lists but you don't have are shown with their Workshop IDs.
+Known blocks are still counted; unknown ones are not guessed.</p>
+<h2 id="compressed-blueprints">Compressed blueprints</h2>
+<p>Newer game versions sometimes write <code>bp.sbc</code> gzip-compressed. Those files start with the bytes <code>1F 8B</code> and are
+unpacked before reading. <code>bp.sbcB5</code> (the game's binary format) is not read; open the blueprint in the game once
+and it writes a <code>bp.sbc</code>.</p>
+<h2 id="space-engineers-2-blueprints">Space Engineers 2 blueprints</h2>
+<p>SE2 stores blueprints differently:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Content</th>
+<th style="text-align: left;">Read?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>.container-info</code></td>
+<td style="text-align: left;">JSON with title, description, dates, <strong>block count</strong> and <strong>PCU</strong></td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>grid.json.vrb</code></td>
+<td style="text-align: left;">The grid itself, in an undocumented binary format (<code>VR3B</code>)</td>
+<td style="text-align: left;">not yet</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>snapshot.vrb</code></td>
+<td style="text-align: left;">Preview data, binary</td>
+<td style="text-align: left;">no</td>
+</tr>
+</tbody>
+</table>
+<p>That is why SE2 blueprints show blocks and PCU and can be checked against PCU / block limits, while cost,
+weapons and cargo are <strong>coming soon</strong> — they need the grid file.</p>
+<p>Next: <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

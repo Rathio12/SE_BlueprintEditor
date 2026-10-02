@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Limits and profiles — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="A blueprint&#39;s overall status is its worst check." />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Limits-and-Profiles.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Limits and profiles — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="A blueprint&#39;s overall status is its worst check." />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Limits-and-Profiles.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html" class="sel" aria-current="page">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="limits-and-profiles">Limits and profiles</h1>
+<h2 id="what-is-checked">What is checked</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Check</th>
+<th style="text-align: left;">Compared value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">PCU</td>
+<td style="text-align: left;">Total PCU of all grids</td>
+</tr>
+<tr>
+<td style="text-align: left;">Largest grid PCU</td>
+<td style="text-align: left;">PCU of the biggest grid (for servers that limit PCU per grid)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Blocks</td>
+<td style="text-align: left;">All blocks</td>
+</tr>
+<tr>
+<td style="text-align: left;">Largest grid</td>
+<td style="text-align: left;">Blocks in the biggest grid</td>
+</tr>
+<tr>
+<td style="text-align: left;">Guns</td>
+<td style="text-align: left;">Fixed guns + turrets</td>
+</tr>
+<tr>
+<td style="text-align: left;">Turrets</td>
+<td style="text-align: left;">Turrets</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cargo (L)</td>
+<td style="text-align: left;">Total cargo volume</td>
+</tr>
+<tr>
+<td style="text-align: left;">Type: <em>name</em></td>
+<td style="text-align: left;">Count of blocks with that block pair name (e.g. <code>Assembler</code>, <code>Refinery</code>, <code>JumpDrive</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="status">Status</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>OK</strong></td>
+<td style="text-align: left;">below 90 % of the limit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NEAR</strong></td>
+<td style="text-align: left;">from 90 % up to the limit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OVER</strong></td>
+<td style="text-align: left;">above the limit</td>
+</tr>
+<tr>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">no limit set</td>
+</tr>
+</tbody>
+</table>
+<p>A blueprint's overall status is its worst check.</p>
+<h2 id="built-in-profiles">Built-in profiles</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Profile</th>
+<th style="text-align: left;">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Vanilla – No limits</td>
+<td style="text-align: left;">Always present</td>
+</tr>
+<tr>
+<td style="text-align: left;">Vanilla – <em>world</em></td>
+<td style="text-align: left;">Read from the game's own world presets (<code>CustomWorlds\*\Sandbox_config.sbc</code>); identical presets are merged</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sigma Draconis – Expanse</td>
+<td style="text-align: left;">The server's published limit: 50,000 PCU per grid (sigmadraconis.games)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Modded server (typical)</td>
+<td style="text-align: left;">A starting point for modded survival servers</td>
+</tr>
+</tbody>
+</table>
+<p>Built-in profiles are read-only — duplicate one to change it.</p>
+<h2 id="profile-files">Profile files</h2>
+<p>Your own profiles are saved as JSON (app: <code>SEBlueprintInspector-data\profiles\</code>; website: browser storage,
+export/import as files). Share them with your server's players:</p>
+<pre><code class="language-json">{
+  &quot;Name&quot;: &quot;My Server&quot;,
+  &quot;TotalPcu&quot;: 100000,
+  &quot;MaxPcuPerGrid&quot;: 50000,
+  &quot;MaxBlocksPerGrid&quot;: 25000,
+  &quot;MaxBlocksTotal&quot;: null,
+  &quot;MaxGuns&quot;: 40,
+  &quot;MaxTurrets&quot;: 30,
+  &quot;MaxCargoLiters&quot;: 1500000,
+  &quot;BlockTypeLimits&quot;: { &quot;Assembler&quot;: 6, &quot;Refinery&quot;: 6, &quot;JumpDrive&quot;: 8 }
+}
+</code></pre>
+<p><code>null</code>, <code>0</code> or a missing field means &quot;no limit&quot;. Block type keys are <strong>block pair names</strong> as used in a world's
+<code>BlockTypeLimits</code> setting.</p>
+<p>Next: <a href="Building-and-Releasing.html">Building and releasing</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

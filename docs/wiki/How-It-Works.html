@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How it works — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="The project is three pieces that share one engine." />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/How-It-Works.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="How it works — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="The project is three pieces that share one engine." />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/How-It-Works.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html" class="sel" aria-current="page">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="how-it-works">How it works</h1>
+<p>The project is three pieces that share one engine.</p>
+<pre><code class="language-text">                    ┌──────────────────────────────┐
+                    │        SEBlueprint.Core       │
+                    │  (no UI, plain .NET 8 code)   │
+                    │                               │
+ game files ───────▶│  Paths      find Steam + game │
+ mod folders ──────▶│  Data       read definitions  │
+ bp.sbc ───────────▶│  Blueprints read blueprints   │
+                    │  Analysis   totals + cost     │
+                    │  Limits     profile checks    │
+                    │  Presentation  what to show   │
+                    └──────┬───────────────┬────────┘
+                           │               │
+             ┌─────────────▼───┐   ┌───────▼──────────────┐
+             │ SEBlueprint.App │   │   SEBlueprint.Web     │
+             │ Windows (WPF)   │   │   Blazor WebAssembly  │
+             │ portable .exe   │   │   runs in the browser │
+             └─────────────────┘   └──────────────────────┘
+</code></pre>
+<h2 id="seblueprint.core">SEBlueprint.Core</h2>
+<p>All the logic lives here and has no user interface code, which is why the website can run exactly the
+same calculations as the Windows app.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Folder</th>
+<th style="text-align: left;">Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Paths</code></td>
+<td style="text-align: left;">Finds Steam, every Steam library, Space Engineers 1 and 2, the Workshop folder and blueprint folders</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Data</code></td>
+<td style="text-align: left;">Reads block, item and recipe definitions (<code>.sbc</code>), localisation and mod scripts; caches the result</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Blueprints</code></td>
+<td style="text-align: left;">Reads <code>bp.sbc</code> files: grids, blocks, orientation and the mods a blueprint lists</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Analysis</code></td>
+<td style="text-align: left;">Turns a blueprint into a report: blocks, PCU, mass, guns, cargo, thrust, power, jump range, cost</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Limits</code></td>
+<td style="text-align: left;">Limit profiles and the check that compares a report with a profile</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Presentation</code></td>
+<td style="text-align: left;">Builds the readouts, limit lines and cost lists both front ends display</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Games</code></td>
+<td style="text-align: left;">One adapter per game (SE1 full analysis, SE2 listing)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-windows-app">The Windows app</h2>
+<ol>
+<li>On start it picks its data folder (<code>SEBlueprintInspector-data</code> next to the exe).</li>
+<li>It detects the game and mods, then loads the game database — from the cache if nothing changed.</li>
+<li>It finds every blueprint folder and analyses all blueprints in parallel, filling the list as each finishes.</li>
+<li>Selecting a blueprint shows its detail; changing the profile re-checks every blueprint instantly.</li>
+<li>Game icons are decoded straight from the <code>.dds</code> files of your install.</li>
+</ol>
+<h2 id="the-website">The website</h2>
+<p>The same Core is compiled to WebAssembly. Because a website cannot look into your folders on its own:</p>
+<ul>
+<li>Vanilla block data comes from a snapshot embedded in the site (exported from the game with <code>tools/SEBlueprint.Export</code>).</li>
+<li>You pick blueprint folders, mod folders and the game's icon folder yourself; the browser reads them locally.</li>
+<li>Profiles and options are kept in your browser's local storage.</li>
+</ul>
+<p>Next: <a href="Reading-Game-Data.html">Reading game data</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

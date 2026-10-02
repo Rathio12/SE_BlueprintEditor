@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building and releasing — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing, path detection, definition parsing, mods…" />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Building-and-Releasing.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Building and releasing — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="tests/SEBlueprint.Core.Tests covers the engine with small fixture files — no game install needed: number parsing, path detection, definition parsing, mods…" />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Building-and-Releasing.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html" class="sel" aria-current="page">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="building-and-releasing">Building and releasing</h1>
+<h2 id="build-and-run">Build and run</h2>
+<pre><code class="language-powershell">dotnet test                                                     # all tests
+dotnet run --project src/SEBlueprint.App                        # Windows app
+dotnet run --project src/SEBlueprint.Web                        # website on localhost
+dotnet publish src/SEBlueprint.App -c Release -o out/portable   # single portable exe
+./tools/publish-site.ps1                                        # build the website into docs/
+dotnet run --project tools/SEBlueprint.Export                   # refresh the website's vanilla data snapshot
+</code></pre>
+<h2 id="tests">Tests</h2>
+<p><code>tests/SEBlueprint.Core.Tests</code> covers the engine with small fixture files — no game install needed:
+number parsing, path detection, definition parsing, mods and WeaponCore, cache, blueprint analysis, cost math,
+limits, profiles, SE2 metadata and gzip files.</p>
+<h3 id="the-offline-guard">The offline guard</h3>
+<p><code>OfflineGuardTests</code> scans all source in <code>src/</code> and <strong>fails the build</strong> if it finds network code
+(<code>HttpClient</code>, <code>WebClient</code>, sockets, <code>fetch(</code>…), native calls (<code>DllImport</code>, <code>LibraryImport</code>) or any URL other
+than this repository. That keeps the privacy promise enforceable instead of just written down.</p>
+<h2 id="versions">Versions</h2>
+<p><code>1.x.y</code> — <code>x</code> is the build, <code>y</code> the fixes on that build. The single source is <code>&lt;Version&gt;</code> in <code>Directory.Build.props</code>.</p>
+<h2 id="releasing">Releasing</h2>
+<pre><code class="language-powershell">./tools/release.ps1          # next build:  1.1.0 -&gt; 1.2.0
+./tools/release.ps1 -Fix     # next fix:    1.2.0 -&gt; 1.2.1
+</code></pre>
+<p>The script runs the release checklist (below), bumps the version and pushes. GitHub Actions then:</p>
+<ol>
+<li>runs the tests,</li>
+<li>regenerates the <em>Unreleased</em> part of <code>CHANGELOG.md</code> from commit messages,</li>
+<li>for a new version: dates the changelog section, builds the exe, rebuilds the website in <code>docs/</code>,
+tags the commit and publishes a release with only <code>SEBlueprintInspector.exe</code> attached.</li>
+</ol>
+<h3 id="release-checklist-enforced-by-toolsrelease.ps1">Release checklist (enforced by <code>tools/release.ps1</code>)</h3>
+<ol>
+<li><strong>README up to date</strong> — if features were added since the last release, <code>README.md</code> must have changed too.</li>
+<li><strong>Changelog up to date</strong> — the <em>Unreleased</em> section must contain the changes going out.</li>
+<li><strong>No known bugs</strong> — all tests pass, the app, website and tools build with <strong>zero warnings</strong>, and every
+relative link in the README and wiki points to a file that exists.</li>
+</ol>
+<h3 id="commit-messages">Commit messages</h3>
+<p><a href="https://www.conventionalcommits.org/">Conventional Commits</a> feed the changelog:
+<code>feat:</code> → Added, <code>fix:</code> → Fixed, <code>perf</code> / <code>refactor</code> / <code>docs</code> → Changed; <code>chore</code>, <code>ci</code>, <code>test</code>, <code>build</code> are left out.</p>
+<h2 id="the-website">The website</h2>
+<p>GitHub Pages serves the <code>docs/</code> folder of <code>main</code> (Settings → Pages → <em>Deploy from a branch</em>, <code>main</code>, <code>/docs</code>).
+<code>tools/publish-site.ps1</code> builds <code>src/SEBlueprint.Web</code> into <code>docs/</code> and only replaces the files it owns;
+<code>docs/wiki</code> and <code>docs/images</code> are never touched. A <code>.nojekyll</code> file makes GitHub serve the files unchanged.</p>
+<p>Next: <a href="FAQ.html">FAQ</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

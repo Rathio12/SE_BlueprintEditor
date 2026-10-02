@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
 
 $docs = Join-Path $root 'docs'
 New-Item -ItemType Directory -Force $docs | Out-Null
-$siteOwned = @('index.html', '404.html', '.nojekyll', 'favicon.png', 'app-icon.svg', '_framework', 'css', 'js', 'data')
+$siteOwned = @('index.html', '404.html', '.nojekyll', 'favicon.png', 'app-icon.svg', '_framework', 'css', 'js', 'data', 'robots.txt', 'sitemap.xml')
 foreach ($name in $siteOwned) {
     $target = Join-Path $docs $name
     if (Test-Path $target) { Remove-Item $target -Recurse -Force }
@@ -32,6 +32,9 @@ $html = (Get-Content $index -Raw) -replace '<base href="/" />', "<base href=`"$B
 [System.IO.File]::WriteAllText($index, $html, (New-Object System.Text.UTF8Encoding($false)))
 Copy-Item $index (Join-Path $docs '404.html')
 New-Item -ItemType File -Force (Join-Path $docs '.nojekyll') | Out-Null
+
+& dotnet run --project tools/SEBlueprint.SiteGen -c Release -- $docs "https://rathio12.github.io$BasePath"
+if ($LASTEXITCODE -ne 0) { throw "Wiki / sitemap generation failed" }
 
 $size = (Get-ChildItem $docs -Recurse -File | Measure-Object Length -Sum).Sum / 1MB
 Write-Host ("Site published to docs/ ({0:N1} MB) with base path {1}" -f $size, $BasePath)

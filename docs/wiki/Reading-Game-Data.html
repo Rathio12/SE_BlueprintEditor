@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading game data — SE Blueprint Inspector Wiki</title>
+  <meta name="description" content="1. Read HKEYCURRENTUSER\Software\Valve\Steam\SteamPath from the registry (the only registry value the app reads).    If it is missing, C:\Program Files (x8…" />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Reading-Game-Data.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Reading game data — SE Blueprint Inspector Wiki" />
+  <meta property="og:description" content="1. Read HKEYCURRENTUSER\Software\Valve\Steam\SteamPath from the registry (the only registry value the app reads).    If it is missing, C:\Program Files (x8…" />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Reading-Game-Data.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html" class="sel" aria-current="page">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="reading-game-data">Reading game data</h1>
+<h2 id="finding-steam-and-the-game">Finding Steam and the game</h2>
+<ol>
+<li>Read <code>HKEY_CURRENT_USER\Software\Valve\Steam\SteamPath</code> from the registry (the only registry value the app reads).
+If it is missing, <code>C:\Program Files (x86)\Steam</code> is tried.</li>
+<li>Read <code>steamapps\libraryfolders.vdf</code> and collect every <code>&quot;path&quot;</code> entry — those are all your Steam libraries.</li>
+<li>In each library look for:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Looked for</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>steamapps\common\SpaceEngineers</code></td>
+<td style="text-align: left;">Space Engineers install</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>steamapps\workshop\content\244850</code></td>
+<td style="text-align: left;">Workshop items (mods and blueprints)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>steamapps\common\SpaceEngineers2</code></td>
+<td style="text-align: left;">Space Engineers 2 install</td>
+</tr>
+</tbody>
+</table>
+<p>Blueprint folders come from <code>%AppData%\SpaceEngineers\Blueprints\local</code>, <code>\cloud</code> and <code>\workshop</code>, the Workshop
+folder itself, and <code>%AppData%\SpaceEngineers2\AppData\Blueprints</code> for SE2. Any path can be overridden in Settings.</p>
+<h2 id="which-game-files-are-read">Which game files are read</h2>
+<p>All files are under <code>SpaceEngineers\Content\Data</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Files</th>
+<th style="text-align: left;">Gives us</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>CubeBlocks\*.sbc</code></td>
+<td style="text-align: left;">Every block: id, size, PCU, components, inventory size, thrust, power, jump drive values</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Components*.sbc</code>, <code>PhysicalItems*.sbc</code>, <code>AmmoMagazines*.sbc</code></td>
+<td style="text-align: left;">Items with mass, volume and icon</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Blueprints*.sbc</code> and <code>Blueprints\**\*.sbc</code></td>
+<td style="text-align: left;">Assembler and refinery recipes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Localization\MyTexts.resx</code></td>
+<td style="text-align: left;">English names for keys like <code>DisplayName_Item_SteelPlate</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>..\CustomWorlds\*\Sandbox_config.sbc</code></td>
+<td style="text-align: left;">The game's world presets, used for the vanilla limit profiles</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a-block-definition">A block definition</h3>
+<pre><code class="language-xml">&lt;Definition xsi:type=&quot;MyObjectBuilder_CargoContainerDefinition&quot;&gt;
+  &lt;Id&gt;&lt;TypeId&gt;CargoContainer&lt;/TypeId&gt;&lt;SubtypeId&gt;LargeBlockLargeContainer&lt;/SubtypeId&gt;&lt;/Id&gt;
+  &lt;DisplayName&gt;DisplayName_Block_LargeContainer&lt;/DisplayName&gt;
+  &lt;CubeSize&gt;Large&lt;/CubeSize&gt;
+  &lt;Size x=&quot;3&quot; y=&quot;3&quot; z=&quot;3&quot; /&gt;
+  &lt;PCU&gt;10&lt;/PCU&gt;
+  &lt;Components&gt;
+    &lt;Component Subtype=&quot;InteriorPlate&quot; Count=&quot;360&quot; /&gt;
+    …
+  &lt;/Components&gt;
+&lt;/Definition&gt;
+</code></pre>
+<p>The id becomes <code>CargoContainer/LargeBlockLargeContainer</code> (<code>MyObjectBuilder_</code> is always removed).</p>
+<h3 id="reading-rules-that-keep-numbers-correct">Reading rules that keep numbers correct</h3>
+<ul>
+<li><strong>Numbers are culture independent.</strong> <code>1.5</code> is always one and a half, on German, Russian or English Windows alike.</li>
+<li><strong>Gzip is detected automatically.</strong> Some files start with the gzip marker <code>1F 8B</code> and are unpacked transparently.</li>
+<li><strong>One bad file never stops loading.</strong> A broken <code>.sbc</code> is skipped and written to <code>log.txt</code>.</li>
+<li><strong>Recipes with several outputs</strong> (stone → gravel + iron + nickel + silicon) are not used for cost, otherwise
+stone would replace iron ore in every cost list. Scrap and ice recipes are skipped for the same reason.</li>
+</ul>
+<h2 id="the-cache">The cache</h2>
+<p>Reading 250+ mods takes a while the first time, so the result is stored in <code>gamedb.json</code> in the data folder.
+It is rebuilt automatically when the game files, the list of mods, any mod folder or the app version changes.
+<strong>Settings → Rebuild game data</strong> forces a rebuild.</p>
+<p>Next: <a href="Reading-Blueprints.html">Reading blueprints</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>

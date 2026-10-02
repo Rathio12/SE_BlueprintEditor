@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiki — SE Blueprint Inspector</title>
+  <meta name="description" content="How the app and the website work under the hood: where data comes from, how game files are read, and how every number on screen is calculated." />
+  <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="SE Blueprint Inspector" />
+  <meta property="og:title" content="Wiki — SE Blueprint Inspector" />
+  <meta property="og:description" content="How the app and the website work under the hood: where data comes from, how game files are read, and how every number on screen is calculated." />
+  <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html" />
+  <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#070D11" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="wiki.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="../"><img src="../app-icon.svg" width="28" height="28" alt="SE Blueprint Inspector logo" /><span>SE BLUEPRINT <b>INSPECTOR</b></span></a>
+    <nav class="links" aria-label="Site">
+      <a href="../">Open the app</a>
+      <a href="../wiki/Home.html">Wiki</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download</a>
+      <a href="https://github.com/Rathio12/SE_BlueprintEditor">GitHub</a>
+    </nav>
+  </header>
+    <div class="layout">
+      <nav class="side" aria-label="Wiki pages">
+        <div class="side-title">WIKI</div>
+        <a href="Home.html" class="sel" aria-current="page">SE Blueprint Inspector — Wiki</a>
+        <a href="How-It-Works.html">How it works</a>
+        <a href="Reading-Game-Data.html">Reading game data</a>
+        <a href="Reading-Blueprints.html">Reading blueprints</a>
+        <a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a>
+        <a href="Cost-Calculation.html">Cost calculation</a>
+        <a href="Limits-and-Profiles.html">Limits and profiles</a>
+        <a href="Building-and-Releasing.html">Building and releasing</a>
+        <a href="FAQ.html">FAQ</a>
+      </nav>
+      <main class="article">
+        <article>
+<h1 id="se-blueprint-inspector-wiki">SE Blueprint Inspector — Wiki</h1>
+<p>How the app and the website work under the hood: where data comes from, how game files are read,
+and how every number on screen is calculated.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Page</th>
+<th style="text-align: left;">What you'll learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a href="How-It-Works.html">How it works</a></td>
+<td style="text-align: left;">The three parts (Core, Windows app, website) and how data flows through them</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Reading-Game-Data.html">Reading game data</a></td>
+<td style="text-align: left;">How Steam, the game and mods are found and which files are read</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Reading-Blueprints.html">Reading blueprints</a></td>
+<td style="text-align: left;">What is inside a <code>bp.sbc</code>, gzip blueprints, SE2 blueprints</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Mods-Weapons-and-Cargo.html">Mods, weapons and cargo</a></td>
+<td style="text-align: left;">Per-mod data, WeaponCore detection, cargo volume</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Cost-Calculation.html">Cost calculation</a></td>
+<td style="text-align: left;">Components → ingots → ore, assembler speed and yield modules</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Limits-and-Profiles.html">Limits and profiles</a></td>
+<td style="text-align: left;">How limit checks work and the profile JSON format</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="Building-and-Releasing.html">Building and releasing</a></td>
+<td style="text-align: left;">Build, tests, the offline guard, versions, releases and the website</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a href="FAQ.html">FAQ</a></td>
+<td style="text-align: left;">Common questions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Quick facts</strong></p>
+<ul>
+<li>Everything runs <strong>locally</strong>. The app never connects to the internet; the website reads files inside your browser.</li>
+<li>Game, mod and blueprint files are <strong>only read</strong>, never changed.</li>
+<li>The Windows app and the website share the same engine (<code>SEBlueprint.Core</code>), so they show the same numbers.</li>
+</ul>
+<p>Back to the <a href="https://github.com/Rathio12/SE_BlueprintEditor/blob/main/README.md">README</a> · <a href="https://rathio12.github.io/SE_BlueprintEditor/">Open the website</a></p>
+
+        </article>
+      </main>
+    </div>
+  <footer class="foot">
+    SE Blueprint Inspector · free and open source (MIT OR GPL-3.0) · Space Engineers © Keen Software House; not affiliated with or endorsed by Keen Software House.
+  </footer>
+</body>
+</html>
