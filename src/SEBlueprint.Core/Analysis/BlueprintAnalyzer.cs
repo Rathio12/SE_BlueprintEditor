@@ -18,8 +18,10 @@ public static class BlueprintAnalyzer
         foreach (var grid in bp.Grids)
         {
             int gridBlocks = 0, gridPcu = 0;
+            var ids = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             foreach (var block in grid.Blocks)
             {
+                ids[block.Id] = ids.GetValueOrDefault(block.Id) + 1;
                 var def = db.Resolve(block.Id, mods, out var unlisted);
                 if (def == null)
                 {
@@ -59,7 +61,9 @@ public static class BlueprintAnalyzer
             }
             r.Blocks += gridBlocks;
             r.Pcu += gridPcu;
-            r.Grids.Add(new GridSummary { Name = grid.Name, GridSize = grid.GridSize, Blocks = gridBlocks, Pcu = gridPcu });
+            var summary = new GridSummary { Name = grid.Name, GridSize = grid.GridSize, Blocks = gridBlocks, Pcu = gridPcu };
+            foreach (var (id, count) in ids) summary.BlockIds[id] = count;
+            r.Grids.Add(summary);
         }
 
         r.MaxThrustN = thrust.Values.DefaultIfEmpty(0).Max();

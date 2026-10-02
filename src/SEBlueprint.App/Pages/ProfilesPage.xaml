@@ -72,6 +72,19 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Border>
+                        <StackPanel Visibility="{Binding HasGroupRules, Converter={StaticResource Visible}}">
+                            <TextBlock Text="GROUPED RULES" Style="{StaticResource Label}" Foreground="{StaticResource Accent}" Margin="0,16,0,6" />
+                            <TextBlock Text="Any combination of the listed blocks counts towards the rule. Comes with the profile; edit it by exporting and importing the JSON." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,0,0,6" />
+                            <Border BorderBrush="{StaticResource Border}" BorderThickness="1">
+                                <DataGrid ItemsSource="{Binding GroupRules}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MaxHeight="320" RowHeight="30">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="RULE" Width="220" Binding="{Binding Stat}" />
+                                        <DataGridTextColumn Header="MAX" Width="100" Binding="{Binding Max}" />
+                                        <DataGridTextColumn Header="BLOCKS (TYPE/SUBTYPE, * WILDCARD, ! EXCLUDES)" Width="*" Binding="{Binding Blocks}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+                        </StackPanel>
                         <Button Style="{StaticResource AccentButton}" Margin="0,14,0,0" HorizontalAlignment="Left" Click="OnSave"
                                 Visibility="{Binding IsEditable, Converter={StaticResource Visible}}">
                             <StackPanel Orientation="Horizontal">

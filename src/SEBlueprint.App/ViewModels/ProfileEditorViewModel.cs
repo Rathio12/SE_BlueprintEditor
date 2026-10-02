@@ -36,6 +36,8 @@ public sealed class ProfileEditorViewModel : ObservableObject
     public bool IsReadOnly => Original.BuiltIn;
     public bool IsEditable => !Original.BuiltIn;
     public ObservableCollection<BlockLimitRow> BlockLimits { get; } = new();
+    public IReadOnlyList<GroupRuleRow> GroupRules => Original.GroupLimits.Select(g => new GroupRuleRow(g)).ToList();
+    public bool HasGroupRules => Original.GroupLimits.Count > 0;
 
     public string Name { get => _name; set => Set(ref _name, value); }
     public string TotalPcu { get => _pcu; set => Set(ref _pcu, value); }
@@ -62,6 +64,7 @@ public sealed class ProfileEditorViewModel : ObservableObject
         }
         profile.Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim();
         profile.Description = Original.BuiltIn ? null : Description;
+        profile.GroupLimits = Original.GroupLimits.Select(g => g.Clone()).ToList();
         profile.TotalPcu = Whole("Max PCU", TotalPcu);
         profile.MaxPcuPerGrid = Whole("Max PCU per grid", MaxPcuPerGrid);
         profile.MaxBlocksPerGrid = Whole("Max blocks per grid", MaxBlocksPerGrid);
@@ -79,4 +82,11 @@ public sealed class ProfileEditorViewModel : ObservableObject
 
     static string Str(int? v) => UserNumbers.Format(v);
 
+}
+
+public sealed record GroupRuleRow(BlockGroupLimit Rule)
+{
+    public string Stat => Rule.Stat;
+    public string Max => Rule.Max == 0 ? "not allowed" : UserNumbers.Format(Rule.Max);
+    public string Blocks => string.Join(", ", Rule.Blocks);
 }

@@ -94,9 +94,9 @@ checked against vanilla or server limits, with modded weapons and containers cou
 |:--|:--|
 | **Vanilla – …** | Read from the world presets of your installed game. |
 | **Sigma Draconis – Expanse** | The server's published limit: **50,000 PCU per grid**. |
-| **Stone Industries (SI)** | 40,000 blocks per grid, no PCU limit; SI's per-player and per-grid block rules are listed in the profile. |
+| **Stone Industries (SI)** | 40,000 blocks per grid, no PCU limit, and all 22 of SI's per-player and per-grid block rules (reactors, batteries, drills, production blocks …) — anything over is listed first. |
 | **Modded server (typical)** | A starting point for modded survival servers — duplicate and adjust. |
-| **Your own** | PCU, PCU per grid, blocks, guns, turrets, cargo and per-block-type limits — type numbers as you like (`50,000`, `50.000`, `50 000`). |
+| **Your own** | PCU, PCU per grid, blocks, guns, turrets, cargo, per-block-type limits and grouped rules — type numbers as you like (`50,000`, `50.000`, `50 000`). |
 
 **OK** below 90 % of a limit · **NEAR** from 90 % to the limit · **OVER** above it · **INCOMPLETE** when blocks from missing mods could not be read.
 

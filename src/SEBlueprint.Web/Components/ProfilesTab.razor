@@ -65,6 +65,20 @@
                                 }
                             </tbody>
                         </table>
+                        @if (draft.Groups.Count > 0)
+                        {
+                            <h2>Grouped rules</h2>
+                            <div class="dim">Any combination of the listed blocks counts towards the rule. Comes with the profile; edit it by exporting and importing the JSON.</div>
+                            <table class="limits-table">
+                                <thead><tr><th>RULE</th><th style="width:110px">MAX</th><th>BLOCKS</th></tr></thead>
+                                <tbody>
+                                    @foreach (var g in draft.Groups)
+                                    {
+                                        <tr><td>@g.Stat</td><td class="num">@(g.Max == 0 ? "not allowed" : UserNumbers.Format(g.Max))</td><td class="dim">@string.Join(", ", g.Blocks)</td></tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
                         @if (!readOnly)
                         {
                             <div class="mt10" style="display:flex;gap:8px">
@@ -167,6 +181,7 @@
         public string MaxTurrets { get; set; } = "";
         public string MaxCargoLiters { get; set; } = "";
         public List<TypeRow> Types { get; } = new();
+        public List<BlockGroupLimit> Groups { get; } = new();
 
         static string S(double? v) => UserNumbers.Format(v);
 
@@ -184,6 +199,7 @@
                 MaxCargoLiters = S(p.MaxCargoLiters),
             };
             foreach (var (k, v) in p.BlockTypeLimits.OrderBy(x => x.Key)) d.Types.Add(new TypeRow { Key = k, Value = v.ToString(CultureInfo.InvariantCulture) });
+            d.Groups.AddRange(p.GroupLimits.Select(g => g.Clone()));
             return d;
         }
 
@@ -200,6 +216,7 @@
                 return null;
             }
             profile.Name = string.IsNullOrWhiteSpace(Name) ? "My profile" : Name.Trim();
+            profile.GroupLimits = Groups.Select(g => g.Clone()).ToList();
             profile.TotalPcu = Whole("Max PCU", TotalPcu);
             profile.MaxPcuPerGrid = Whole("Max PCU per grid", MaxPcuPerGrid);
             profile.MaxBlocksPerGrid = Whole("Max blocks per grid", MaxBlocksPerGrid);

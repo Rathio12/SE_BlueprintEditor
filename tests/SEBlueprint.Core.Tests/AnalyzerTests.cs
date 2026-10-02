@@ -48,6 +48,9 @@ public class AnalyzerTests
         Assert.Equal(r.Components["Component/SteelPlate"] * 20.0, r.MassKg, 3);
         Assert.Equal(8, r.Grids.Single().Blocks);
         Assert.Equal(1, r.BlockPairCounts["Unknown"]);
+        Assert.Equal(8, r.Grids.Single().BlockIds.Values.Sum());
+        Assert.Equal(1, r.Grids.Single().BlockIds["Unknown/ModBlock"]);
+        Assert.Equal(2, r.Grids.Single().BlockIds.Where(k => k.Key.StartsWith("LargeGatlingTurret/")).Sum(k => k.Value));
         Assert.Equal(2, r.BlockPairCounts["LargeGatlingTurret"]);
         Assert.Equal(1, r.BlockPairCounts["LargeContainer"]);
         Assert.True(r.Ingots["Ingot/Iron"] > 0);

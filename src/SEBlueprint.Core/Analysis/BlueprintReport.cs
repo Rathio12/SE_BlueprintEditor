@@ -8,6 +8,7 @@ public sealed class GridSummary
     public string GridSize { get; init; } = "";
     public int Blocks { get; init; }
     public int Pcu { get; init; }
+    public Dictionary<string, int> BlockIds { get; } = new(StringComparer.OrdinalIgnoreCase);
 }
 
 public sealed class BlueprintReport

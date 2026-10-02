@@ -14,6 +14,7 @@ public sealed class LimitProfile
     public double? MaxCargoLiters { get; set; }
 
     public Dictionary<string, int> BlockTypeLimits { get; set; } = new();
+    public List<BlockGroupLimit> GroupLimits { get; set; } = new();
 
     public override string ToString() => Name;
 
@@ -30,9 +31,11 @@ public sealed class LimitProfile
         MaxTurrets = MaxTurrets,
         MaxCargoLiters = MaxCargoLiters,
         BlockTypeLimits = new(BlockTypeLimits),
+        GroupLimits = GroupLimits.Select(g => g.Clone()).ToList(),
     };
 
     internal string LimitsKey() =>
         $"{TotalPcu}|{MaxPcuPerGrid}|{MaxBlocksPerGrid}|{MaxBlocksTotal}|{MaxGuns}|{MaxTurrets}|{MaxCargoLiters}|" +
-        string.Join(",", BlockTypeLimits.OrderBy(k => k.Key, StringComparer.Ordinal).Select(k => $"{k.Key}={k.Value}"));
+        string.Join(",", BlockTypeLimits.OrderBy(k => k.Key, StringComparer.Ordinal).Select(k => $"{k.Key}={k.Value}")) + "|" +
+        string.Join(",", GroupLimits.Select(g => g.Key()));
 }

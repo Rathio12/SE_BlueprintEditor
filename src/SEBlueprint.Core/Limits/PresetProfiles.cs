@@ -19,12 +19,36 @@ public static class PresetProfiles
         {
             Name = StoneIndustries,
             BuiltIn = true,
-            Description = "Stone Industries Gaming limits from the #block-limits channel (May 2025): grids are capped at 40,000 blocks, no PCU limit. " +
-                          "Also enforced by the server but not checked here (any combination of type or tier). " +
-                          "Per player: refineries 10, assemblers 10 (food processors don't count), drills 10, grinders 10, welders 10, Build and Repair 2, Goliath drills 2, Shield Air Pressurizer 0, pistons 5, rotors/hinges 10, remote controls 5. " +
-                          "Per grid: production blocks 30 (refineries, assemblers, O2 generators/farms, food processors, irrigation), reactors 10 (T4 + T5 max 6), batteries 20, solar panels 50, wind turbines 50, hydrogen engines 10, Build and Repair 1, Goliath drills 2, survival kits 2, gravity generators 6. " +
+            Description = "Stone Industries Gaming limits from the #block-limits channel (May 2025): grids are capped at 40,000 blocks, no PCU limit, " +
+                          "and the per-player and per-grid block rules below (any combination of type or tier). Per-player rules are checked against this blueprint alone; " +
+                          "your other grids on the server count too. T4 + T5 reactors are taken as Prosonic (16x) and Tellurium (32x). " +
                           "Weapons are usually deleted when over a limit, most other blocks are shut down.",
             MaxBlocksPerGrid = 40000,
+            GroupLimits =
+            {
+                Player("Refineries", 10, "Refinery"),
+                Player("Assemblers", 10, "Assembler", "!Assembler/FoodProcessor"),
+                Player("Drills", 10, "Drill", "!Drill/Goliath*"),
+                Player("Grinders", 10, "ShipGrinder"),
+                Player("Welders", 10, "ShipWelder", "!ShipWelder/*Nanobot*"),
+                Player("Build and Repair", 2, "ShipWelder/*Nanobot*"),
+                Player("Goliath drills", 2, "Drill/Goliath*"),
+                Player("Shield Air Pressurizer", 0, "OxygenGenerator/DSSupergen"),
+                Player("Pistons", 5, "PistonBase", "ExtendedPistonBase"),
+                Player("Rotors and hinges", 10, "MotorStator", "MotorAdvancedStator"),
+                Player("Remote controls", 5, "RemoteControl"),
+                Grid("Production blocks", 30, "Refinery", "Assembler", "OxygenGenerator", "OxygenFarm", "!OxygenGenerator/DSSupergen"),
+                Grid("Reactors", 10, "Reactor"),
+                Grid("T4 + T5 reactors", 6, "Reactor/*16x", "Reactor/*32x"),
+                Grid("Batteries", 20, "BatteryBlock"),
+                Grid("Solar panels", 50, "SolarPanel"),
+                Grid("Wind turbines", 50, "WindTurbine"),
+                Grid("Hydrogen engines", 10, "HydrogenEngine"),
+                Grid("Build and Repair", 1, "ShipWelder/*Nanobot*"),
+                Grid("Goliath drills", 2, "Drill/Goliath*"),
+                Grid("Survival kits", 2, "SurvivalKit"),
+                Grid("Gravity generators", 6, "GravityGenerator", "GravityGeneratorSphere"),
+            },
         },
         new LimitProfile
         {
@@ -48,4 +72,10 @@ public static class PresetProfiles
             },
         },
     };
+
+    static BlockGroupLimit Player(string name, int max, params string[] blocks) =>
+        new() { Name = name, Scope = LimitScope.Player, Max = max, Blocks = blocks.ToList() };
+
+    static BlockGroupLimit Grid(string name, int max, params string[] blocks) =>
+        new() { Name = name, Scope = LimitScope.Grid, Max = max, Blocks = blocks.ToList() };
 }

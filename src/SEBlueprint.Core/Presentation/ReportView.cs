@@ -78,6 +78,9 @@ public sealed class ReportView
         var checkRows = checks
             .Where(c => c.Status != LimitStatus.Unlimited)
             .Where(c => !r.IsPartial || c.Stat is "PCU" or "Blocks")
+            .Where(c => !c.IsGroup || c.Value > 0 || c.Status == LimitStatus.Over)
+            .OrderBy(c => c.Status == LimitStatus.Over ? 0 : c.IsGroup ? 2 : 1)
+            .ThenByDescending(c => c.IsGroup ? (int)c.Status : 0)
             .Select(c =>
             {
                 var kind = c.Stat == "Cargo (L)" ? "liters" : "int";

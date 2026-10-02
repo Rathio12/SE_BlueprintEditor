@@ -74,4 +74,32 @@ public class ReportViewTests
         Assert.Equal(Tone.Warn, pcu.Tone);
         Assert.True(view.Primary.Single(p => p.Title == "BLOCKS").HasLimit);
     }
+
+    [Fact]
+    public void Group_rules_that_are_over_come_first_and_empty_rules_are_hidden()
+    {
+        var r = new BlueprintReport { Blocks = 30 };
+        var g = new GridSummary { Blocks = 30 };
+        g.BlockIds["Drill/LargeBlockDrill"] = 12;
+        g.BlockIds["BatteryBlock/LargeBlockBatteryBlock"] = 5;
+        g.BlockIds["CubeBlock/LargeBlockArmorBlock"] = 13;
+        r.Grids.Add(g);
+        var profile = new LimitProfile
+        {
+            MaxBlocksPerGrid = 1000,
+            GroupLimits =
+            {
+                new BlockGroupLimit { Name = "Batteries", Max = 20, Blocks = { "BatteryBlock" } },
+                new BlockGroupLimit { Name = "Pistons", Scope = LimitScope.Player, Max = 5, Blocks = { "PistonBase" } },
+                new BlockGroupLimit { Name = "Drills", Scope = LimitScope.Player, Max = 10, Blocks = { "Drill" } },
+            },
+        };
+        var view = ReportView.Build(r, profile, new GameDatabase());
+        var stats = view.Checks.Select(c => c.Stat).ToList();
+        Assert.Equal("Drills per player", stats.First());
+        Assert.Contains("Batteries per grid", stats);
+        Assert.DoesNotContain("Pistons per player", stats);
+        Assert.Contains("Largest grid", stats);
+        Assert.Equal("OVER LIMIT", view.OverallText);
+    }
 }
