@@ -5,6 +5,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Added
+- Profile editor shows descriptions and per-grid PCU
+- Report-a-bug and support links in settings, occasional star-on-GitHub prompt
+- Per-grid PCU limit and built-in Sigma Draconis Expanse and modded server profiles
+
+### Changed
+- Cleaner README with grouped badges, SE2 coming soon, release guide
+
 ## [1.0.0] - 2026-10-02
 
 ### Added
