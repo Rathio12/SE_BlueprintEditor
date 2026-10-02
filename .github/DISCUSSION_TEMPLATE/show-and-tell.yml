@@ -1,0 +1,37 @@
+title: "[Profile] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share a **limit profile** for your server or a build you checked with the inspector.
+        Export a profile from the LIMIT PROFILES tab (app or website) and paste the JSON below — others can import it in one click.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you sharing
+      options:
+        - Server limit profile
+        - A blueprint and its numbers
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: server
+    attributes:
+      label: Server
+      description: Name of the server or community, if any.
+  - type: input
+    id: source
+    attributes:
+      label: Where the limits come from
+      description: Link to the server's rules or Discord announcement, so others can check they are current.
+  - type: textarea
+    id: profile
+    attributes:
+      label: Profile JSON
+      render: json
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Mods the server uses (Workshop IDs), screenshots, anything else.

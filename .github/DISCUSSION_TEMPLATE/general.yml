@@ -1,0 +1,11 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Chat about SE Blueprint Inspector, Space Engineers builds, servers and mods. Please keep it friendly — see the [code of conduct](https://github.com/Rathio12/SE_BlueprintEditor/blob/main/CODE_OF_CONDUCT.md).
+  - type: textarea
+    id: message
+    attributes:
+      label: Message
+    validations:
+      required: true

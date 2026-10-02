@@ -1,0 +1,37 @@
+title: "[Idea] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas are discussed here first; good ones become issues on the roadmap.
+        Asking for a **server profile preset**? Include where the server publishes its limits, so the numbers are real.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of idea
+      options:
+        - New feature
+        - Server profile preset
+        - Mod support (weapons, cargo, blocks)
+        - Space Engineers 2
+        - Website
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What should the app or website do?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Who it helps
+      description: Players, server admins, builders, scripters — and how.
+  - type: textarea
+    id: details
+    attributes:
+      label: Server or mod details
+      description: For presets and mod support — server name, link to its rules or limits, Workshop IDs of the mods.

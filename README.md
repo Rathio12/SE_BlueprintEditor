@@ -29,7 +29,9 @@ checked against vanilla or server limits, with modded weapons and containers cou
 **[Open in browser](https://rathio12.github.io/SE_BlueprintEditor/)** &nbsp;·&nbsp;
 [Wiki](https://rathio12.github.io/SE_BlueprintEditor/wiki/Home.html) &nbsp;·&nbsp;
 [Changelog](CHANGELOG.md) &nbsp;·&nbsp;
-[Report a bug](https://github.com/Rathio12/SE_BlueprintEditor/issues/new/choose)
+[Discussions](https://github.com/Rathio12/SE_BlueprintEditor/discussions) &nbsp;·&nbsp;
+[Report a bug](https://github.com/Rathio12/SE_BlueprintEditor/issues/new/choose) &nbsp;·&nbsp;
+[☕ Ko-fi](https://ko-fi.com/derechtealec)
 
 <br>
 
@@ -170,7 +172,14 @@ tests pass, the solution builds with zero warnings and all document links work �
 
 Bug reports, mod-compatibility reports and pull requests are welcome —
 see [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [SECURITY.md](SECURITY.md).
-If the tool helps you, a ⭐ helps other engineers find it.
+Questions, ideas and **server profile presets** go to [Discussions](DISCUSSIONS.md).
+
+## Support
+
+The app is free and stays free. If it saves you time, **[buy me a coffee on Ko-fi](https://ko-fi.com/derechtealec)** ☕ —
+or leave a ⭐, which helps other engineers find it.
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-buy%20me%20a%20coffee-F0A030?style=for-the-badge&labelColor=0B151B&logo=kofi&logoColor=white)](https://ko-fi.com/derechtealec)
 
 ## License
 

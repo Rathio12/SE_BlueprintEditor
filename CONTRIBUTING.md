@@ -12,6 +12,11 @@ Bug reports, mod-compatibility reports and pull requests are all welcome.
 
 </div>
 
+## Questions and ideas
+
+Ask questions, suggest features and request or share **server profile presets** in
+[Discussions](DISCUSSIONS.md). Issues are for bugs and planned work.
+
 ## Reporting bugs
 
 Open an issue with the **[Bug report](https://github.com/Rathio12/SE_BlueprintEditor/issues/new/choose)** template and attach:
