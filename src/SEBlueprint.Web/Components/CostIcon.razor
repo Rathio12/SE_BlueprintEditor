@@ -1,13 +1,13 @@
 @inject WebState State
 
-<div class="ic">
+<div class="ic" title="@Row.Name">
     @if (src != null)
     {
         <img src="@src" alt="" />
     }
     else
     {
-        @Ui.Initials(Row.Name)
+        <ItemIcon Id="@Row.Id" />
     }
 </div>
 

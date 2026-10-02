@@ -1,0 +1,62 @@
+<svg class="item-icon" viewBox="0 0 32 32" aria-hidden="true">
+    @switch (Shape)
+    {
+        case "ingot":
+            <path d="M5 21 9 11h14l4 10z" fill="@Fill" stroke="@Edge" />
+            <path d="M9 11h14l-2 3H11z" fill="@Light" />
+            break;
+        case "ore":
+            <path d="M6 20 9 12l7-4 8 3 3 8-5 6-11 1z" fill="@Fill" stroke="@Edge" />
+            <path d="m9 12 7-4 8 3-6 3z" fill="@Light" />
+            break;
+        case "plate":
+            <path d="M5 11 18 6l9 6-13 6z" fill="@Light" stroke="@Edge" />
+            <path d="M5 11v4l9 7v-4zM14 18v4l13-6v-4z" fill="@Fill" stroke="@Edge" />
+            break;
+        case "tube":
+            <rect x="4" y="12" width="24" height="8" rx="4" fill="@Fill" stroke="@Edge" />
+            <ellipse cx="25" cy="16" rx="2.5" ry="4" fill="@Light" stroke="@Edge" />
+            break;
+        case "grid":
+            <rect x="6" y="6" width="20" height="20" fill="none" stroke="@Fill" stroke-width="2" />
+            <path d="M6 12.7h20M6 19.3h20M12.7 6v20M19.3 6v20" stroke="@Fill" stroke-width="2" />
+            break;
+        case "chip":
+            <rect x="9" y="9" width="14" height="14" fill="@Fill" stroke="@Edge" />
+            <path d="M12 5v4M16 5v4M20 5v4M12 23v4M16 23v4M20 23v4M5 12h4M5 16h4M5 20h4M23 12h4M23 16h4M23 20h4" stroke="@Edge" stroke-width="1.6" />
+            <rect x="13" y="13" width="6" height="6" fill="@Light" />
+            break;
+        case "motor":
+            <circle cx="16" cy="16" r="9" fill="@Fill" stroke="@Edge" />
+            <circle cx="16" cy="16" r="3.5" fill="@Light" />
+            <path d="M16 4v4M16 24v4M4 16h4M24 16h4" stroke="@Edge" stroke-width="2" />
+            break;
+        case "glass":
+            <path d="M7 8h18v16H7z" fill="@Fill" fill-opacity="0.45" stroke="@Edge" />
+            <path d="m10 20 6-9M15 21l5-7" stroke="@Light" stroke-width="1.5" />
+            break;
+        case "screen":
+            <rect x="5" y="8" width="22" height="14" fill="@Edge" stroke="@Fill" />
+            <rect x="8" y="11" width="16" height="8" fill="@Light" />
+            <path d="M12 25h8" stroke="@Fill" stroke-width="2" />
+            break;
+        case "cell":
+            <rect x="9" y="7" width="14" height="20" rx="2" fill="@Fill" stroke="@Edge" />
+            <rect x="13" y="4" width="6" height="3" fill="@Edge" />
+            <path d="m17 11-4 6h4l-2 6" stroke="@Light" stroke-width="1.6" fill="none" />
+            break;
+        default:
+            <path d="M6 10 16 5l10 5v12l-10 5-10-5z" fill="@Fill" stroke="@Edge" />
+            <path d="M6 10l10 5 10-5M16 15v12" stroke="@Edge" fill="none" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    string Shape => ItemArt.ShapeOf(Id);
+    string Fill => ItemArt.ColorOf(Id).Fill;
+    string Light => ItemArt.ColorOf(Id).Light;
+    string Edge => ItemArt.ColorOf(Id).Edge;
+}
