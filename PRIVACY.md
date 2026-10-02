@@ -4,7 +4,7 @@
 
 # Privacy Policy
 
-![Offline](https://img.shields.io/badge/app-fully%20offline-5BC07A?style=flat-square&labelColor=0B151B)
+![Offline](https://img.shields.io/badge/app-offline%20by%20default-5BC07A?style=flat-square&labelColor=0B151B)
 ![No tracking](https://img.shields.io/badge/website-no%20tracking-5BC07A?style=flat-square&labelColor=0B151B)
 ![No uploads](https://img.shields.io/badge/files-never%20uploaded-5BC07A?style=flat-square&labelColor=0B151B)
 
@@ -14,12 +14,14 @@
 
 > [!TIP]
 > **Short version:** nothing you open ever leaves your computer. There is no telemetry, no analytics, no account and no tracking.
+> The app only goes online for an update check, and only if you click *Check now* or turn on *Check for updates on start*.
 
 ## Windows app
 
 | | |
 |:--|:--|
-| **Internet** | None. The app has no network code, no auto-updater and no crash upload. An automated test fails the build if network code, native calls or foreign URLs are added. |
+| **Internet** | None by default. No telemetry and no crash upload. An automated test fails the build if network code appears anywhere except the updater, or if native calls or foreign URLs are added. |
+| **Updates** | Off by default. When you click *Check now* or enable *Check for updates on start* (Settings), the app asks `api.github.com` for this repository's latest release. GitHub sees your IP address and the app version (in the user agent), as with any web request. Nothing about you, your files or your settings is sent. *Install and restart* downloads the exe from this repository's release, checks it against GitHub's SHA-256 checksum and only then replaces the old one. |
 | **Your files** | Game, mod and blueprint files are **only read**, never changed. Mod scripts are read as plain text and never executed. |
 | **What it reads** | The Steam install path from the registry, Steam's `libraryfolders.vdf`, the Space Engineers 1/2 folders, your blueprint folders (`%AppData%\SpaceEngineers`, `%AppData%\SpaceEngineers2`) and any folder you add in Settings. |
 | **Links** | The GitHub, Report a bug, Star and Releases buttons open this project's GitHub pages in your browser — only when you click them. |
@@ -31,7 +33,7 @@ Everything lives in the `SEBlueprintInspector-data` folder next to `SEBlueprintI
 
 | File | Contents |
 |:--|:--|
-| `settings.json` | Folder overrides, selected limit profile, cost options |
+| `settings.json` | Folder overrides, selected limit profile, cost options, update preference |
 | `profiles/*.json` | Limit profiles you created or imported |
 | `gamedb.json` | Cache of block / item / recipe data from your game and mods |
 | `log.txt` | Local diagnostic messages (file paths and error messages), capped at ~2 MB |

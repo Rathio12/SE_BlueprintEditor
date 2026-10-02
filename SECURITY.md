@@ -32,7 +32,8 @@ The app and website read untrusted files — blueprints, mod definitions and mod
 
 - a crafted file causing code execution,
 - writes outside the app's data folder,
-- any network access from the app,
+- any network access from the app other than the opt-in update check to this repository's GitHub releases,
+- an update being installed that is not the exact file published in this repository's release,
 - mod scripts being compiled or run (they must only ever be read as text).
 
 ## Verifying downloads
@@ -43,3 +44,6 @@ GitHub shows the SHA-256 of every release file next to it — compare it with yo
 ```powershell
 Get-FileHash .\SEBlueprintInspector.exe -Algorithm SHA256
 ```
+
+The in-app updater does this check for you: it only installs a download whose SHA-256 matches the checksum
+GitHub publishes for the release, and only from this repository.

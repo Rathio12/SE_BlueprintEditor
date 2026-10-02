@@ -19,6 +19,7 @@ checked against vanilla or server limits, with modded weapons and containers cou
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-DCE8EE?style=flat-square&labelColor=0B151B&logo=windows11&logoColor=white)
 ![Portable](https://img.shields.io/badge/portable-single%20exe-5BC07A?style=flat-square&labelColor=0B151B)
 ![Offline](https://img.shields.io/badge/offline-no%20telemetry-5BC07A?style=flat-square&labelColor=0B151B)
+![Updates](https://img.shields.io/badge/updates-opt--in%20in--app-5BC07A?style=flat-square&labelColor=0B151B)
 ![.NET](https://img.shields.io/badge/.NET-8-8E7CC3?style=flat-square&labelColor=0B151B&logo=dotnet&logoColor=white)
 ![Space Engineers](https://img.shields.io/badge/Space%20Engineers-supported-F0A030?style=flat-square&labelColor=0B151B)
 ![Space Engineers 2](https://img.shields.io/badge/Space%20Engineers%202-coming%20soon-5D7682?style=flat-square&labelColor=0B151B)
@@ -57,7 +58,8 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Blueprints** | Finds your whole library automatically | Open a blueprint folder or `bp.sbc` |
 | **Mods** | Read from your Workshop folder | Add mod folders in the MODS tab |
 | **Icons** | Real game icons from your install | The same game icons, built in |
-| **Privacy** | Never connects to the internet | Files are read locally, nothing is uploaded |
+| **Updates** | Opt-in: *Check now* or *Check on start* in Settings — installs in place, no re-download | Always the latest version |
+| **Privacy** | Offline — only an update check you turn on talks to GitHub | Files are read locally, nothing is uploaded |
 
 <details>
 <summary><b>Website screenshot</b></summary>
@@ -104,8 +106,10 @@ checked against vanilla or server limits, with modded weapons and containers cou
 ## Privacy
 
 > [!TIP]
-> **Fully offline.** No internet access, no telemetry, no auto-updater, no native code. Game, mod and blueprint
-> files are only read, never changed — and a test fails the build if network code is ever added.
+> **Offline unless you ask.** No telemetry, no tracking, no native code. The only network access is the update check,
+> which is **off by default** and only asks this repository's GitHub releases for the latest version. Updates are
+> verified against GitHub's SHA-256 checksum before the exe is replaced. Game, mod and blueprint files are only read,
+> never changed — and a test fails the build if network code appears anywhere else.
 > Details in [PRIVACY.md](PRIVACY.md).
 
 ## Wiki

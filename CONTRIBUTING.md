@@ -39,7 +39,7 @@ dotnet run --project src/SEBlueprint.Web
 | Rule | Why |
 |:--|:--|
 | **Tests first** | Every change to `SEBlueprint.Core` comes with a test that fails before and passes after. |
-| **Offline only** | No network code, telemetry, updater, native calls or foreign URLs — `OfflineGuardTests` enforces it. |
+| **Offline by default** | No network code outside `Services/Updater.cs`, no telemetry, native calls or foreign URLs — `OfflineGuardTests` enforces it. |
 | **Never crash** | Every file and parse step is guarded; one bad blueprint or mod must never stop a scan. |
 | **Read-only** | Never write to game, mod or blueprint folders. |
 | **No code comments** | Keep code self-explanatory; explanations go in the PR or the [wiki](docs/wiki/Home.md). |

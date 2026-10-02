@@ -4,5 +4,5 @@
 
 - [ ] `dotnet test tests/SEBlueprint.Core.Tests` passes
 - [ ] New or changed behaviour in `SEBlueprint.Core` has a test
-- [ ] No network code, native calls, foreign URLs or code comments added
+- [ ] No network code (outside the updater), native calls, foreign URLs or code comments added
 - [ ] Commit messages follow Conventional Commits (`feat:`, `fix:` …) — the changelog is generated from them

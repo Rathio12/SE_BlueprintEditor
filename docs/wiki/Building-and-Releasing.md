@@ -20,8 +20,24 @@ limits, profiles, SE2 metadata and gzip files.
 ### The offline guard
 
 `OfflineGuardTests` scans all source in `src/` and **fails the build** if it finds network code
-(`HttpClient`, `WebClient`, sockets, `fetch(`…), native calls (`DllImport`, `LibraryImport`) or any URL other
-than this repository. That keeps the privacy promise enforceable instead of just written down.
+(`HttpClient`, `WebClient`, sockets, `fetch(`…) anywhere except `Services/Updater.cs`, native calls
+(`DllImport`, `LibraryImport`) anywhere, or any URL other than this repository and its release API. It also checks that
+the updater has no URLs of its own, verifies checksums, and that update checks are off by default. That keeps the
+privacy promise enforceable instead of just written down.
+
+## In-app updates
+
+The update check is **off by default**. Settings → *Check now*, or *Check for updates on start*:
+
+1. `GET https://api.github.com/repos/Rathio12/SE_BlueprintEditor/releases/latest` — drafts and pre-releases are ignored.
+2. `ReleaseFeed` (in Core, unit-tested) reads the version, notes, the `SEBlueprintInspector.exe` asset and its
+   `sha256` digest. Download links outside `github.com/Rathio12/SE_BlueprintEditor/releases/download/` are rejected.
+3. *Install and restart* streams the exe to `SEBlueprintInspector.exe.download` next to the app, hashing as it goes.
+   Wrong size or checksum → the download is deleted and nothing changes.
+4. The running exe is renamed to `.old`, the new one takes its name, the new version starts and the old one exits.
+   The new version deletes `.old` on start.
+
+Copies that can't replace themselves (read-only folder, `dotnet run`) get a *Release page* button instead.
 
 ## Versions
 
