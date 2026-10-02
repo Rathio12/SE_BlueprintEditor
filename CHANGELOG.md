@@ -15,6 +15,7 @@
 ## [Unreleased]
 
 ### Changed
+- GitHub wiki generated from docs/wiki on every push
 - Discussions guide with forms for questions, ideas, profile presets and Ko-fi sponsorship
 
 ## [1.2.1] - 2026-10-02
