@@ -1,0 +1,60 @@
+name: Tester feedback
+description: Tried the app or the website? Tell us how it went.
+title: "Feedback: "
+labels: [feedback]
+body:
+  - type: dropdown
+    id: where
+    attributes:
+      label: What did you use?
+      options:
+        - Windows app
+        - Website
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Bottom right of the window (e.g. v1.1.0)
+  - type: textarea
+    id: tested
+    attributes:
+      label: What did you test?
+      description: Which blueprints (names or Workshop links), vanilla or modded, which limit profile.
+    validations:
+      required: true
+  - type: dropdown
+    id: numbers
+    attributes:
+      label: Did the numbers look right?
+      description: Blocks, PCU, guns, cargo, build cost compared with what the game shows.
+      options:
+        - Yes, everything matched
+        - Mostly, small differences
+        - No, something was clearly wrong
+        - Didn't check
+    validations:
+      required: true
+  - type: textarea
+    id: confusing
+    attributes:
+      label: What was confusing or missing?
+  - type: textarea
+    id: broken
+    attributes:
+      label: Anything broken?
+      description: For crashes please attach log.txt from the SEBlueprintInspector-data folder next to the exe.
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Overall
+      options:
+        - "5 – great"
+        - "4 – good"
+        - "3 – okay"
+        - "2 – needs work"
+        - "1 – not useful yet"
+    validations:
+      required: true

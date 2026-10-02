@@ -49,6 +49,18 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Icons** | Real game icons | The same game icons |
 | **Privacy** | Never connects to the internet | Files are read locally, nothing is uploaded |
 
+<details>
+<summary><b>Website screenshot</b></summary>
+
+<br>
+
+<img src="docs/images/website.png" alt="SE Blueprint Inspector website showing a blueprint's stats and build cost" width="900">
+
+</details>
+
+> [!TIP]
+> **Tried it?** Tell us how it went — [give feedback](https://github.com/Rathio12/SE_BlueprintEditor/issues/new?template=tester_feedback.yml) (takes a minute).
+
 ## Features
 
 | | |
