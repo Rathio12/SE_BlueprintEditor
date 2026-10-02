@@ -58,7 +58,11 @@ public sealed class LibraryRow : ObservableObject
         }
     }
 
-    ImageSource? LoadThumb()
+    ImageSource? LoadThumb() => LoadImage(160);
+
+    public Task<ImageSource?> LoadLargeAsync() => Task.Run(() => LoadImage(960));
+
+    ImageSource? LoadImage(int width)
     {
         var path = Entry.ThumbPath;
         if (path == null)
@@ -76,7 +80,7 @@ public sealed class LibraryRow : ObservableObject
             bmp.BeginInit();
             bmp.CacheOption = BitmapCacheOption.OnLoad;
             bmp.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-            bmp.DecodePixelWidth = 160;
+            bmp.DecodePixelWidth = width;
             bmp.UriSource = new Uri(path);
             bmp.EndInit();
             bmp.Freeze();

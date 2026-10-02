@@ -35,6 +35,16 @@ public sealed class OverviewViewModel : ObservableObject
     public OverviewViewModel()
     {
         Row = _app.Selected;
+        if (Row != null)
+        {
+            Row.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(LibraryRow.Thumb) && _hero == null) OnPropertyChanged(nameof(Thumb)); };
+            Row.LoadLargeAsync().ContinueWith(t =>
+            {
+                if (t.Result == null) return;
+                _hero = t.Result;
+                OnPropertyChanged(nameof(Thumb));
+            }, TaskScheduler.Default);
+        }
         Rebuild();
     }
 
@@ -47,7 +57,8 @@ public sealed class OverviewViewModel : ObservableObject
     public string Title => Row?.Name ?? "";
     public string Subtitle { get; private set; } = "";
     public string? Error => Row?.Entry.Error;
-    public ImageSource? Thumb => Row?.Thumb;
+    ImageSource? _hero;
+    public ImageSource? Thumb => _hero ?? Row?.Thumb;
 
     public IReadOnlyList<StatCard> Cards { get; private set; } = Array.Empty<StatCard>();
 

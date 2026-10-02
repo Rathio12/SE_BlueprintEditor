@@ -1,0 +1,18 @@
+SE Blueprint Inspector
+Copyright (c) 2026 Rathio12
+
+This project is dual-licensed. You may use, copy, modify and distribute it under
+the terms of EITHER of the following licenses, at your option:
+
+  * The MIT License                        - see LICENSE-MIT
+  * The GNU General Public License v3.0
+    or (at your option) any later version  - see LICENSE-GPL
+
+SPDX-License-Identifier: MIT OR GPL-3.0-or-later
+
+Third-party components keep their own licenses (BCnEncoder.NET: MIT).
+
+Space Engineers, its game data and its icons are the property of
+Keen Software House. They are not part of this project and are not covered by
+these licenses. This project is not affiliated with or endorsed by
+Keen Software House.

@@ -490,3 +490,6 @@ gamedb.json
 # leftovers from the discarded upstream clone (never commit)
 BlueprintEditor2/
 upstream/
+
+# internal planning notes (kept local)
+docs/superpowers/
