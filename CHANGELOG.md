@@ -6,12 +6,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ## [Unreleased]
 
 ### Added
+- WIKI tab on the website
+- Website shows real game icons decoded locally from your own Space Engineers install
+- Website version (same engine, same look) built into docs/ for GitHub Pages
 - Profile editor shows descriptions and per-grid PCU
 - Report-a-bug and support links in settings, occasional star-on-GitHub prompt
 - Per-grid PCU limit and built-in Sigma Draconis Expanse and modded server profiles
 
 ### Changed
+- Sitemap, robots.txt, 404 page and README wiki links
+- Wiki (how game files, blueprints, mods, cost and limits work) as markdown and static pages
+- Publish website to docs/, link it from README, rebuild it on each release
+- Shared ReportView in Core so app and website show identical numbers
 - Cleaner README with grouped badges, SE2 coming soon, release guide
+
+### Fixed
+- Keep website files byte-exact so browser integrity checks pass
 
 ## [1.0.0] - 2026-10-02
 
