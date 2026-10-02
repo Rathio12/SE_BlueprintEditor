@@ -1,0 +1,36 @@
+namespace Scripts
+{
+    partial class Parts
+    {
+        WeaponDefinition M12SwarmLauncher => new WeaponDefinition
+        {
+            Assignments = new ModelAssignmentsDef
+            {
+                MountPoints = new[] {
+                    new MountPointDef {
+                        SubtypeId = "M12Swarm",
+                        SpinPartId = "None",
+                        MuzzlePartId = "None",
+                        AzimuthPartId = "None",
+                        ElevationPartId = "None",
+                        DurabilityMod = 0.25f,
+                    },
+                },
+            },
+        };
+        WeaponDefinition BigTurret => new WeaponDefinition
+        {
+            Assignments = new ModelAssignmentsDef
+            {
+                MountPoints = new[] {
+                    new MountPointDef {
+                        SubtypeId = "BigTurret",
+                        MuzzlePartId = "MissileTurretBarrels",
+                        AzimuthPartId = "MissileTurretBase1",
+                        ElevationPartId = "MissileTurretBarrels",
+                    },
+                },
+            },
+        };
+    }
+}

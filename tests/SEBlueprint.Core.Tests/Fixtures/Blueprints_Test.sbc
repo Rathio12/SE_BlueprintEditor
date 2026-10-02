@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Blueprints>
+    <Blueprint>
+      <Id><TypeId>BlueprintDefinition</TypeId><SubtypeId>SteelPlate</SubtypeId></Id>
+      <Prerequisites>
+        <Item Amount="21" TypeId="Ingot" SubtypeId="Iron" />
+      </Prerequisites>
+      <Result Amount="1" TypeId="Component" SubtypeId="SteelPlate" />
+    </Blueprint>
+    <Blueprint>
+      <Id><TypeId>BlueprintDefinition</TypeId><SubtypeId>IronOreToIngot</SubtypeId></Id>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Iron" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.7" TypeId="Ingot" SubtypeId="Iron" />
+      </Results>
+    </Blueprint>
+    <Blueprint>
+      <Id><TypeId>BlueprintDefinition</TypeId><SubtypeId>ScrapToIronIngot</SubtypeId></Id>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Scrap" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.8" TypeId="Ingot" SubtypeId="Iron" />
+      </Results>
+    </Blueprint>
+    <Blueprint>
+      <Id><TypeId>BlueprintDefinition</TypeId><SubtypeId>StoneOreToIngot</SubtypeId></Id>
+      <Prerequisites>
+        <Item Amount="1" TypeId="Ore" SubtypeId="Stone" />
+      </Prerequisites>
+      <Results>
+        <Item Amount="0.014" TypeId="Ingot" SubtypeId="Iron" />
+        <Item Amount="0.9" TypeId="Ingot" SubtypeId="Stone" />
+      </Results>
+    </Blueprint>
+  </Blueprints>
+</Definitions>

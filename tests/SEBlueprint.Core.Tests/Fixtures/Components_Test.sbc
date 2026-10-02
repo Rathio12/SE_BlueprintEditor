@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Components>
+    <Component>
+      <Id><TypeId>Component</TypeId><SubtypeId>SteelPlate</SubtypeId></Id>
+      <DisplayName>DisplayName_Item_SteelPlate</DisplayName>
+      <Mass>20</Mass>
+      <Volume>3</Volume>
+    </Component>
+  </Components>
+  <PhysicalItems>
+    <PhysicalItem xsi:type="MyObjectBuilder_PhysicalItemDefinition">
+      <Id><TypeId>Ingot</TypeId><SubtypeId>Iron</SubtypeId></Id>
+      <DisplayName>Iron Ingot</DisplayName>
+      <Mass>1</Mass>
+      <Volume>0.127</Volume>
+    </PhysicalItem>
+  </PhysicalItems>
+  <AmmoMagazines>
+    <AmmoMagazine>
+      <Id><TypeId>AmmoMagazine</TypeId><SubtypeId>NATO_25x184mm</SubtypeId></Id>
+      <DisplayName>Gatling Ammo Box</DisplayName>
+      <Mass>35</Mass>
+      <Volume>16</Volume>
+    </AmmoMagazine>
+  </AmmoMagazines>
+</Definitions>

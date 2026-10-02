@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CubeBlocks>
+    <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
+      <Id><TypeId>LargeGatlingTurret</TypeId><SubtypeId></SubtypeId></Id>
+      <DisplayName>Gatling Turret</DisplayName>
+      <CubeSize>Large</CubeSize>
+      <Size x="1" y="1" z="1" />
+      <PCU>225</PCU>
+      <Components>
+        <Component Subtype="SteelPlate" Count="10" />
+        <Component Subtype="SteelPlate" Count="5" />
+      </Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>SmallGatlingGun</TypeId><SubtypeId>SmallGatling</SubtypeId></Id>
+      <CubeSize>Small</CubeSize>
+      <Size x="1" y="1" z="2" />
+      <PCU>80</PCU>
+      <Components><Component Subtype="SteelPlate" Count="4" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>CargoContainer</TypeId><SubtypeId>LargeBlockLargeContainer</SubtypeId></Id>
+      <CubeSize>Large</CubeSize>
+      <Size x="3" y="3" z="3" />
+      <PCU>10</PCU>
+      <BlockPairName>LargeContainer</BlockPairName>
+      <InventorySize><X>2</X><Y>2</Y><Z>2</Z></InventorySize>
+      <Components><Component Subtype="SteelPlate" Count="360" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>CargoContainer</TypeId><SubtypeId>SmallNoInv</SubtypeId></Id>
+      <CubeSize>Small</CubeSize>
+      <Size x="1" y="1" z="1" />
+      <PCU>10</PCU>
+      <Components><Component Subtype="SteelPlate" Count="3" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>Thrust</TypeId><SubtypeId>LargeBlockLargeThrust</SubtypeId></Id>
+      <CubeSize>Large</CubeSize>
+      <PCU>15</PCU>
+      <ResourceSinkGroup>Thrust</ResourceSinkGroup>
+      <ForceMagnitude>4320000</ForceMagnitude>
+      <EffectivenessAtMinInfluence>1.0</EffectivenessAtMinInfluence>
+      <EffectivenessAtMaxInfluence>0.3</EffectivenessAtMaxInfluence>
+      <Components><Component Subtype="SteelPlate" Count="25" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>ConveyorSorter</TypeId><SubtypeId>M12Swarm</SubtypeId></Id>
+      <CubeSize>Large</CubeSize>
+      <PCU>100</PCU>
+      <Components><Component Subtype="SteelPlate" Count="50" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>BatteryBlock</TypeId><SubtypeId>LargeBlockBatteryBlock</SubtypeId></Id>
+      <CubeSize>Large</CubeSize>
+      <PCU>15</PCU>
+      <ResourceSourceGroup>Battery</ResourceSourceGroup>
+      <MaxPowerOutput>12</MaxPowerOutput>
+      <MaxStoredPower>3</MaxStoredPower>
+      <RequiredPowerInput>12</RequiredPowerInput>
+      <Components><Component Subtype="SteelPlate" Count="80" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>JumpDrive</TypeId><SubtypeId>LargeJumpDrive</SubtypeId></Id>
+      <CubeSize>Large</CubeSize>
+      <PCU>100</PCU>
+      <ResourceSinkGroup>Charging</ResourceSinkGroup>
+      <MaxJumpDistance>2000000</MaxJumpDistance>
+      <MaxJumpMass>1250000</MaxJumpMass>
+      <Components><Component Subtype="SteelPlate" Count="60" /></Components>
+    </Definition>
+    <Definition>
+      <Id><TypeId>CubeBlock</TypeId><SubtypeId>NoComponents</SubtypeId></Id>
+    </Definition>
+  </CubeBlocks>
+</Definitions>
