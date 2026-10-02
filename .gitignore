@@ -493,3 +493,6 @@ upstream/
 
 # internal planning notes (kept local)
 docs/superpowers/
+
+!assets/icon/
+!assets/icon/**
