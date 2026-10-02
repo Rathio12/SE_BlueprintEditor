@@ -44,7 +44,8 @@
         <article>
 <h1 id="faq">FAQ</h1>
 <p><strong>Is it safe? Does it upload anything?</strong>
-No. The app has no network code at all (a test enforces it) and the website reads your files inside the browser.
+No. The app only goes online for the opt-in update check (off by default), which talks to this repository's GitHub
+releases and nothing else — a test enforces that. The website reads your files inside the browser.
 See <a href="https://github.com/Rathio12/SE_BlueprintEditor/blob/main/PRIVACY.md">PRIVACY.md</a>.</p>
 <p><strong>Why does the exe import KERNEL32, USER32, ADVAPI32…?</strong>
 Every Windows program does. They come from the .NET runtime and WPF bundled into the portable exe — windows,
@@ -69,6 +70,10 @@ means no limit; anything that isn't a whole positive number is rejected with a m
 <p><strong>Does it work with Space Engineers 2?</strong>
 SE2 blueprints are listed with blocks and PCU. Full support is coming soon — see
 <a href="Reading-Blueprints.html#space-engineers-2-blueprints">Reading blueprints</a>.</p>
+<p><strong>How do I update the app?</strong>
+Settings → <strong>Check now</strong>, or tick <strong>Check for updates on start</strong>. When a new version is out, <em>Install and restart</em>
+replaces the exe in place — no re-download from the website, settings and profiles stay. If the app's folder is
+read-only, use <em>Release page</em> and replace the exe by hand.</p>
 <p><strong>Where are my settings?</strong>
 App: the <code>SEBlueprintInspector-data</code> folder next to the exe. Website: your browser's local storage.</p>
 <p>Back to the <a href="Home.html">wiki home</a></p>
