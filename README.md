@@ -83,7 +83,7 @@ checked against vanilla or server limits, with modded weapons and containers cou
 | **Build cost** | Components → ingots → ore, assembler speed (realistic / x3 / x10) and refinery yield modules. Copy or export CSV. |
 | **Limit checks** | **OK / NEAR / OVER** for the selected profile, with segmented gauges for PCU, blocks, guns and cargo. |
 | **Honest about gaps** | Blocks from mods you don't have still count towards block limits; the blueprint is marked **INCOMPLETE** and the missing mods are listed with their Workshop IDs. |
-| **Profiles** | Vanilla world presets, Sigma Draconis Expanse, a typical modded server, or your own — shareable as JSON. |
+| **Profiles** | Vanilla world presets, Sigma Draconis Expanse, Stone Industries, a typical modded server, or your own — shareable as JSON. |
 | **Mods done right** | Per-mod blocks and recipes; WeaponCore / CoreSystems weapons recognised as guns or turrets. |
 
 ## Limit profiles
@@ -94,6 +94,7 @@ checked against vanilla or server limits, with modded weapons and containers cou
 |:--|:--|
 | **Vanilla – …** | Read from the world presets of your installed game. |
 | **Sigma Draconis – Expanse** | The server's published limit: **50,000 PCU per grid**. |
+| **Stone Industries (SI)** | 40,000 blocks per grid, no PCU limit; SI's per-player and per-grid block rules are listed in the profile. |
 | **Modded server (typical)** | A starting point for modded survival servers — duplicate and adjust. |
 | **Your own** | PCU, PCU per grid, blocks, guns, turrets, cargo and per-block-type limits — type numbers as you like (`50,000`, `50.000`, `50 000`). |
 

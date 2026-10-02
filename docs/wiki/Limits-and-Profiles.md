@@ -33,6 +33,7 @@ use that per-grid check.
 | Vanilla – No limits | Always present |
 | Vanilla – *world* | Read from the game's own world presets (`CustomWorlds\*\Sandbox_config.sbc`); identical presets are merged |
 | Sigma Draconis – Expanse | The server's published limit: 50,000 PCU per grid (sigmadraconis.games) |
+| Stone Industries (SI) | 40,000 blocks per grid, no PCU limit (SI Gaming #block-limits); the per-player and per-grid block rules are listed in the profile description |
 | Modded server (typical) | A starting point for modded survival servers |
 
 Built-in profiles are read-only — duplicate one to change it.

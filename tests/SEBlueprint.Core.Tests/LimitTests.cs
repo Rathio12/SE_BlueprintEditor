@@ -50,6 +50,7 @@ public class LimitTests
         var presets = PresetProfiles.All;
         Assert.Contains(presets, p => p.Name == PresetProfiles.SigmaDraconisExpanse && p.MaxPcuPerGrid == 50000);
         Assert.Contains(presets, p => p.Name == PresetProfiles.ModdedServer && p.TotalPcu > 0 && p.MaxGuns > 0);
+        Assert.Contains(presets, p => p.Name == PresetProfiles.StoneIndustries && p.MaxBlocksPerGrid == 40000 && p.TotalPcu == null && p.MaxPcuPerGrid == null);
         Assert.All(presets, p => { Assert.True(p.BuiltIn); Assert.False(string.IsNullOrWhiteSpace(p.Description)); });
     }
 
