@@ -1,7 +1,16 @@
+<div align="center">
+
+<img src="assets/icon/app-icon-256.png" width="64" alt="SE Blueprint Inspector logo">
+
 # Changelog
 
-All notable changes to this project are documented here.
-The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
+[![Release](https://img.shields.io/github/v/release/Rathio12/SE_BlueprintEditor?style=flat-square&label=latest&labelColor=0B151B&color=46B4E6)](https://github.com/Rathio12/SE_BlueprintEditor/releases/latest)
+![Keep a Changelog](https://img.shields.io/badge/format-Keep%20a%20Changelog-5D7682?style=flat-square&labelColor=0B151B)
+![Versions](https://img.shields.io/badge/versions-1.x.y-F0A030?style=flat-square&labelColor=0B151B)
+
+<sub>Generated from commit messages on every push · `1.x.y` — x = build, y = fixes</sub>
+
+</div>
 
 ## [Unreleased]
 

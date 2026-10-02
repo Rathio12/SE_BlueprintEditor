@@ -1,35 +1,44 @@
+<div align="center">
+
+<img src="assets/icon/app-icon-256.png" width="64" alt="SE Blueprint Inspector logo">
+
 # Security Policy
+
+![Supported](https://img.shields.io/github/v/release/Rathio12/SE_BlueprintEditor?style=flat-square&label=supported&labelColor=0B151B&color=46B4E6)
+![Reports](https://img.shields.io/badge/reports-private%20advisory-F0A030?style=flat-square&labelColor=0B151B)
+
+</div>
 
 ## Supported versions
 
-Only the latest release receives fixes.
-
 | Version | Supported |
-|---|---|
-| latest `1.x` | ✅ |
-| older | ❌ |
+|:--|:--:|
+| Latest `1.x` release | ✅ |
+| Older releases | ❌ |
 
 ## Reporting a vulnerability
 
-Please **do not** open a public issue for security problems.
+> [!IMPORTANT]
+> Please **do not** open a public issue for security problems.
 
-Use GitHub's private reporting instead: **Security → Report a vulnerability** on
-https://github.com/Rathio12/SE_BlueprintEditor/security/advisories/new
+Report privately through GitHub: **[Security → Report a vulnerability](https://github.com/Rathio12/SE_BlueprintEditor/security/advisories/new)**.
 
 Include the app version, what you did, what happened and, if possible, a sample file that triggers it.
 You should get a first answer within 7 days.
 
 ## Scope
 
-The app reads untrusted files (blueprints, mod definitions, mod scripts). Bugs where a crafted file
-causes code execution, writes outside the app's data folder, or reaches the network are in scope.
-Mod scripts are only read as text and never compiled or run; a report showing otherwise is high priority.
+The app and website read untrusted files — blueprints, mod definitions and mod scripts. In scope:
+
+- a crafted file causing code execution,
+- writes outside the app's data folder,
+- any network access from the app,
+- mod scripts being compiled or run (they must only ever be read as text).
 
 ## Verifying downloads
 
-Only download `SEBlueprintInspector.exe` from this repository's
-[Releases](https://github.com/Rathio12/SE_BlueprintEditor/releases) page. GitHub shows the SHA-256 of every
-release file next to it; compare it with your download:
+Only download `SEBlueprintInspector.exe` from the [Releases](https://github.com/Rathio12/SE_BlueprintEditor/releases) page.
+GitHub shows the SHA-256 of every release file next to it — compare it with your download:
 
 ```powershell
 Get-FileHash .\SEBlueprintInspector.exe -Algorithm SHA256
