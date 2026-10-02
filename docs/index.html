@@ -3,21 +3,73 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SE Blueprint Inspector</title>
-    <meta name="description" content="Build cost, blocks, PCU, guns and cargo for Space Engineers blueprints, checked against vanilla or server limits. Runs in your browser; nothing is uploaded." />
+    <title>SE Blueprint Inspector – Space Engineers Blueprint Viewer &amp; Cost Calculator</title>
+    <meta name="description" content="Free browser tool for Space Engineers blueprints: open a bp.sbc to see blocks, PCU, guns, cargo and full build cost, and check it against vanilla or server limits. Nothing is uploaded." />
     <base href="/SE_BlueprintEditor/" />
+    <link rel="canonical" href="https://rathio12.github.io/SE_BlueprintEditor/" />
+    <meta name="theme-color" content="#070D11" />
     <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SE Blueprint Inspector" />
+    <meta property="og:title" content="SE Blueprint Inspector – Space Engineers Blueprint Viewer &amp; Cost Calculator" />
+    <meta property="og:description" content="Open a Space Engineers blueprint in your browser and see blocks, PCU, guns, cargo and build cost, checked against vanilla or server limits." />
+    <meta property="og:url" content="https://rathio12.github.io/SE_BlueprintEditor/" />
+    <meta property="og:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+    <meta property="og:image:alt" content="SE Blueprint Inspector showing a Space Engineers blueprint with blocks, PCU, guns, cargo and build cost" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SE Blueprint Inspector – Space Engineers Blueprint Viewer" />
+    <meta name="twitter:description" content="Blocks, PCU, guns, cargo and build cost for any Space Engineers blueprint, right in your browser." />
+    <meta name="twitter:image" content="https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SE Blueprint Inspector",
+      "alternateName": "SE Blueprint Editor",
+      "url": "https://rathio12.github.io/SE_BlueprintEditor/",
+      "description": "Browser-based Space Engineers blueprint viewer and calculator: blocks, PCU, guns, turrets, cargo and build cost, checked against vanilla or server limits. Files are read locally and never uploaded.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any (web browser); Windows app available",
+      "browserRequirements": "Requires a modern browser with WebAssembly",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "license": "https://github.com/Rathio12/SE_BlueprintEditor/blob/main/LICENSE",
+      "image": "https://rathio12.github.io/SE_BlueprintEditor/images/blueprints.png",
+      "sameAs": ["https://github.com/Rathio12/SE_BlueprintEditor"]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
     <div id="app">
         <div class="boot">
-            <img src="app-icon.svg" width="72" height="72" alt="" />
+            <img src="app-icon.svg" width="72" height="72" alt="SE Blueprint Inspector logo" />
             <div class="boot-title">SE BLUEPRINT <span>INSPECTOR</span></div>
             <div class="boot-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="boot-text">Loadingâ€¦</div>
+            <div class="boot-text">Loading…</div>
+            <section class="boot-about">
+                <h1>SE Blueprint Inspector — Space Engineers blueprint viewer in your browser</h1>
+                <p>Open a Space Engineers blueprint (<code>bp.sbc</code> or a whole blueprint folder) and see its blocks, PCU,
+                    fixed guns, turrets, cargo volume, mass, thrust, power and jump range, plus the full build cost in
+                    components, ingots and ore. Check it against vanilla world limits, the Sigma Draconis Expanse
+                    limit or your own server profile. Modded blocks and WeaponCore weapons are supported when you add the
+                    mod folders.</p>
+                <p>Everything runs locally in your browser — blueprints and mods are never uploaded.
+                    <a href="wiki/Home.html">Read the wiki</a> ·
+                    <a href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Download the free Windows app</a></p>
+            </section>
         </div>
     </div>
+    <noscript>
+        <p style="color:#DCE8EE;padding:16px;font-family:Segoe UI,Arial,sans-serif">SE Blueprint Inspector needs JavaScript and WebAssembly.
+            You can read the <a style="color:#46B4E6" href="wiki/Home.html">documentation</a> or get the
+            <a style="color:#46B4E6" href="https://github.com/Rathio12/SE_BlueprintEditor/releases/latest">Windows app</a>.</p>
+    </noscript>
     <div id="blazor-error-ui">
         Something went wrong. <a href="" class="reload">Reload</a>
     </div>
