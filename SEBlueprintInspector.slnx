@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SEBlueprint.Core/SEBlueprint.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SEBlueprint.Core.Tests/SEBlueprint.Core.Tests.csproj" />
+  </Folder>
+</Solution>
