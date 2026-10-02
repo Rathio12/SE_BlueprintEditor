@@ -32,7 +32,7 @@ public static class SteamLocator
 
     public static GamePaths Build(IEnumerable<string> libraries, string appData)
     {
-        string? game = null, workshop = null;
+        string? game = null, workshop = null, se2 = null;
         foreach (var lib in libraries)
         {
             try
@@ -41,6 +41,8 @@ public static class SteamLocator
                 if (game == null && Directory.Exists(g)) game = g;
                 var w = Path.Combine(lib, "steamapps", "workshop", "content", Se1AppId);
                 if (workshop == null && Directory.Exists(w)) workshop = w;
+                var g2 = Path.Combine(lib, "steamapps", "common", "SpaceEngineers2");
+                if (se2 == null && Directory.Exists(g2)) se2 = g2;
             }
             catch (Exception) { }
         }
@@ -56,7 +58,14 @@ public static class SteamLocator
         Add(Path.Combine(bp, "cloud"), "Cloud");
         Add(Path.Combine(bp, "workshop"), "Workshop");
         Add(workshop, "Workshop");
-        return new GamePaths(game, workshop, roots);
+        string? se2Blueprints = null;
+        try
+        {
+            var d = Path.Combine(appData, "SpaceEngineers2", "AppData", "Blueprints");
+            if (Directory.Exists(d)) se2Blueprints = d;
+        }
+        catch (Exception) { }
+        return new GamePaths(game, workshop, roots) { Se2GameDir = se2, Se2BlueprintDir = se2Blueprints };
     }
 
     static string? FindSteamRoot()

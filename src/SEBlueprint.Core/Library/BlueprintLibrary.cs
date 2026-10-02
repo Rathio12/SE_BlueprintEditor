@@ -1,6 +1,7 @@
 using SEBlueprint.Core.Analysis;
 using SEBlueprint.Core.Blueprints;
 using SEBlueprint.Core.Data;
+using SEBlueprint.Core.Games;
 using SEBlueprint.Core.Paths;
 
 namespace SEBlueprint.Core.Library;
@@ -8,9 +9,11 @@ namespace SEBlueprint.Core.Library;
 /// <summary>One blueprint found on disk, plus its analysis once computed.</summary>
 public sealed class BlueprintEntry
 {
+    public GameId Game { get; init; } = GameId.SE1;
     public string Folder { get; init; } = "";
     public string Source { get; init; } = "";
     public string Name { get; init; } = "";
+    public string? Description { get; init; }
     public string? ThumbPath { get; init; }
     public DateTime Modified { get; init; }
     public BlueprintReport? Report { get; set; }

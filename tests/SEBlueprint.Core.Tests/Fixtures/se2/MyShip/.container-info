@@ -1,0 +1,1 @@
+{ "$Bundles": { "Game2": "2.0.2.39" }, "$Type": "x", "$Value": { "Meta": { "UserInfo": { "DisplayName": { "RawText": "My Ship" }, "Summary": "" }, "BaseMetadata": { "Id": null, "Title": "My Ship", "Description": "fast" }, "LastEdited": "2025-12-12T22:47:45.7387798+01:00", "BlockCount": 760, "PCU": 2897 } } }

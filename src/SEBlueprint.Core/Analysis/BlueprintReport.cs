@@ -14,6 +14,8 @@ public sealed class GridSummary
 public sealed class BlueprintReport
 {
     public string Name { get; init; } = "";
+    /// <summary>True when only some numbers are known (Space Engineers 2: blocks and PCU from blueprint metadata).</summary>
+    public bool IsPartial { get; init; }
     public List<GridSummary> Grids { get; } = new();
 
     public int Blocks { get; set; }
