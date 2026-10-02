@@ -14,6 +14,9 @@
 
 ## [Unreleased]
 
+### Changed
+- README section for players, server admins, weapon-mod users and scripters
+
 ## [1.1.1] - 2026-10-02
 
 ### Changed
