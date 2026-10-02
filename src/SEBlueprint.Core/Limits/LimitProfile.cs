@@ -4,8 +4,10 @@ public sealed class LimitProfile
 {
     public string Name { get; set; } = "";
     public bool BuiltIn { get; set; }
+    public string? Description { get; set; }
     public int? TotalPcu { get; set; }
     public int? MaxBlocksPerGrid { get; set; }
+    public int? MaxPcuPerGrid { get; set; }
     public int? MaxBlocksTotal { get; set; }
     public int? MaxGuns { get; set; }
     public int? MaxTurrets { get; set; }
@@ -20,7 +22,9 @@ public sealed class LimitProfile
         Name = name ?? Name,
         BuiltIn = false,
         TotalPcu = TotalPcu,
+        Description = Description,
         MaxBlocksPerGrid = MaxBlocksPerGrid,
+        MaxPcuPerGrid = MaxPcuPerGrid,
         MaxBlocksTotal = MaxBlocksTotal,
         MaxGuns = MaxGuns,
         MaxTurrets = MaxTurrets,
@@ -29,6 +33,6 @@ public sealed class LimitProfile
     };
 
     internal string LimitsKey() =>
-        $"{TotalPcu}|{MaxBlocksPerGrid}|{MaxBlocksTotal}|{MaxGuns}|{MaxTurrets}|{MaxCargoLiters}|" +
+        $"{TotalPcu}|{MaxPcuPerGrid}|{MaxBlocksPerGrid}|{MaxBlocksTotal}|{MaxGuns}|{MaxTurrets}|{MaxCargoLiters}|" +
         string.Join(",", BlockTypeLimits.OrderBy(k => k.Key, StringComparer.Ordinal).Select(k => $"{k.Key}={k.Value}"));
 }

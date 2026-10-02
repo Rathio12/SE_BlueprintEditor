@@ -28,6 +28,7 @@ public static class LimitEvaluator
         Add("PCU", r.Pcu, p.TotalPcu);
         Add("Blocks", r.Blocks, p.MaxBlocksTotal);
         Add("Largest grid", r.Grids.Select(g => g.Blocks).DefaultIfEmpty(0).Max(), p.MaxBlocksPerGrid);
+        Add("Largest grid PCU", r.Grids.Select(g => g.Pcu).DefaultIfEmpty(0).Max(), p.MaxPcuPerGrid);
         Add("Guns", r.Guns, p.MaxGuns);
         Add("Turrets", r.Turrets, p.MaxTurrets);
         Add("Cargo (L)", r.CargoLiters, p.MaxCargoLiters);

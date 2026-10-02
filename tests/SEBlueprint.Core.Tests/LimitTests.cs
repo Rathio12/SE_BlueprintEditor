@@ -33,6 +33,36 @@ public class LimitTests
     }
 
     [Fact]
+    public void Checks_pcu_of_the_largest_grid()
+    {
+        var r = new BlueprintReport { Pcu = 70000 };
+        r.Grids.Add(new GridSummary { Name = "Main", Pcu = 52000, Blocks = 10 });
+        r.Grids.Add(new GridSummary { Name = "Rotor head", Pcu = 18000, Blocks = 5 });
+        var c = LimitEvaluator.Evaluate(r, new LimitProfile { MaxPcuPerGrid = 50000 });
+        var check = c.Single(x => x.Stat == "Largest grid PCU");
+        Assert.Equal(52000, check.Value);
+        Assert.Equal(LimitStatus.Over, check.Status);
+    }
+
+    [Fact]
+    public void Preset_profiles_are_built_in_and_described()
+    {
+        var presets = PresetProfiles.All;
+        Assert.Contains(presets, p => p.Name == PresetProfiles.SigmaDraconisExpanse && p.MaxPcuPerGrid == 50000);
+        Assert.Contains(presets, p => p.Name == PresetProfiles.ModdedServer && p.TotalPcu > 0 && p.MaxGuns > 0);
+        Assert.All(presets, p => { Assert.True(p.BuiltIn); Assert.False(string.IsNullOrWhiteSpace(p.Description)); });
+    }
+
+    [Fact]
+    public void Description_and_per_grid_pcu_survive_json_roundtrip()
+    {
+        var p = ProfileStore.FromJson(ProfileStore.ToJson(new LimitProfile { Name = "X", Description = "d", MaxPcuPerGrid = 5 }));
+        Assert.Equal("d", p.Description);
+        Assert.Equal(5, p.MaxPcuPerGrid);
+        Assert.Equal(5, new LimitProfile { MaxPcuPerGrid = 5, Description = "d" }.Clone("Y").MaxPcuPerGrid);
+    }
+
+    [Fact]
     public void Worst_of_nothing_limited_is_unlimited()
     {
         var c = LimitEvaluator.Evaluate(new BlueprintReport(), new LimitProfile());
