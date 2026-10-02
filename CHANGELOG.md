@@ -14,6 +14,10 @@
 
 ## [Unreleased]
 
+### Added
+- Grouped limit rules per grid or per player, with every Stone Industries rule checked
+- Stone Industries limit profile
+
 ### Changed
 - GitHub wiki generated from docs/wiki on every push
 - Discussions guide with forms for questions, ideas, profile presets and Ko-fi sponsorship
