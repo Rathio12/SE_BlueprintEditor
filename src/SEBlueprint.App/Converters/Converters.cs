@@ -7,7 +7,6 @@ using SEBlueprint.Core.Limits;
 
 namespace SEBlueprint.App.Converters;
 
-/// <summary>Colours for limit states, shared by chips, bars and badges.</summary>
 public static class StatusColors
 {
     public static readonly SolidColorBrush Ok = Make("#5BC07A");
@@ -38,7 +37,6 @@ public sealed class StatusBrushConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
-/// <summary>Formats numbers for display: kind = liters | mass | newtons | int | mw | mwh | km.</summary>
 public sealed class UnitConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

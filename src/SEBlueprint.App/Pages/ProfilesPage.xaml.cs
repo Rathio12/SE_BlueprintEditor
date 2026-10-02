@@ -9,7 +9,6 @@ using SEBlueprint.Core.Limits;
 
 namespace SEBlueprint.App.Pages;
 
-/// <summary>Create, edit, import and export limit profiles (vanilla presets are read-only).</summary>
 public partial class ProfilesPage : Page
 {
     static AppState App => AppState.Current;

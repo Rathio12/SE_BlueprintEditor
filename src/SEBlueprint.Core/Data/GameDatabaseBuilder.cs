@@ -2,12 +2,6 @@ using System.Xml.Linq;
 
 namespace SEBlueprint.Core.Data;
 
-/// <summary>
-/// Builds a <see cref="GameDatabase"/> from individual files supplied as streams, so the same code works
-/// for a local install (desktop app) and for files picked in a browser (website).
-/// Every file is parsed in isolation: a broken file is recorded in <see cref="Errors"/> and skipped.
-/// Mod content is kept per mod so one mod never changes the numbers of a blueprint that does not use it.
-/// </summary>
 public sealed class GameDatabaseBuilder
 {
     readonly GameDatabase _db;
@@ -29,7 +23,6 @@ public sealed class GameDatabaseBuilder
         _db.ModNames = new(baseDb.ModNames);
     }
 
-    /// <summary>Adds a vanilla file. <paramref name="relPath"/> is relative to Content/Data, e.g. "CubeBlocks/CubeBlocks_Armor.sbc".</summary>
     public void AddVanillaFile(string relPath, Func<Stream> open)
     {
         var rel = Normalize(relPath);
@@ -49,7 +42,6 @@ public sealed class GameDatabaseBuilder
         });
     }
 
-    /// <summary>Adds a mod file. <paramref name="relPath"/> is relative to the mod folder, e.g. "Data/CubeBlocks.sbc".</summary>
     public void AddModFile(string modId, string relPath, Func<Stream> open)
     {
         var rel = Normalize(relPath);
@@ -81,7 +73,6 @@ public sealed class GameDatabaseBuilder
         if (overwrite || !_db.ModNames.ContainsKey(modId)) _db.ModNames[modId] = name;
     }
 
-    /// <summary>Merges everything another builder collected (used to load mods in parallel, then combine in a fixed order).</summary>
     public void Merge(GameDatabaseBuilder other)
     {
         var o = other._db;

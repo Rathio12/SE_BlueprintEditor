@@ -10,7 +10,6 @@ using SEBlueprint.Core.Limits;
 
 namespace SEBlueprint.App.Views;
 
-/// <summary>Right-hand side of the Blueprints screen: summary, limit check and build cost of the selected blueprint.</summary>
 public partial class BlueprintDetail : UserControl
 {
     OverviewViewModel _vm = new();
@@ -23,7 +22,6 @@ public partial class BlueprintDetail : UserControl
         Show();
     }
 
-    /// <summary>Rebuilds for <see cref="AppState.Selected"/>.</summary>
     public void Show()
     {
         _loading = true;

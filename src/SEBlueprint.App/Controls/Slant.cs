@@ -4,7 +4,6 @@ using System.Windows.Media;
 
 namespace SEBlueprint.App.Controls;
 
-/// <summary>A parallelogram (slanted) background with a fixed slant, used for the HUD tabs and readout labels.</summary>
 public sealed class Slant : Decorator
 {
     public static readonly DependencyProperty FillProperty = DependencyProperty.Register(nameof(Fill), typeof(Brush), typeof(Slant),
@@ -16,7 +15,7 @@ public sealed class Slant : Decorator
 
     public Brush? Fill { get => (Brush?)GetValue(FillProperty); set => SetValue(FillProperty, value); }
     public Brush? Stroke { get => (Brush?)GetValue(StrokeProperty); set => SetValue(StrokeProperty, value); }
-    /// <summary>Horizontal offset of the slant in pixels.</summary>
+
     public double Offset { get => (double)GetValue(OffsetProperty); set => SetValue(OffsetProperty, value); }
 
     protected override Size MeasureOverride(Size constraint)

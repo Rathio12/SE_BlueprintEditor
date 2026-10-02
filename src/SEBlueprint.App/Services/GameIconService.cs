@@ -7,10 +7,6 @@ using SEBlueprint.Core;
 
 namespace SEBlueprint.App.Services;
 
-/// <summary>
-/// Shows the game's own block and item icons by decoding the .dds files straight from the user's local
-/// Space Engineers install (or mod folder). Nothing is copied or bundled; failures just return null.
-/// </summary>
 public sealed class GameIconService
 {
     readonly ConcurrentDictionary<string, ImageSource?> _cache = new(StringComparer.OrdinalIgnoreCase);
@@ -19,8 +15,6 @@ public sealed class GameIconService
     public string? ContentDir { get; set; }
     public string? WorkshopDir { get; set; }
 
-    /// <param name="iconPath">Path from the definition, e.g. "Textures/GUI/Icons/component/steel_plate_component.dds".</param>
-    /// <param name="modId">Mod that defines the item, or null for vanilla.</param>
     public ImageSource? Get(string? iconPath, string? modId = null)
     {
         if (string.IsNullOrWhiteSpace(iconPath)) return null;

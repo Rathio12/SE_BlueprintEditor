@@ -1,9 +1,5 @@
 namespace SEBlueprint.Core;
 
-/// <summary>
-/// Where the app keeps its own files (settings, limit profiles, game-data cache, log).
-/// The desktop app is portable: it uses a folder next to the .exe, falling back to %LocalAppData% when that is not writable.
-/// </summary>
 public static class Storage
 {
     public const string PortableFolderName = "SEBlueprintInspector-data";
@@ -12,7 +8,6 @@ public static class Storage
 
     public static string Root { get; set; } = DefaultRoot;
 
-    /// <summary>Returns "&lt;exeDir&gt;/SEBlueprintInspector-data" when it can be created and written, otherwise <see cref="DefaultRoot"/>.</summary>
     public static string ChoosePortableRoot(string exeDir)
     {
         try

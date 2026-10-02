@@ -4,10 +4,6 @@ using System.Windows.Media;
 
 namespace SEBlueprint.App.Controls;
 
-/// <summary>
-/// A panel with cut (chamfered) corners and a thin outline, in the style of Space Engineers' terminal screens.
-/// By default the top-left and bottom-right corners are cut.
-/// </summary>
 public sealed class SeFrame : Decorator
 {
     public static readonly DependencyProperty FillProperty = DependencyProperty.Register(nameof(Fill), typeof(Brush), typeof(SeFrame),
@@ -32,9 +28,9 @@ public sealed class SeFrame : Decorator
     public double StrokeThickness { get => (double)GetValue(StrokeThicknessProperty); set => SetValue(StrokeThicknessProperty, value); }
     public double Chamfer { get => (double)GetValue(ChamferProperty); set => SetValue(ChamferProperty, value); }
     public bool CutAllCorners { get => (bool)GetValue(CutAllCornersProperty); set => SetValue(CutAllCornersProperty, value); }
-    /// <summary>Optional brush for a short highlight line along the top-left cut (like SE's panel accents).</summary>
+
     public Brush? Accent { get => (Brush?)GetValue(AccentProperty); set => SetValue(AccentProperty, value); }
-    /// <summary>When set, draws HUD corner brackets in this brush on top of the frame.</summary>
+
     public Brush? Brackets { get => (Brush?)GetValue(BracketsProperty); set => SetValue(BracketsProperty, value); }
     public Thickness Padding { get => (Thickness)GetValue(PaddingProperty); set => SetValue(PaddingProperty, value); }
 
@@ -83,12 +79,12 @@ public sealed class SeFrame : Decorator
         {
             var bp = new Pen(Brackets, 2);
             const double L = 14, i = 1;
-            // top-right and bottom-left (the uncut corners)
+
             dc.DrawLine(bp, new Point(w - i - L, i), new Point(w - i, i));
             dc.DrawLine(bp, new Point(w - i, i), new Point(w - i, i + L));
             dc.DrawLine(bp, new Point(i, h - i - L), new Point(i, h - i));
             dc.DrawLine(bp, new Point(i, h - i), new Point(i + L, h - i));
-            // along the cuts
+
             dc.DrawLine(bp, new Point(i, c + i), new Point(c + i, i));
             dc.DrawLine(bp, new Point(w - i, h - c - i), new Point(w - c - i, h - i));
         }

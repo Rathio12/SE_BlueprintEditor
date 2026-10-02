@@ -25,8 +25,6 @@ public partial class SettingsPage : Page
         BuildPaths();
     }
 
-    // ---------- folders ----------
-
     void BuildPaths()
     {
         while (PathsPanel.Children.Count > 1) PathsPanel.Children.RemoveAt(1);

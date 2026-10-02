@@ -11,7 +11,6 @@ using SEBlueprint.Core.Paths;
 
 namespace SEBlueprint.App.Services;
 
-/// <summary>Shared state for the whole app: detected paths, game data, blueprints and limit profiles.</summary>
 public sealed class AppState : ObservableObject
 {
     public static AppState Current { get; } = new();
@@ -37,7 +36,7 @@ public sealed class AppState : ObservableObject
     public GameDatabase Db { get => _db; private set => Set(ref _db, value); }
     public string Status { get => _status; set => Set(ref _status, value); }
     public bool IsBusy { get => _isBusy; set => Set(ref _isBusy, value); }
-    /// <summary>0–100 while scanning blueprints.</summary>
+
     public double Progress { get => _progress; set { if (Set(ref _progress, value)) OnPropertyChanged(nameof(ProgressRatio)); } }
     public double ProgressRatio => Progress / 100.0;
     public string? ErrorMessage { get => _errorMessage; set { if (Set(ref _errorMessage, value)) OnPropertyChanged(nameof(HasError)); } }
@@ -49,6 +48,7 @@ public sealed class AppState : ObservableObject
         get => _activeProfile;
         set
         {
+            if (_reloadingProfiles || (value == null && Profiles.Count > 0)) return;
             if (!Set(ref _activeProfile, value)) return;
             Settings.ActiveProfileName = value?.Name;
             Settings.Save();
@@ -56,11 +56,12 @@ public sealed class AppState : ObservableObject
         }
     }
 
+    bool _reloadingProfiles;
+
     public LibraryRow? Selected { get => _selected; set => Set(ref _selected, value); }
 
     public static string CacheFile => Path.Combine(Storage.Root, "gamedb.json");
 
-    /// <summary>Detects folders, loads game data (cached) and scans all blueprints. Every stage is guarded.</summary>
     public async Task InitializeAsync(bool rebuildCache = false)
     {
         _scan?.Cancel();
@@ -95,7 +96,7 @@ public sealed class AppState : ObservableObject
             {
                 Progress = se1.Count == 0 ? 100 : n * 100.0 / se1.Count;
                 Status = $"Analyzing blueprints… {n}/{se1.Count}";
-                // Fill rows in as soon as their own analysis is done (runs on the UI thread).
+
                 for (var i = pending.Count - 1; i >= 0; i--)
                 {
                     var row = pending[i];
@@ -148,14 +149,18 @@ public sealed class AppState : ObservableObject
     public void LoadProfiles()
     {
         var keep = Settings.ActiveProfileName;
-        Profiles.Clear();
-        foreach (var p in VanillaProfiles.Load(Paths.CustomWorldsDir)) Profiles.Add(p);
-        foreach (var p in ProfileStore.LoadUser()) Profiles.Add(p);
+        _reloadingProfiles = true;
+        try
+        {
+            Profiles.Clear();
+            foreach (var p in VanillaProfiles.Load(Paths.CustomWorldsDir)) Profiles.Add(p);
+            foreach (var p in ProfileStore.LoadUser()) Profiles.Add(p);
+        }
+        finally { _reloadingProfiles = false; }
         _activeProfile = null;
         ActiveProfile = Profiles.FirstOrDefault(p => p.Name == keep) ?? Profiles.FirstOrDefault();
     }
 
-    /// <summary>Re-reads one blueprint (e.g. after the cost options changed).</summary>
     public void Reanalyze(LibraryRow row)
     {
         if (row.Entry.Game != GameId.SE1) return;

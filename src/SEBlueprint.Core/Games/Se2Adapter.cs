@@ -5,11 +5,6 @@ using SEBlueprint.Core.Paths;
 
 namespace SEBlueprint.Core.Games;
 
-/// <summary>
-/// Space Engineers 2: blueprints are listed from their <c>.container-info</c> metadata (name, description,
-/// block count, PCU). The grid itself (<c>grid.json.vrb</c>) is an undocumented binary format and is not read,
-/// so cost, guns and cargo are not available yet.
-/// </summary>
 public sealed class Se2Adapter(GamePaths paths) : IGameAdapter
 {
     const string MetadataFile = ".container-info";

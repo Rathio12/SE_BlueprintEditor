@@ -4,25 +4,20 @@ using SEBlueprint.Core.Data;
 
 namespace SEBlueprint.Core.Blueprints;
 
-/// <summary>One placed block: its definition id and the direction its front faces (used for thrust).</summary>
 public sealed record BlockRef(string Id, string Forward);
 
 public sealed record GridData(string Name, string GridSize, IReadOnlyList<BlockRef> Blocks);
 
-/// <summary>A Workshop mod the blueprint says it needs.</summary>
 public sealed record BlueprintMod(string Id, string Name);
 
-/// <summary>The parts of a Space Engineers bp.sbc that matter for analysis. Read-only; files are never modified.</summary>
 public sealed record BlueprintData(string Name, string DisplayName, string Owner, IReadOnlyList<GridData> Grids, IReadOnlyList<BlueprintMod> Mods)
 {
-    /// <summary>Loads a bp.sbc file. Throws <see cref="InvalidDataException"/> when the file is not valid blueprint XML.</summary>
     public static BlueprintData Load(string bpSbcPath)
     {
         using var s = File.OpenRead(bpSbcPath);
         return Parse(s, Path.GetFileName(Path.GetDirectoryName(bpSbcPath)) ?? "Blueprint");
     }
 
-    /// <summary>Parses blueprint XML from a stream. <paramref name="fallbackName"/> is used when the file has no name.</summary>
     public static BlueprintData Parse(Stream stream, string fallbackName)
     {
         XDocument doc;

@@ -3,29 +3,23 @@ using System.Text.Json.Serialization;
 
 namespace SEBlueprint.Core.Data;
 
-/// <summary>All block, item and recipe definitions known for one game install plus its Workshop mods.</summary>
 public sealed class GameDatabase
 {
-    /// <summary>Vanilla blocks by id.</summary>
     public Dictionary<string, BlockDefinition> Blocks { get; set; } = new();
-    /// <summary>Mod id → block id → definition.</summary>
+
     public Dictionary<string, Dictionary<string, BlockDefinition>> ModBlocks { get; set; } = new();
-    /// <summary>Vanilla components, ingots, ores and ammo.</summary>
+
     public Dictionary<string, ComponentDefinition> Items { get; set; } = new();
-    /// <summary>Mod id → item id → definition. Only applied when a blueprint uses that mod.</summary>
+
     public Dictionary<string, Dictionary<string, ComponentDefinition>> ModItems { get; set; } = new();
-    /// <summary>Vanilla recipes: result item id → inputs per one unit.</summary>
+
     public Dictionary<string, Dictionary<string, double>> Recipes { get; set; } = new();
-    /// <summary>Mod id → result item id → inputs per one unit. Only applied when a blueprint uses that mod.</summary>
+
     public Dictionary<string, Dictionary<string, Dictionary<string, double>>> ModRecipes { get; set; } = new();
-    /// <summary>Every mod folder found on disk (id → display name).</summary>
+
     public Dictionary<string, string> ModNames { get; set; } = new();
     public string CacheKey { get; set; } = "";
 
-    /// <summary>
-    /// Finds a block definition: mods the blueprint lists (in order) → vanilla → any other mod on disk.
-    /// <paramref name="fromUnlistedMod"/> is true when only a mod the blueprint did not list defines it.
-    /// </summary>
     public BlockDefinition? Resolve(string id, IReadOnlyList<string> enabledMods, out bool fromUnlistedMod)
     {
         fromUnlistedMod = false;
@@ -43,7 +37,6 @@ public sealed class GameDatabase
         return null;
     }
 
-    /// <summary>Recipe for an item: enabled mods first (in order), then vanilla.</summary>
     public Dictionary<string, double>? ResolveRecipe(string id, IReadOnlyList<string> enabledMods)
     {
         foreach (var mod in enabledMods)
@@ -51,7 +44,6 @@ public sealed class GameDatabase
         return Recipes.GetValueOrDefault(id);
     }
 
-    /// <summary>Item definition: enabled mods first (in order), then vanilla.</summary>
     public ComponentDefinition? ResolveItem(string id, IReadOnlyList<string> enabledMods)
     {
         foreach (var mod in enabledMods)
@@ -62,7 +54,6 @@ public sealed class GameDatabase
         return null;
     }
 
-    /// <summary>Human readable item name, falling back to the subtype id.</summary>
     public string ItemName(string id)
     {
         var name = ResolveItem(id, Array.Empty<string>())?.DisplayName;

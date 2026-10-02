@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 
 namespace SEBlueprint.Core.Paths;
 
-/// <summary>Finds Steam libraries, the Space Engineers install, Workshop content and blueprint folders. Never throws.</summary>
 public static class SteamLocator
 {
     public const string Se1AppId = "244850";
@@ -26,7 +25,7 @@ public static class SteamLocator
                     libraries.AddRange(ParseLibraryFolders(File.ReadAllText(vdf)));
             }
         }
-        catch (Exception) { /* fall through with whatever was found */ }
+        catch (Exception) { }
         return Build(libraries.Distinct(StringComparer.OrdinalIgnoreCase), appData);
     }
 

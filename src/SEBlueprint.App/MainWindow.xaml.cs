@@ -18,10 +18,11 @@ public partial class MainWindow : Window
         Instance = this;
         InitializeComponent();
         DataContext = AppState.Current;
+        VersionText.Text = $"v{typeof(MainWindow).Assembly.GetName().Version?.ToString(3)}";
         StateChanged += (_, _) =>
         {
             MaxButton.Content = WindowState == WindowState.Maximized ? "" : "";
-            // A custom-framed window overhangs the screen when maximized; pad it back in.
+
             Root.Margin = WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
         };
         Loaded += OnLoaded;
@@ -47,10 +48,6 @@ public partial class MainWindow : Window
         PageHost.Navigate(page);
     }
 
-    /// <summary>
-    /// "SEBlueprintInspector.exe &lt;blueprint folder | bp.sbc | name&gt;" selects that blueprint
-    /// (works with Windows "Open with"); "--page profiles|settings|info" picks the start tab.
-    /// </summary>
     void HandleArguments(List<string> args)
     {
         try

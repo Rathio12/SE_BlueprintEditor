@@ -10,7 +10,6 @@ using SEBlueprint.Core;
 
 namespace SEBlueprint.App.Pages;
 
-/// <summary>The main screen: blueprint list on the left, the selected blueprint's details on the right.</summary>
 public partial class BlueprintsPage : Page
 {
     readonly ListCollectionView? _view;
@@ -19,7 +18,7 @@ public partial class BlueprintsPage : Page
     {
         InitializeComponent();
         DataContext = AppState.Current;
-        // Filters raise change events during InitializeComponent, before the view exists; handlers check for null.
+
         _view = (ListCollectionView)CollectionViewSource.GetDefaultView(AppState.Current.Rows);
         _view.Filter = Matches;
         List.ItemsSource = _view;
@@ -31,7 +30,6 @@ public partial class BlueprintsPage : Page
 
     void OnAppChanged(object? sender, PropertyChangedEventArgs e)
     {
-        // Blueprints finished analysing or the profile changed: names, numbers and sort keys may have changed.
         if (_view != null && e.PropertyName is nameof(AppState.IsBusy) or nameof(AppState.ActiveProfile))
         {
             _view.Refresh();

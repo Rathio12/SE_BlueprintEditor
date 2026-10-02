@@ -3,7 +3,6 @@ using System.Windows.Media;
 
 namespace SEBlueprint.App.Controls;
 
-/// <summary>A segmented gauge like Space Engineers' energy / hydrogen bars. Value is 0–1; above 1 every segment glows in OverBrush.</summary>
 public sealed class SegmentBar : FrameworkElement
 {
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(double), typeof(SegmentBar),

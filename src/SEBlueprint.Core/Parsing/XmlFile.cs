@@ -3,7 +3,6 @@ using System.Xml.Linq;
 
 namespace SEBlueprint.Core.Parsing;
 
-/// <summary>Loads game XML files, which may be plain text or gzip-compressed (the game writes both).</summary>
 public static class XmlFile
 {
     public static XDocument Load(Stream stream)

@@ -2,10 +2,6 @@ using System.Text.RegularExpressions;
 
 namespace SEBlueprint.Core.Tests;
 
-/// <summary>
-/// Enforces the project's privacy promise: the shipped source contains no network code, no native (P/Invoke)
-/// calls and no URLs except the project's own GitHub page and XML schema namespaces.
-/// </summary>
 public class OfflineGuardTests
 {
     const string Allowed = "https://github.com/Rathio12/SE_BlueprintEditor";

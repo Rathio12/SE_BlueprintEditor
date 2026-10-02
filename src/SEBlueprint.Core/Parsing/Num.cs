@@ -2,7 +2,6 @@ using System.Globalization;
 
 namespace SEBlueprint.Core.Parsing;
 
-/// <summary>Culture-independent number parsing for game definition files (always '.' decimals).</summary>
 public static class Num
 {
     const NumberStyles Float = NumberStyles.Float;

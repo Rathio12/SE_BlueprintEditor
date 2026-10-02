@@ -50,7 +50,7 @@ public class LimitTests
         Assert.Equal(50000, s.MaxBlocksPerGrid);
         Assert.Equal(100000, s.MaxBlocksTotal);
         Assert.Equal(24, s.BlockTypeLimits["Assembler"]);
-        Assert.DoesNotContain(ps, p => p.Name == "Vanilla – Empty World"); // identical to "No limits"
+        Assert.DoesNotContain(ps, p => p.Name == "Vanilla – Empty World");
         Assert.Single(VanillaProfiles.Load(null));
     }
 

@@ -3,7 +3,6 @@ using System.Text;
 
 namespace SEBlueprint.Core.Data;
 
-/// <summary>Loads the game database from a local Space Engineers install and Workshop folder, with a JSON cache.</summary>
 public static class GameDatabaseLoader
 {
     const string FormatVersion = "2";
@@ -26,7 +25,6 @@ public static class GameDatabaseLoader
             if (File.Exists(texts)) b.AddVanillaFile("Localization/MyTexts.resx", () => File.OpenRead(texts));
         }
 
-        // Mods are independent, so they are parsed in parallel and merged afterwards in a fixed order.
         var mods = ModFolders(workshopDir);
         var perMod = new GameDatabaseBuilder[mods.Count];
         var done = 0;
@@ -80,7 +78,6 @@ public static class GameDatabaseLoader
         return db;
     }
 
-    /// <summary>Changes whenever the game data, the set of mods, a mod's folder or this library's version changes.</summary>
     public static string ComputeCacheKey(string? dataDir, string? workshopDir)
     {
         var sb = new StringBuilder();
@@ -96,7 +93,6 @@ public static class GameDatabaseLoader
         return Convert.ToHexString(SHA1.HashData(Encoding.UTF8.GetBytes(sb.ToString())));
     }
 
-    /// <summary>Workshop item folders that contain a Data folder (i.e. mods, not blueprints or worlds).</summary>
     public static List<string> ModFolders(string? workshopDir)
     {
         if (!Exists(workshopDir)) return new();

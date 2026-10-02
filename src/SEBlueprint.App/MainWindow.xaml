@@ -24,7 +24,6 @@
                 <RowDefinition Height="28" />
             </Grid.RowDefinitions>
 
-            <!-- HUD header: logo plate, slanted tabs, window buttons -->
             <Grid Background="{StaticResource Bg0}">
                 <Rectangle Height="1" VerticalAlignment="Bottom" Fill="{StaticResource Border}" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
@@ -53,7 +52,6 @@
                 </StackPanel>
             </Grid>
 
-            <!-- Content -->
             <Grid Grid.Row="1" Background="{StaticResource Bg1}">
                 <Rectangle Fill="{StaticResource BlueprintGrid}" Opacity="0.6" />
                 <Frame x:Name="PageHost" NavigationUIVisibility="Hidden" Focusable="False" />
@@ -68,7 +66,6 @@
                 </c:SeFrame>
             </Grid>
 
-            <!-- Status strip -->
             <Grid Grid.Row="2" Background="{StaticResource Bg0}">
                 <Rectangle Height="1" VerticalAlignment="Top" Fill="{StaticResource Border}" />
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0">
@@ -77,9 +74,10 @@
                     <TextBlock Text="{Binding Status}" Style="{StaticResource Dim}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="14,0">
-                    <Rectangle Width="7" Height="7" Fill="{StaticResource Green}" Margin="0,0,8,0" />
-                    <TextBlock Text="OFFLINE" FontFamily="{StaticResource HeaderFont}" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource Green}" Margin="0,0,8,0" />
-                    <TextBlock Text="nothing leaves your PC" Style="{StaticResource Dim}" />
+                    <TextBlock Text="PROFILE" FontFamily="{StaticResource HeaderFont}" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextFaint}" Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding ActiveProfile.Name}" FontFamily="{StaticResource HeaderFont}" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource Accent}" />
+                    <TextBlock Text="  ·  " Style="{StaticResource Dim}" />
+                    <TextBlock x:Name="VersionText" Style="{StaticResource Dim}" />
                 </StackPanel>
             </Grid>
         </Grid>

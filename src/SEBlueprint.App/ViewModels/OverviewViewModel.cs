@@ -28,7 +28,6 @@ public sealed record CheckLine(string Stat, string Value, string Limit, LimitSta
 
 public sealed record UnknownLine(string Id, int Count);
 
-/// <summary>Everything the Overview page shows for the selected blueprint.</summary>
 public sealed class OverviewViewModel : ObservableObject
 {
     readonly AppState _app = AppState.Current;
@@ -51,9 +50,9 @@ public sealed class OverviewViewModel : ObservableObject
     public ImageSource? Thumb => Row?.Thumb;
 
     public IReadOnlyList<StatCard> Cards { get; private set; } = Array.Empty<StatCard>();
-    /// <summary>The four headline readouts (blocks, PCU, guns, cargo) shown with segmented gauges.</summary>
+
     public IReadOnlyList<StatCard> Primary => Cards.Where(c => c.Title is "BLOCKS" or "PCU" or "GUNS" or "CARGO").ToList();
-    /// <summary>Everything else, shown as a compact readout strip.</summary>
+
     public IReadOnlyList<StatCard> Secondary => Cards.Where(c => c.Title is not ("BLOCKS" or "PCU" or "GUNS" or "CARGO")).ToList();
     public int PrimaryColumns => Math.Max(1, Primary.Count);
     public IReadOnlyList<CheckLine> Checks { get; private set; } = Array.Empty<CheckLine>();
@@ -174,7 +173,6 @@ public sealed class OverviewViewModel : ObservableObject
         return db.ModItems.FirstOrDefault(kv => kv.Value.ContainsKey(id)).Key;
     }
 
-    /// <summary>Tab-separated text of all three cost lists (for the clipboard).</summary>
     public string CostAsText(char sep)
     {
         var sb = new StringBuilder();

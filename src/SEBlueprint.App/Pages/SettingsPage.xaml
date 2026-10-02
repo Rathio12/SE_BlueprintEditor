@@ -18,7 +18,6 @@
                 </DockPanel>
             </c:SeFrame>
 
-            <!-- Folders -->
             <TextBlock Text="Folders" Style="{StaticResource SectionTitle}" />
             <c:SeFrame Style="{StaticResource FrameAccent}">
                 <StackPanel x:Name="PathsPanel">

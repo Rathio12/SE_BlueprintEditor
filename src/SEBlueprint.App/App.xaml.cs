@@ -9,10 +9,8 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        // Portable: keep settings, profiles, cache and log next to the .exe (falls back to AppData if read-only).
         Storage.Root = Storage.ChoosePortableRoot(AppContext.BaseDirectory);
 
-        // Never crash: log locally, tell the user, keep running.
         DispatcherUnhandledException += OnUiException;
         AppDomain.CurrentDomain.UnhandledException += (_, args) => Log.Write($"Unhandled: {args.ExceptionObject}");
         TaskScheduler.UnobservedTaskException += (_, args) =>
@@ -33,7 +31,7 @@ public partial class App : Application
             AppState.Current.ErrorMessage = $"{e.Exception.Message} (details in the log file)";
             return;
         }
-        // Failed before the window could open: never linger invisibly in the background.
+
         var message = "SE Blueprint Inspector could not start:" + Environment.NewLine + Environment.NewLine
                       + e.Exception.GetBaseException().Message + Environment.NewLine + Environment.NewLine
                       + "Details: " + Log.FilePath;

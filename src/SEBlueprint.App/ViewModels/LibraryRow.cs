@@ -9,7 +9,6 @@ namespace SEBlueprint.App.ViewModels;
 
 public enum RowStatus { Pending, Ok, Warn, Over, Unlimited, Error }
 
-/// <summary>One line in the Library grid: a blueprint plus its limit status for the active profile.</summary>
 public sealed class LibraryRow : ObservableObject
 {
     ImageSource? _thumb;
@@ -20,7 +19,7 @@ public sealed class LibraryRow : ObservableObject
     public LibraryRow(BlueprintEntry entry) => Entry = entry;
 
     public BlueprintEntry Entry { get; }
-    /// <summary>The blueprint's own name (from bp.sbc) once analyzed, otherwise the folder name.</summary>
+
     public string Name => string.IsNullOrWhiteSpace(Entry.Report?.Name) ? Entry.Name : Entry.Report!.Name;
     public string Game => Entry.Game == GameId.SE2 ? "SE2" : "SE1";
     public string Source => Entry.Source;
@@ -41,10 +40,6 @@ public sealed class LibraryRow : ObservableObject
     public RowStatus Status { get => _status; private set => Set(ref _status, value); }
     public string StatusText { get => _statusText; private set => Set(ref _statusText, value); }
 
-    /// <summary>
-    /// Thumbnail. Decoded on a background thread the first time the grid shows the row,
-    /// so scrolling never waits for image files.
-    /// </summary>
     public ImageSource? Thumb
     {
         get
@@ -90,7 +85,6 @@ public sealed class LibraryRow : ObservableObject
         catch (Exception) { return null; }
     }
 
-    /// <summary>Recomputes the status chip against a limit profile and notifies every column.</summary>
     public void Refresh(LimitProfile? profile)
     {
         if (Entry.Error != null) { Status = RowStatus.Error; StatusText = "Error"; }

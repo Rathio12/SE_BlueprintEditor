@@ -6,7 +6,6 @@ using SEBlueprint.Core.Paths;
 
 namespace SEBlueprint.Core.Library;
 
-/// <summary>One blueprint found on disk, plus its analysis once computed.</summary>
 public sealed class BlueprintEntry
 {
     public GameId Game { get; init; } = GameId.SE1;
@@ -27,7 +26,6 @@ public static class BlueprintLibrary
     public const string BinaryOnlyError = "Binary blueprint (bp.sbcB5) only — open it in the game once so it saves a bp.sbc.";
     const int MaxDepth = 3;
 
-    /// <summary>Every folder under the roots that contains a bp.sbc or bp.sbcB5 (searched up to 3 levels deep). Never throws.</summary>
     public static IReadOnlyList<BlueprintEntry> Enumerate(IEnumerable<BlueprintRoot> roots)
     {
         var list = new List<BlueprintEntry>();
@@ -75,7 +73,6 @@ public static class BlueprintLibrary
         return true;
     }
 
-    /// <summary>Analyzes every entry that has a bp.sbc, in parallel. Errors are stored per entry; cancellation just stops early.</summary>
     public static async Task AnalyzeAllAsync(IReadOnlyList<BlueprintEntry> entries, GameDatabase db, IProgress<int>? progress, CancellationToken ct)
     {
         var done = 0;
@@ -91,7 +88,6 @@ public static class BlueprintLibrary
         catch (OperationCanceledException) { }
     }
 
-    /// <summary>Analyzes a single entry, storing the report or an error message on it.</summary>
     public static void Analyze(BlueprintEntry entry, GameDatabase db, CostCalculator? cost = null)
     {
         var file = entry.BlueprintFile;

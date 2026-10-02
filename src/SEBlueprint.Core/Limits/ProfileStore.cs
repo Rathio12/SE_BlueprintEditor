@@ -2,7 +2,6 @@ using System.Text.Json;
 
 namespace SEBlueprint.Core.Limits;
 
-/// <summary>Saves your own limit profiles as JSON files (one per profile) so they can be shared with server players.</summary>
 public static class ProfileStore
 {
     static readonly JsonSerializerOptions Json = new() { WriteIndented = true };

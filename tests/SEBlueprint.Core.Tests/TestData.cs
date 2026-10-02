@@ -1,6 +1,5 @@
 namespace SEBlueprint.Core.Tests;
 
-/// <summary>Builds a throwaway fake game "Content/Data" folder and Workshop folder from the fixtures.</summary>
 internal static class TestData
 {
     public const string ModId = "1919062467";
@@ -24,7 +23,7 @@ internal static class TestData
         File.Copy(Fx("CubeBlocks_Test.sbc"), Path.Combine(mod, "Data", "Blocks.sbc"));
         File.Copy(Fx("WeaponCorePart.cs.txt"), Path.Combine(mod, "Data", "Scripts", "WeaponThread", "Part.cs"));
         File.WriteAllText(Path.Combine(mod, "Data", "Broken.sbc"), "<Definitions><oops");
-        Directory.CreateDirectory(Path.Combine(ws, "555")); // a workshop item that is not a mod
+        Directory.CreateDirectory(Path.Combine(ws, "555"));
         return (data, ws);
     }
 }

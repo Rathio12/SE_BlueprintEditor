@@ -3,7 +3,6 @@ using SEBlueprint.Core.Parsing;
 
 namespace SEBlueprint.Core.Limits;
 
-/// <summary>Builds limit profiles from the world presets that ship with the game (Content/CustomWorlds/*/Sandbox_config.sbc).</summary>
 public static class VanillaProfiles
 {
     public const string NoLimitsName = "Vanilla – No limits";
@@ -33,7 +32,6 @@ public static class VanillaProfiles
         return WithNoLimits(configs);
     }
 
-    /// <summary>Prepends the "No limits" profile and drops presets whose limits are identical to an earlier one.</summary>
     public static IReadOnlyList<LimitProfile> WithNoLimits(IEnumerable<LimitProfile> configs)
     {
         var result = new List<LimitProfile> { new() { Name = NoLimitsName, BuiltIn = true } };

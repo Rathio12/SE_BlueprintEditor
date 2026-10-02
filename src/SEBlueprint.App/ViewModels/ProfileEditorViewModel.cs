@@ -12,7 +12,6 @@ public sealed class BlockLimitRow : ObservableObject
     public int Value { get => _value; set => Set(ref _value, value); }
 }
 
-/// <summary>Editable copy of a limit profile. Empty number fields mean "unlimited".</summary>
 public sealed class ProfileEditorViewModel : ObservableObject
 {
     string _name = "", _pcu = "", _perGrid = "", _total = "", _guns = "", _turrets = "", _cargo = "";

@@ -3,7 +3,6 @@ using SEBlueprint.Core.Parsing;
 
 namespace SEBlueprint.Core.Data;
 
-/// <summary>Reads block, item and recipe definitions from Space Engineers .sbc XML. Tolerates missing or malformed values.</summary>
 public static class DefinitionParser
 {
     public const double LargeCube = 2.5, SmallCube = 0.5;
@@ -60,7 +59,6 @@ public static class DefinitionParser
         }
     }
 
-    /// <summary>Single-output recipes, normalised to inputs per one unit of result. Scrap, ice and multi-output recipes are skipped.</summary>
     public static IEnumerable<(string Result, Dictionary<string, double> InputsPerUnit)> ParseRecipes(XDocument doc)
     {
         foreach (var bp in doc.Descendants().Where(e => e.Name.LocalName == "Blueprint"))
@@ -149,7 +147,6 @@ public static class DefinitionParser
 
     static string ItemKey(XElement e) => StripPrefix((string?)e.Attribute("TypeId")) + "/" + (string?)e.Attribute("SubtypeId");
 
-    /// <summary>Id from &lt;Id&gt;&lt;TypeId/&gt;&lt;SubtypeId/&gt;&lt;/Id&gt; or &lt;Id Type="" Subtype=""/&gt;.</summary>
     static string? ReadId(XElement e)
     {
         var id = Child(e, "Id");

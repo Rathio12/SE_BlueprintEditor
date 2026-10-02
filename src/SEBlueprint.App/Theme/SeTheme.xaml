@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:SEBlueprint.App.Controls">
 
-    <!-- ===================== Palette (Space Engineers terminal look) ===================== -->
     <Color x:Key="C.Bg0">#070D11</Color>
     <Color x:Key="C.Bg1">#0B151B</Color>
     <Color x:Key="C.Panel">#0F1E26</Color>
@@ -34,7 +33,6 @@
     <SolidColorBrush x:Key="Green" Color="{StaticResource C.Green}" />
     <SolidColorBrush x:Key="PanelGlass" Color="#E00F1E26" />
 
-    <!-- Faint blueprint grid behind the content -->
     <DrawingBrush x:Key="BlueprintGrid" TileMode="Tile" Viewport="0,0,32,32" ViewportUnits="Absolute">
         <DrawingBrush.Drawing>
             <GeometryDrawing>
@@ -55,7 +53,6 @@
     <FontFamily x:Key="BodyFont">Segoe UI</FontFamily>
     <FontFamily x:Key="GlyphFont">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
 
-    <!-- Own vector icons (where no good system glyph exists) -->
     <Geometry x:Key="Icon.Crosshair">M12,2 L12,7 M12,17 L12,22 M2,12 L7,12 M17,12 L22,12 M12,5 A7,7 0 1 1 11.99,5 Z M12,11 A1,1 0 1 1 11.99,11 Z</Geometry>
     <Geometry x:Key="Icon.Turret">M4,20 L20,20 L18,15 L6,15 Z M7,15 L7,11 A5,5 0 0 1 17,11 L17,15 M12,9 L22,6</Geometry>
     <Geometry x:Key="Icon.Weight">M9,7 A3,3 0 1 1 15,7 M5,9 L19,9 L22,21 L2,21 Z</Geometry>
@@ -73,7 +70,6 @@
         <Setter Property="StrokeEndLineCap" Value="Round" />
     </Style>
 
-    <!-- ===================== Text ===================== -->
     <Style x:Key="Glyph" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource GlyphFont}" />
         <Setter Property="FontSize" Value="16" />
@@ -117,7 +113,6 @@
         <Setter Property="FontSize" Value="12.5" />
     </Style>
 
-    <!-- ===================== Panels ===================== -->
     <Style x:Key="Frame" TargetType="c:SeFrame">
         <Setter Property="Fill" Value="{StaticResource PanelGlass}" />
         <Setter Property="Stroke" Value="{StaticResource Border}" />
@@ -135,7 +130,6 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- ===================== Buttons ===================== -->
     <Style TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="Background" Value="{StaticResource Panel}" />
@@ -179,7 +173,6 @@
         <Setter Property="Foreground" Value="White" />
     </Style>
 
-    <!-- Window caption buttons -->
     <Style x:Key="CaptionButton" TargetType="Button">
         <Setter Property="Width" Value="46" />
         <Setter Property="Height" Value="34" />
@@ -213,7 +206,6 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Sidebar navigation item -->
     <Style x:Key="NavItem" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource TextDim}" />
         <Setter Property="FontFamily" Value="{StaticResource HeaderFont}" />
@@ -249,7 +241,6 @@
         </Setter>
     </Style>
 
-    <!-- ===================== TextBox (Tag = placeholder) ===================== -->
     <Style TargetType="TextBox">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="Background" Value="{StaticResource Bg1}" />
@@ -288,7 +279,6 @@
         </Setter>
     </Style>
 
-    <!-- ===================== ComboBox ===================== -->
     <Style x:Key="ComboToggle" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
@@ -359,7 +349,6 @@
         </Setter>
     </Style>
 
-    <!-- ===================== ListBox ===================== -->
     <Style TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -392,7 +381,6 @@
         </Setter>
     </Style>
 
-    <!-- ===================== ProgressBar ===================== -->
     <Style TargetType="ProgressBar">
         <Setter Property="Height" Value="4" />
         <Setter Property="Foreground" Value="{StaticResource Accent}" />
@@ -410,7 +398,6 @@
         </Setter>
     </Style>
 
-    <!-- ===================== ScrollBar (thin) ===================== -->
     <Style x:Key="ScrollThumb" TargetType="Thumb">
         <Setter Property="Template">
             <Setter.Value>
@@ -456,7 +443,6 @@
         </Style.Triggers>
     </Style>
 
-    <!-- ===================== DataGrid ===================== -->
     <Style TargetType="DataGrid">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource Text}" />
@@ -533,7 +519,6 @@
         </Style.Triggers>
     </Style>
 
-    <!-- ===================== Menus & tooltips ===================== -->
     <Style TargetType="ContextMenu">
         <Setter Property="Background" Value="{StaticResource Panel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderHi}" />
@@ -571,14 +556,12 @@
         <Setter Property="BorderBrush" Value="{StaticResource BorderHi}" />
         <Setter Property="Padding" Value="8,5" />
     </Style>
-    <!-- ===================== Pages & user controls inherit the terminal text colour ===================== -->
     <Style TargetType="Page">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="FontFamily" Value="{StaticResource BodyFont}" />
         <Setter Property="FontSize" Value="14" />
     </Style>
 
-    <!-- ===================== HUD tabs (slanted, top strip) ===================== -->
     <Style x:Key="TerminalTab" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource TextDim}" />
         <Setter Property="FontFamily" Value="{StaticResource HeaderFont}" />
@@ -613,7 +596,6 @@
         </Setter>
     </Style>
 
-    <!-- Blueprint list rows: no padding, the template draws its own status edge -->
     <Style x:Key="BlueprintItem" TargetType="ListBoxItem">
         <Setter Property="Foreground" Value="{StaticResource Text}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

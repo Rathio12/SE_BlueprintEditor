@@ -1,6 +1,5 @@
 namespace SEBlueprint.Core;
 
-/// <summary>Local, append-only diagnostic log. Never throws and never sends anything anywhere.</summary>
 public static class Log
 {
     static readonly object Gate = new();
@@ -22,6 +21,6 @@ public static class Log
                 File.AppendAllText(file, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}{Environment.NewLine}");
             }
         }
-        catch (Exception) { /* logging must never crash the app */ }
+        catch (Exception) { }
     }
 }

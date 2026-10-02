@@ -4,7 +4,6 @@ using SEBlueprint.Core;
 
 namespace SEBlueprint.App.Services;
 
-/// <summary>User preferences, stored as settings.json in the portable data folder. Unreadable files fall back to defaults.</summary>
 public sealed class AppSettings
 {
     public string? GameDirOverride { get; set; }
@@ -40,6 +39,5 @@ public sealed class AppSettings
         catch (Exception ex) { Log.Write($"Cannot save settings: {ex.Message}"); }
     }
 
-    /// <summary>Refinery yield multiplier for 0–4 yield modules.</summary>
     public double YieldMultiplier => YieldModules switch { 1 => 1.19, 2 => 1.41, 3 => 1.68, >= 4 => 2.0, _ => 1.0 };
 }

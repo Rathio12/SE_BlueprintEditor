@@ -12,7 +12,6 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- ============ Left: blueprint list ============ -->
         <c:SeFrame Style="{StaticResource Frame}" Brackets="{StaticResource Accent}" Padding="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -116,7 +115,6 @@
 
         <GridSplitter Grid.Column="1" Width="10" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" />
 
-        <!-- ============ Right: details ============ -->
         <v:BlueprintDetail x:Name="Detail" Grid.Column="2" />
     </Grid>
 </Page>

@@ -2,14 +2,12 @@ using SEBlueprint.Core.Data;
 
 namespace SEBlueprint.Core.Analysis;
 
-/// <summary>Turns a component list into the ingots and ore needed to build it.</summary>
 public sealed class CostCalculator
 {
     const int MaxDepth = 16;
 
-    /// <summary>Refinery yield (1 = no modules, 2 = four yield modules).</summary>
     public double YieldMultiplier { get; set; } = 1;
-    /// <summary>World assembler efficiency (1 = realistic, 3 = x3, 10 = x10).</summary>
+
     public double AssemblerEfficiency { get; set; } = 1;
 
     public (Dictionary<string, double> Ingots, Dictionary<string, double> Ore) Compute(
@@ -27,7 +25,7 @@ public sealed class CostCalculator
             var recipe = db.ResolveRecipe(id, enabledMods);
             if (recipe == null) continue;
             foreach (var (input, perUnit) in recipe)
-                if (input.StartsWith("Ore/", StringComparison.Ordinal)) // refinery side-inputs (e.g. modded bottles) are not ore
+                if (input.StartsWith("Ore/", StringComparison.Ordinal))
                     Add(ore, input, amount * perUnit / yield);
         }
         return (ingots, ore);
@@ -37,14 +35,11 @@ public sealed class CostCalculator
             var recipe = depth < MaxDepth ? db.ResolveRecipe(id, enabledMods) : null;
             if (recipe == null)
             {
-                // Raw material with no known recipe (or a recipe loop): count it as-is.
                 if (!id.StartsWith("Component/", StringComparison.Ordinal)) Add(ingots, id, count);
                 return;
             }
             foreach (var (input, perUnit) in recipe)
             {
-                // Ingots and ore are raw materials. Anything else with its own recipe (components, bottles,
-                // modded parts) is an intermediate product and is broken down further.
                 var raw = input.StartsWith("Ingot/", StringComparison.Ordinal) || input.StartsWith("Ore/", StringComparison.Ordinal);
                 if (!raw && db.ResolveRecipe(input, enabledMods) != null)
                     Expand(input, count * perUnit, depth + 1);
