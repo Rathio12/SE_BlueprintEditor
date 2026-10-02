@@ -84,6 +84,14 @@
 <td style="text-align: left;">Type: <em>name</em></td>
 <td style="text-align: left;">Count of blocks with that block pair name (e.g. <code>Assembler</code>, <code>Refinery</code>, <code>JumpDrive</code>)</td>
 </tr>
+<tr>
+<td style="text-align: left;"><em>Rule</em> per grid</td>
+<td style="text-align: left;">Blocks matching a grouped rule in the grid that has the most of them</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>Rule</em> per player</td>
+<td style="text-align: left;">Blocks matching a grouped rule in the whole blueprint</td>
+</tr>
 </tbody>
 </table>
 <h2 id="status">Status</h2>
@@ -141,6 +149,10 @@ use that per-grid check.</p>
 <td style="text-align: left;">The server's published limit: 50,000 PCU per grid (sigmadraconis.games)</td>
 </tr>
 <tr>
+<td style="text-align: left;">Stone Industries (SI)</td>
+<td style="text-align: left;">40,000 blocks per grid, no PCU limit and SI's 22 grouped rules from the SI Gaming #block-limits channel</td>
+</tr>
+<tr>
 <td style="text-align: left;">Modded server (typical)</td>
 <td style="text-align: left;">A starting point for modded survival servers</td>
 </tr>
@@ -162,6 +174,45 @@ export/import as files). Share them with your server's players:</p>
   &quot;BlockTypeLimits&quot;: { &quot;Assembler&quot;: 6, &quot;Refinery&quot;: 6, &quot;JumpDrive&quot;: 8 }
 }
 </code></pre>
+<h2 id="grouped-rules">Grouped rules</h2>
+<p>Many servers limit <em>any combination</em> of blocks — &quot;10 reactors of any tier per grid&quot;, &quot;10 drills per player&quot;.
+A grouped rule has a name, a scope, a maximum and the blocks that count:</p>
+<pre><code class="language-json">&quot;GroupLimits&quot;: [
+  { &quot;Name&quot;: &quot;Reactors&quot;, &quot;Scope&quot;: &quot;Grid&quot;, &quot;Max&quot;: 10, &quot;Blocks&quot;: [ &quot;Reactor&quot; ] },
+  { &quot;Name&quot;: &quot;T4 + T5 reactors&quot;, &quot;Scope&quot;: &quot;Grid&quot;, &quot;Max&quot;: 6, &quot;Blocks&quot;: [ &quot;Reactor/*16x&quot;, &quot;Reactor/*32x&quot; ] },
+  { &quot;Name&quot;: &quot;Drills&quot;, &quot;Scope&quot;: &quot;Player&quot;, &quot;Max&quot;: 10, &quot;Blocks&quot;: [ &quot;Drill&quot;, &quot;!Drill/Goliath*&quot; ] },
+  { &quot;Name&quot;: &quot;Shield Air Pressurizer&quot;, &quot;Scope&quot;: &quot;Player&quot;, &quot;Max&quot;: 0, &quot;Blocks&quot;: [ &quot;OxygenGenerator/DSSupergen&quot; ] }
+]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Part</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Blocks</code></td>
+<td style="text-align: left;"><code>TypeId</code> matches every block of that type; <code>TypeId/Subtype</code> matches one block. <code>*</code> is a wildcard, <code>!</code> excludes. Case doesn't matter.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Scope: Grid</code></td>
+<td style="text-align: left;">Checked against the grid with the most matching blocks.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Scope: Player</code></td>
+<td style="text-align: left;">Checked against the whole blueprint. Your other grids on the server count too, so leave some room.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Max: 0</code></td>
+<td style="text-align: left;">The block is not allowed at all.</td>
+</tr>
+</tbody>
+</table>
+<p>Block IDs are the ones in the blueprint's <code>bp.sbc</code> (<code>MyObjectBuilder_</code> removed) — e.g. <code>Reactor/LargeBlockLargeGenerator8x</code>.
+Rules that are over are listed first in the limit check; rules with no matching blocks are hidden. The profile editor
+shows the rules read-only — change them by exporting the profile, editing the JSON and importing it again.</p>
 <p><code>null</code>, <code>0</code> or a missing field means &quot;no limit&quot;. In the profile editor numbers can be typed with or without
 thousands separators in your system's format (<code>50,000</code>, <code>50.000</code>, <code>50 000</code>); invalid input is rejected and the
 profile is not saved. Block type keys are <strong>block pair names</strong> as used in a world's

@@ -100,6 +100,12 @@ relative link in the README and wiki points to a file that exists.</li>
 <p>GitHub Pages serves the <code>docs/</code> folder of <code>main</code> (Settings → Pages → <em>Deploy from a branch</em>, <code>main</code>, <code>/docs</code>).
 <code>tools/publish-site.ps1</code> builds <code>src/SEBlueprint.Web</code> into <code>docs/</code> and only replaces the files it owns;
 <code>docs/wiki</code> and <code>docs/images</code> are never touched. A <code>.nojekyll</code> file makes GitHub serve the files unchanged.</p>
+<h2 id="the-github-wiki">The GitHub wiki</h2>
+<p><code>docs/wiki</code> is the single source. On every push that changes it, the <em>Wiki</em> workflow
+(<a href="https://github.com/Rathio12/SE_BlueprintEditor/blob/main/.github/workflows/wiki.yml">wiki.yml</a>) runs
+<code>tools/sync-wiki.ps1</code>, which rewrites links for the wiki (<code>Page.md</code> → <code>Page</code>, repository files → full links), adds a
+sidebar and footer, and pushes the result to the <a href="https://github.com/Rathio12/SE_BlueprintEditor/wiki">GitHub wiki</a>.
+Edit the files in <code>docs/wiki</code>, not the wiki itself — manual wiki edits are overwritten.</p>
 <p>Next: <a href="FAQ.html">FAQ</a></p>
 
         </article>
