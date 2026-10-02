@@ -27,8 +27,10 @@ Mod scripts are only read as text and never compiled or run; a report showing ot
 
 ## Verifying downloads
 
-Every release lists a SHA-256 checksum (`.sha256` file). Compare it before running the exe:
+Only download `SEBlueprintInspector.exe` from this repository's
+[Releases](https://github.com/Rathio12/SE_BlueprintEditor/releases) page. GitHub shows the SHA-256 of every
+release file next to it; compare it with your download:
 
 ```powershell
-Get-FileHash .\SEBlueprintInspector-v1.0.0-win-x64.zip -Algorithm SHA256
+Get-FileHash .\SEBlueprintInspector.exe -Algorithm SHA256
 ```
