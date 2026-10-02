@@ -14,7 +14,14 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-02
+
+### Added
+- Opt-in in-app updates that install the new exe in place after a SHA-256 check
+
 ### Changed
+- In-app updates in README, privacy, security, contributing and wiki
+- README credits as a readable list instead of an overlapping footer
 - README section for players, server admins, weapon-mod users and scripters
 
 ## [1.1.1] - 2026-10-02
@@ -70,7 +77,8 @@
 - Fast restarts through a game-data cache that rebuilds itself when the game or mods change.
 - Fully offline: no network access, telemetry, updater or native code (enforced by a test).
 
-[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Rathio12/SE_BlueprintEditor/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rathio12/SE_BlueprintEditor/releases/tag/v1.0.0
