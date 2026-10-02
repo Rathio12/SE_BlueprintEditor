@@ -173,13 +173,9 @@ If the tool helps you, a ⭐ helps other engineers find it.
 Dual-licensed **MIT OR GPL-3.0-or-later** — pick whichever fits your project.
 See [LICENSE](LICENSE), [LICENSE-MIT](LICENSE-MIT) and [LICENSE-GPL](LICENSE-GPL).
 
----
+## Credits
 
-<sub>
-
-**Credits** — Inspired by [SE-BlueprintEditor](https://github.com/ScriptedEngineer/SE-BlueprintEditor) by ScriptedEngineer (independent rewrite, no code reused) ·
-[BCnEncoder.NET](https://github.com/Nominom/BCnEncoder.NET) (MIT) decodes game icons ·
-Sigma Draconis Expanse limits from [sigmadraconis.games](https://sigmadraconis.games/) ·
-Space Engineers, its data and icons © Keen Software House. Not affiliated with or endorsed by Keen Software House.
-
-</sub>
+- Inspired by [SE-BlueprintEditor](https://github.com/ScriptedEngineer/SE-BlueprintEditor) by ScriptedEngineer — independent rewrite, no code reused.
+- [BCnEncoder.NET](https://github.com/Nominom/BCnEncoder.NET) (MIT) decodes the game icons.
+- Sigma Draconis Expanse limits from [sigmadraconis.games](https://sigmadraconis.games/).
+- Space Engineers, its data and icons © Keen Software House. Not affiliated with or endorsed by Keen Software House.
