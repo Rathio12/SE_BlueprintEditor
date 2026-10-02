@@ -133,7 +133,7 @@ public partial class MainWindow : Window
         try
         {
             await Updater.InstallAsync(_update, new Progress<double>(v => UpdateProgress.Value = v));
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
         catch (Exception ex)
         {
