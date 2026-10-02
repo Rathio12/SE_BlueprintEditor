@@ -56,6 +56,34 @@
                 <Rectangle Fill="{StaticResource BlueprintGrid}" Opacity="0.6" />
                 <Frame x:Name="PageHost" NavigationUIVisibility="Hidden" Focusable="False" />
 
+                <c:SeFrame x:Name="RatePanel" Visibility="Collapsed" Opacity="0" Width="400"
+                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,26,22"
+                           Fill="#F20E2230" Stroke="{StaticResource BorderHi}" Brackets="{StaticResource Accent}" Chamfer="14" Padding="20,16,20,18">
+                    <c:SeFrame.RenderTransform>
+                        <TranslateTransform x:Name="RateSlide" Y="24" />
+                    </c:SeFrame.RenderTransform>
+                    <StackPanel>
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource CaptionButton}" Width="28" Height="24" Content="&#xE8BB;"
+                                    VerticalAlignment="Top" Margin="0,-6,-10,0" Click="OnRateLater" ToolTip="Close" />
+                            <TextBlock Text="&#xE734;" Style="{StaticResource Glyph}" FontSize="20" Foreground="{StaticResource Orange}" Margin="0,0,10,0" />
+                            <TextBlock Text="ENJOYING THE INSPECTOR, ENGINEER?" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <TextBlock Margin="0,10,0,14" TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
+                                   Text="If it saved you a few trips to the assembler, leave a star on GitHub. It helps other builders and server admins find the tool." />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource AccentButton}" Click="OnRateStar">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE734;" Style="{StaticResource Glyph}" FontSize="13" Foreground="White" Margin="0,0,8,0" />
+                                    <TextBlock Text="Star on GitHub" />
+                                </StackPanel>
+                            </Button>
+                            <Button Content="Later" Margin="8,0,0,0" Click="OnRateLater" />
+                            <Button Content="Don't ask again" Margin="8,0,0,0" Click="OnRateNever" />
+                        </StackPanel>
+                    </StackPanel>
+                </c:SeFrame>
+
                 <c:SeFrame VerticalAlignment="Bottom" Margin="24,0,24,16" Fill="#F2341414" Stroke="{StaticResource Red}" Padding="14,10"
                            Visibility="{Binding HasError, Converter={StaticResource Visible}}">
                     <DockPanel>

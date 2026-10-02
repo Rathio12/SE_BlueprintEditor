@@ -13,6 +13,7 @@ public sealed class AppSettings
     public string? ActiveProfileName { get; set; }
     public double AssemblerEfficiency { get; set; } = 1;
     public int YieldModules { get; set; }
+    public bool RatePromptDone { get; set; }
 
     static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
 

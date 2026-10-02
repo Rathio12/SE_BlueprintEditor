@@ -39,6 +39,47 @@
                 </Button>
             </StackPanel>
 
+            <TextBlock Text="Feedback &amp; support" Style="{StaticResource SectionTitle}" />
+            <c:SeFrame Style="{StaticResource Frame}" Brackets="{StaticResource Accent}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="REPORT A BUG" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" Foreground="{StaticResource Orange}" />
+                        <TextBlock Text="Wrong numbers, a crash or a mod that isn't recognised? Open an issue and attach log.txt." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,4,0,10" />
+                        <Button HorizontalAlignment="Left" Click="OnReportBug">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xEBE8;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{StaticResource Orange}" Margin="0,0,8,0" />
+                                <TextBlock Text="Report a bug" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="0,0,16,0">
+                        <TextBlock Text="SUPPORT THIS APP" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" Foreground="{StaticResource Accent}" />
+                        <TextBlock Text="A star on GitHub helps other engineers find the tool. It's free and takes two seconds." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,4,0,10" />
+                        <Button HorizontalAlignment="Left" Click="OnStar" Style="{StaticResource AccentButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE734;" Style="{StaticResource Glyph}" FontSize="13" Foreground="White" Margin="0,0,8,0" />
+                                <TextBlock Text="Star on GitHub" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="UPDATES" FontFamily="{StaticResource HeaderFont}" FontWeight="Bold" Foreground="{StaticResource Green}" />
+                        <TextBlock Text="The app never updates itself. New versions and changelogs are on the releases page." Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,4,0,10" />
+                        <Button HorizontalAlignment="Left" Click="OnReleases">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE896;" Style="{StaticResource Glyph}" FontSize="13" Foreground="{StaticResource Green}" Margin="0,0,8,0" />
+                                <TextBlock Text="Releases" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </c:SeFrame>
+
         </StackPanel>
     </ScrollViewer>
 </Page>

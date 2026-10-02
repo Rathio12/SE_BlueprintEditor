@@ -1,6 +1,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using SEBlueprint.App.Pages;
 using SEBlueprint.App.Services;
 using SEBlueprint.Core;
@@ -34,6 +35,39 @@ public partial class MainWindow : Window
         await AppState.Current.InitializeAsync();
         if (!AppState.Current.GameFound) TabSettings.IsChecked = true;
         HandleArguments(Environment.GetCommandLineArgs().Skip(1).ToList());
+        await MaybeAskForRating();
+    }
+
+    async Task MaybeAskForRating()
+    {
+        if (!RatePrompt.ShouldShow(AppState.Current.Settings)) return;
+        await Task.Delay(RatePrompt.RandomDelay());
+        RatePanel.Visibility = Visibility.Visible;
+        var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+        RatePanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(260)) { EasingFunction = ease });
+        RateSlide.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty, new DoubleAnimation(24, 0, TimeSpan.FromMilliseconds(320)) { EasingFunction = ease });
+    }
+
+    void HideRatePanel()
+    {
+        var fade = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(180));
+        fade.Completed += (_, _) => RatePanel.Visibility = Visibility.Collapsed;
+        RatePanel.BeginAnimation(OpacityProperty, fade);
+    }
+
+    void OnRateStar(object sender, RoutedEventArgs e)
+    {
+        Links.Open(Links.Repo);
+        RatePrompt.Finish(AppState.Current.Settings);
+        HideRatePanel();
+    }
+
+    void OnRateLater(object sender, RoutedEventArgs e) => HideRatePanel();
+
+    void OnRateNever(object sender, RoutedEventArgs e)
+    {
+        RatePrompt.Finish(AppState.Current.Settings);
+        HideRatePanel();
     }
 
     void OnTab(object sender, RoutedEventArgs e)

@@ -114,6 +114,10 @@ public partial class SettingsPage : Page
         Refresh();
     }
 
+    void OnReportBug(object sender, RoutedEventArgs e) => Links.Open(Links.ReportBug);
+    void OnStar(object sender, RoutedEventArgs e) => Links.Open(Links.Repo);
+    void OnReleases(object sender, RoutedEventArgs e) => Links.Open(Links.Releases);
+
     static void Try(Action a)
     {
         try { a(); }
