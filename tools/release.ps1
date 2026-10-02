@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)][string]$Version,
+    [switch]$Fix,
+    [string]$Version,
     [switch]$NoPush
 )
 
@@ -13,31 +14,40 @@ function Run([string]$Exe, [string[]]$Arguments) {
     if ($LASTEXITCODE -ne 0) { Fail "$Exe $($Arguments -join ' ') failed with exit code $LASTEXITCODE" }
 }
 
-if ($Version -notmatch '^\d+\.\d+\.\d+$') { Fail "Version must look like 1.2.3 (got '$Version')" }
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
 Step "Checking repository"
 if (git status --porcelain) { Fail "Working tree has uncommitted changes. Commit or stash them first." }
-if (git tag --list "v$Version") { Fail "v$Version is already released" }
 Run 'git' @('pull', '--rebase', 'origin', 'main')
 
 $props = Join-Path $root 'Directory.Build.props'
-$xml = [xml](Get-Content $props)
-$current = $xml.Project.PropertyGroup.Version
-if ([version]$Version -le [version]$current -and (git tag --list "v$current")) {
-    Fail "New version $Version must be higher than $current"
+$current = ([xml](Get-Content $props)).Project.PropertyGroup.Version
+if ($current -notmatch '^1\.(\d+)\.(\d+)$') { Fail "Current version '$current' is not in the 1.x.y format" }
+$build = [int]$Matches[1]
+$fixes = [int]$Matches[2]
+if (-not $Version) {
+    if (-not (git tag --list "v$current")) { $Version = $current }
+    elseif ($Fix) { $Version = "1.$build.$($fixes + 1)" }
+    else { $Version = "1.$($build + 1).0" }
 }
+if ($Version -notmatch '^1\.\d+\.\d+$') { Fail "Version must look like 1.x.y (got '$Version')" }
+if ([version]$Version -lt [version]$current) { Fail "New version $Version is lower than $current" }
+Write-Host "Version scheme 1.x.y: x = build, y = fixes on that build. Releasing v$Version (was $current)."
 
 Step "Running tests"
 Run 'dotnet' @('test', 'tests/SEBlueprint.Core.Tests', '-c', 'Release', '--nologo')
+
+if (git tag --list "v$Version") { Fail "v$Version is already released" }
 
 Step "Setting version $current -> $Version"
 $content = Get-Content $props -Raw
 $content = $content -replace "<Version>[^<]*</Version>", "<Version>$Version</Version>"
 [System.IO.File]::WriteAllText($props, $content, (New-Object System.Text.UTF8Encoding($false)))
-Run 'git' @('add', 'Directory.Build.props')
-Run 'git' @('commit', '-m', "chore(release): bump version to $Version")
+if ($Version -ne $current) {
+    Run 'git' @('add', 'Directory.Build.props')
+    Run 'git' @('commit', '-m', "chore(release): bump version to $Version")
+}
 
 if ($NoPush) {
     Step "Committed locally. Push to main to publish v$Version."

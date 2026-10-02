@@ -62,21 +62,14 @@ jobs:
         if: steps.v.outputs.release == 'true'
         run: dotnet publish src/SEBlueprint.App -c Release -o out/app -p:Version=${{ steps.v.outputs.version }}
 
-      - name: Package
+      - name: Release notes
         if: steps.v.outputs.release == 'true'
         run: |
           $version = '${{ steps.v.outputs.version }}'
-          $name = "SEBlueprintInspector-v$version-win-x64.zip"
-          New-Item -ItemType Directory -Force out/stage | Out-Null
-          Copy-Item out/app/SEBlueprintInspector.exe out/stage
-          foreach ($f in 'README.md', 'CHANGELOG.md', 'LICENSE', 'LICENSE-MIT', 'LICENSE-GPL', 'PRIVACY.md') { Copy-Item $f out/stage }
-          Compress-Archive -Path out/stage/* -DestinationPath "out/$name"
-          $hash = (Get-FileHash "out/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
-          Set-Content "out/$name.sha256" "$hash  $name" -NoNewline
           $text = (Get-Content CHANGELOG.md -Raw) -replace "`r`n", "`n"
           $m = [regex]::Match($text, "(?ms)^## \[$([regex]::Escape($version))\][^\n]*\n(.*?)(?=^## \[|^\[[^\]]+\]:|\z)")
           $notes = if ($m.Success) { $m.Groups[1].Value.Trim() } else { "Release $version" }
-          $body = "$notes`n`n### Download`n``$name`` — unzip anywhere and run ``SEBlueprintInspector.exe``. No installer and no .NET install needed.`n`nSHA-256: ``$hash``"
+          $body = "$notes`n`n### Download`nDownload **SEBlueprintInspector.exe** and run it — no installer and no .NET install needed. It keeps its data in a ``SEBlueprintInspector-data`` folder next to the exe."
           Set-Content out/notes.md $body
 
       - name: Publish release
@@ -87,4 +80,4 @@ jobs:
           $version = '${{ steps.v.outputs.version }}'
           git tag -a "v$version" -m "SE Blueprint Inspector v$version"
           git push origin "v$version"
-          gh release create "v$version" "out/SEBlueprintInspector-v$version-win-x64.zip" "out/SEBlueprintInspector-v$version-win-x64.zip.sha256" --title "SE Blueprint Inspector v$version" --notes-file out/notes.md --verify-tag
+          gh release create "v$version" "out/app/SEBlueprintInspector.exe" --title "SE Blueprint Inspector v$version" --notes-file out/notes.md --verify-tag
