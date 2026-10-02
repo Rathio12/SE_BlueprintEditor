@@ -27,7 +27,8 @@ public sealed class CostCalculator
             var recipe = db.ResolveRecipe(id, enabledMods);
             if (recipe == null) continue;
             foreach (var (input, perUnit) in recipe)
-                Add(ore, input, amount * perUnit / yield);
+                if (input.StartsWith("Ore/", StringComparison.Ordinal)) // refinery side-inputs (e.g. modded bottles) are not ore
+                    Add(ore, input, amount * perUnit / yield);
         }
         return (ingots, ore);
 
@@ -42,9 +43,12 @@ public sealed class CostCalculator
             }
             foreach (var (input, perUnit) in recipe)
             {
-                if (input.StartsWith("Component/", StringComparison.Ordinal))
+                // Ingots and ore are raw materials. Anything else with its own recipe (components, bottles,
+                // modded parts) is an intermediate product and is broken down further.
+                var raw = input.StartsWith("Ingot/", StringComparison.Ordinal) || input.StartsWith("Ore/", StringComparison.Ordinal);
+                if (!raw && db.ResolveRecipe(input, enabledMods) != null)
                     Expand(input, count * perUnit, depth + 1);
-                else
+                else if (!input.StartsWith("Component/", StringComparison.Ordinal))
                     Add(ingots, input, count * perUnit / assembler);
             }
         }

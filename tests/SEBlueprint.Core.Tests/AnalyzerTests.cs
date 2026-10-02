@@ -129,6 +129,31 @@ public class AnalyzerTests
     }
 
     [Fact]
+    public void Cost_expands_non_component_intermediates_like_bottles()
+    {
+        var db = new GameDatabase();
+        db.Recipes["Component/Tank"] = new() { ["OxygenContainerObject/HydrogenBottle"] = 2 };
+        db.Recipes["OxygenContainerObject/HydrogenBottle"] = new() { ["Ingot/Iron"] = 80 };
+        db.Recipes["Ingot/Iron"] = new() { ["Ore/Iron"] = 1 / 0.7 };
+        var (ingots, ore) = new CostCalculator().Compute(new Dictionary<string, int> { ["Component/Tank"] = 1 }, db, Array.Empty<string>());
+        Assert.Equal(160, ingots["Ingot/Iron"], 6);
+        Assert.False(ingots.ContainsKey("OxygenContainerObject/HydrogenBottle"));
+        Assert.False(ore.ContainsKey("Ingot/Iron"));
+        Assert.Equal(160 / 0.7, ore["Ore/Iron"], 6);
+    }
+
+    [Fact]
+    public void Ore_list_only_contains_ores()
+    {
+        var db = new GameDatabase();
+        db.Recipes["Component/Plate"] = new() { ["Ingot/Exotic"] = 1 };
+        db.Recipes["Ingot/Exotic"] = new() { ["Ore/Exotic"] = 2, ["OxygenContainerObject/HydrogenBottle"] = 0.1 };
+        var (_, ore) = new CostCalculator().Compute(new Dictionary<string, int> { ["Component/Plate"] = 10 }, db, Array.Empty<string>());
+        Assert.Equal(20, ore["Ore/Exotic"], 6);
+        Assert.Single(ore);
+    }
+
+    [Fact]
     public void Bad_xml_throws_InvalidDataException()
     {
         var f = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".sbc");

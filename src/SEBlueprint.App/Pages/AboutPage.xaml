@@ -1,0 +1,49 @@
+<Page x:Class="SEBlueprint.App.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="clr-namespace:SEBlueprint.App.Controls"
+      Title="About"
+      Foreground="{StaticResource Text}" FontFamily="{StaticResource BodyFont}" FontSize="14">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,20,28,28" MaxWidth="780" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="pack://application:,,,/Assets/app-icon.png" Width="80" Height="80" />
+                <StackPanel Margin="18,0,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="SE Blueprint Inspector" Style="{StaticResource PageTitle}" />
+                    <TextBlock x:Name="VersionText" Style="{StaticResource Dim}" FontSize="13.5" />
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Margin="0,18,0,0" TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
+                       Text="Build cost, blocks, PCU, guns, turrets and cargo for Space Engineers blueprints, checked against vanilla or server limits. Supports modded weapons (including WeaponCore) and modded cargo." />
+
+            <TextBlock Text="Privacy" Style="{StaticResource SectionTitle}" />
+            <c:SeFrame Style="{StaticResource FrameAccent}">
+                <StackPanel>
+                    <TextBlock Text="OFFLINE" FontFamily="{StaticResource HeaderFont}" FontWeight="SemiBold" Foreground="{StaticResource Green}" />
+                    <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
+                               Text="No internet access, telemetry or auto-updates. Game, mod and blueprint files are only read, never changed. Settings, profiles, cache and log are stored in the data folder next to the program." />
+                </StackPanel>
+            </c:SeFrame>
+
+            <WrapPanel Margin="0,16,0,0">
+                <Button Style="{StaticResource AccentButton}" Click="OnGitHub" Margin="0,0,8,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE943;" Style="{StaticResource Glyph}" FontSize="13" Foreground="White" Margin="0,0,8,0" />
+                        <TextBlock Text="GitHub" />
+                    </StackPanel>
+                </Button>
+                <Button Click="OnDataFolder" Margin="0,0,8,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8B7;" Style="{StaticResource Glyph}" FontSize="13" Margin="0,0,8,0" />
+                        <TextBlock Text="Open data folder" />
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+
+            <TextBlock Text="Credits" Style="{StaticResource SectionTitle}" />
+            <TextBlock TextWrapping="Wrap" Foreground="{StaticResource TextDim}"
+                       Text="BCnEncoder.NET (MIT) decodes the game's icons. Game data and icons are read from your own installation and belong to Keen Software House. This tool is not affiliated with or endorsed by Keen Software House." />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

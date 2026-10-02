@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/SEBlueprint.App/SEBlueprint.App.csproj" />
     <Project Path="src/SEBlueprint.Core/SEBlueprint.Core.csproj" />
   </Folder>
   <Folder Name="/tests/">

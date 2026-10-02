@@ -1,0 +1,82 @@
+<Page x:Class="SEBlueprint.App.Pages.ProfilesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="clr-namespace:SEBlueprint.App.Controls"
+      Title="Limit profiles"
+      Foreground="{StaticResource Text}" FontFamily="{StaticResource BodyFont}" FontSize="14">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,22,28,28" MaxWidth="1150" HorizontalAlignment="Left">
+            <TextBlock Text="Limit profiles" Style="{StaticResource PageTitle}" Margin="0,0,0,4" />
+            <TextBlock Text="Vanilla profiles come from the game's world presets. Server profiles are saved as JSON and can be shared."
+                       Style="{StaticResource Dim}" TextWrapping="Wrap" Margin="0,0,0,10" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <c:SeFrame Style="{StaticResource Frame}" Padding="0,8,0,12" VerticalAlignment="Top">
+                    <StackPanel>
+                        <ListBox x:Name="ProfileList" DisplayMemberPath="Name" MinHeight="260" MaxHeight="440" SelectionChanged="OnProfileSelected" />
+                        <WrapPanel Margin="12,10,6,0">
+                            <Button Content="New" Margin="0,0,6,6" Click="OnNew" />
+                            <Button Content="Duplicate" Margin="0,0,6,6" Click="OnDuplicate" />
+                            <Button Content="Delete" Margin="0,0,6,6" Click="OnDelete" />
+                            <Button Content="Import" Margin="0,0,6,6" Click="OnImport" />
+                            <Button Content="Export" Margin="0,0,6,6" Click="OnExport" />
+                        </WrapPanel>
+                    </StackPanel>
+                </c:SeFrame>
+
+                <c:SeFrame Grid.Column="1" x:Name="EditorCard" Style="{StaticResource Frame}" Margin="12,0,0,0" VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Built-in profile (read-only). Duplicate it to edit." Foreground="{StaticResource Orange}" Margin="0,0,0,10"
+                                   Visibility="{Binding IsReadOnly, Converter={StaticResource Visible}}" />
+                        <Grid IsEnabled="{Binding IsEditable}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="NAME" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="1" Text="MAX PCU" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding TotalPcu, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="2" Text="MAX BLOCKS PER GRID" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxBlocksPerGrid, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="3" Text="MAX BLOCKS TOTAL" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="3" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxBlocksTotal, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="4" Text="MAX GUNS (FIXED + TURRETS)" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="4" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxGuns, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="5" Text="MAX TURRETS" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxTurrets, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="6" Text="MAX CARGO (LITERS)" Style="{StaticResource Label}" />
+                            <TextBox Grid.Row="6" Grid.Column="1" Margin="0,4" Tag="unlimited" Text="{Binding MaxCargoLiters, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <TextBlock Text="BLOCK TYPE LIMITS" Style="{StaticResource Label}" Foreground="{StaticResource Accent}" Margin="0,16,0,6" />
+                        <TextBlock Text="Block pair name (as in the world's BlockTypeLimits) and the maximum count." Style="{StaticResource Dim}" Margin="0,0,0,6" />
+                        <Border BorderBrush="{StaticResource Border}" BorderThickness="1">
+                            <DataGrid ItemsSource="{Binding BlockLimits}" AutoGenerateColumns="False" CanUserAddRows="{Binding IsEditable}"
+                                      IsReadOnly="{Binding IsReadOnly}" MaxHeight="240" MinHeight="80" RowHeight="32">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="BLOCK PAIR NAME" Width="*" Binding="{Binding Key}" />
+                                    <DataGridTextColumn Header="MAX" Width="100" Binding="{Binding Value}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                        <Button Style="{StaticResource AccentButton}" Margin="0,14,0,0" HorizontalAlignment="Left" Click="OnSave"
+                                Visibility="{Binding IsEditable, Converter={StaticResource Visible}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE74E;" Style="{StaticResource Glyph}" FontSize="13" Foreground="White" Margin="0,0,8,0" />
+                                <TextBlock Text="Save profile" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </c:SeFrame>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,18 @@
+<Application x:Class="SEBlueprint.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:SEBlueprint.App.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/SeTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:StatusBrushConverter x:Key="StatusBrush" />
+            <conv:UnitConverter x:Key="Unit" />
+            <conv:BoolToVisibilityConverter x:Key="Visible" />
+            <conv:BoolToVisibilityConverter x:Key="Hidden" Invert="True" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

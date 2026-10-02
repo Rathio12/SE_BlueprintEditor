@@ -1,0 +1,45 @@
+<Page x:Class="SEBlueprint.App.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:c="clr-namespace:SEBlueprint.App.Controls"
+      Title="Settings"
+      Foreground="{StaticResource Text}" FontFamily="{StaticResource BodyFont}" FontSize="14">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,22,28,28" MaxWidth="1150" HorizontalAlignment="Left">
+            <TextBlock Text="Settings" Style="{StaticResource PageTitle}" />
+
+            <c:SeFrame x:Name="NotFoundBar" Style="{StaticResource Frame}" Margin="0,14,0,0" Stroke="{StaticResource Orange}" Padding="14,10">
+                <DockPanel>
+                    <TextBlock Text="&#xE7BA;" Style="{StaticResource Glyph}" Foreground="{StaticResource Orange}" Margin="0,0,12,0" />
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="Space Engineers not found." FontWeight="SemiBold" />
+                        <Run Text="Set the game folder (the one containing Content) below." Foreground="{StaticResource TextDim}" />
+                    </TextBlock>
+                </DockPanel>
+            </c:SeFrame>
+
+            <!-- Folders -->
+            <TextBlock Text="Folders" Style="{StaticResource SectionTitle}" />
+            <c:SeFrame Style="{StaticResource FrameAccent}">
+                <StackPanel x:Name="PathsPanel">
+                    <TextBlock Text="Detected from Steam. Override only if detection is wrong." Style="{StaticResource Dim}" Margin="0,0,0,8" />
+                </StackPanel>
+            </c:SeFrame>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Click="OnAddFolder">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" FontSize="12" Margin="0,0,8,0" />
+                        <TextBlock Text="Add blueprint folder" />
+                    </StackPanel>
+                </Button>
+                <Button Margin="8,0,0,0" Click="OnRebuild" ToolTip="Re-read the game and all mods. Use after game or mod updates.">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE72C;" Style="{StaticResource Glyph}" FontSize="12" Margin="0,0,8,0" />
+                        <TextBlock Text="Rebuild game data" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

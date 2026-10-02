@@ -14,6 +14,8 @@ public sealed class LimitProfile
     /// <summary>Block pair name (as in the game's BlockTypeLimits) → maximum count.</summary>
     public Dictionary<string, int> BlockTypeLimits { get; set; } = new();
 
+    public override string ToString() => Name;
+
     public LimitProfile Clone(string? name = null) => new()
     {
         Name = name ?? Name,
