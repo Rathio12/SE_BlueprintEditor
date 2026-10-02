@@ -28,9 +28,9 @@ public sealed record BlueprintData(string Name, string DisplayName, string Owner
         XDocument doc;
         try
         {
-            doc = XDocument.Load(stream);
+            doc = Parsing.XmlFile.Load(stream);
         }
-        catch (XmlException ex)
+        catch (Exception ex) when (ex is XmlException or InvalidDataException)
         {
             throw new InvalidDataException($"Not a valid blueprint file: {ex.Message}", ex);
         }

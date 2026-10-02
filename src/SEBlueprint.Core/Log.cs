@@ -5,7 +5,7 @@ public static class Log
 {
     static readonly object Gate = new();
 
-    public static string Dir { get; } = ResolveDir();
+    public static string Dir => Storage.Root;
 
     public static string FilePath => Path.Combine(Dir, "log.txt");
 
@@ -23,16 +23,5 @@ public static class Log
             }
         }
         catch (Exception) { /* logging must never crash the app */ }
-    }
-
-    static string ResolveDir()
-    {
-        try
-        {
-            var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            if (string.IsNullOrEmpty(local)) local = Path.GetTempPath();
-            return Path.Combine(local, "SEBlueprintInspector");
-        }
-        catch (Exception) { return Path.Combine(Path.GetTempPath(), "SEBlueprintInspector"); }
     }
 }

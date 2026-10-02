@@ -163,7 +163,7 @@ public sealed class GameDatabaseBuilder
     static XDocument Load(Func<Stream> open)
     {
         using var s = open();
-        return XDocument.Load(s);
+        return Parsing.XmlFile.Load(s);
     }
 
     static string Normalize(string p) => p.Replace('\\', '/').TrimStart('/');

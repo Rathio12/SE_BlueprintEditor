@@ -7,7 +7,7 @@ public static class ProfileStore
 {
     static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
 
-    public static string Dir { get; } = ResolveDir();
+    public static string Dir => Path.Combine(Storage.Root, "profiles");
 
     public static string ToJson(LimitProfile p) => JsonSerializer.Serialize(p, Json);
 
@@ -55,16 +55,5 @@ public static class ProfileStore
         var invalid = Path.GetInvalidFileNameChars().Concat(new[] { '/', '\\', ':', '*', '?', '"', '<', '>', '|' }).ToHashSet();
         var safe = new string(name.Select(c => invalid.Contains(c) ? '_' : c).ToArray()).Trim();
         return (safe.Length == 0 ? "profile" : safe) + ".json";
-    }
-
-    static string ResolveDir()
-    {
-        try
-        {
-            var roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            if (string.IsNullOrEmpty(roaming)) roaming = Path.GetTempPath();
-            return Path.Combine(roaming, "SEBlueprintInspector", "profiles");
-        }
-        catch (Exception) { return Path.Combine(Path.GetTempPath(), "SEBlueprintInspector", "profiles"); }
     }
 }

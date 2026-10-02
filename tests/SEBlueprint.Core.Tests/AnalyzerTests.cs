@@ -101,6 +101,34 @@ public class AnalyzerTests
     }
 
     [Fact]
+    public void Reads_gzip_compressed_blueprints()
+    {
+        var dir = Directory.CreateTempSubdirectory().FullName;
+        var file = Path.Combine(dir, "bp.sbc");
+        using (var output = File.Create(file))
+        using (var gz = new System.IO.Compression.GZipStream(output, System.IO.Compression.CompressionLevel.Optimal))
+        using (var input = File.OpenRead(TestData.Fx("bp_test", "bp.sbc")))
+            input.CopyTo(gz);
+        var bp = BlueprintData.Load(file);
+        Assert.Equal("Test Ship", bp.Name);
+        Assert.Equal(8, bp.Grids.Single().Blocks.Count);
+    }
+
+    [Fact]
+    public void Builder_reads_gzip_compressed_definition_files()
+    {
+        var ms = new MemoryStream();
+        using (var gz = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true))
+        using (var input = File.OpenRead(TestData.Fx("CubeBlocks_Test.sbc")))
+            input.CopyTo(gz);
+        var bytes = ms.ToArray();
+        var b = new GameDatabaseBuilder();
+        b.AddModFile("9", "Data/Blocks.sbc", () => new MemoryStream(bytes));
+        Assert.Empty(b.Errors);
+        Assert.NotEmpty(b.Build().ModBlocks["9"]);
+    }
+
+    [Fact]
     public void Bad_xml_throws_InvalidDataException()
     {
         var f = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".sbc");

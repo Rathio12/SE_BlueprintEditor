@@ -45,7 +45,7 @@ public static class VanillaProfiles
 
     public static LimitProfile ParseConfig(string worldName, Stream stream)
     {
-        var settings = XDocument.Load(stream).Descendants().FirstOrDefault(e => e.Name.LocalName == "Settings")
+        var settings = XmlFile.Load(stream).Descendants().FirstOrDefault(e => e.Name.LocalName == "Settings")
                        ?? throw new InvalidDataException("No Settings element");
         int? Int(string name)
         {
