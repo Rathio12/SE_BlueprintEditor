@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rathio12.github.io/SE_BlueprintEditor/sitemap.xml
